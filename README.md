@@ -2,32 +2,51 @@
 
 Millions of movies, TV shows and people to discover. Explore now.
 
-Welcome to Insta Movies! This app allows you to browse movies and TV shows using data from The Movie Database (TMDb). It's packed with features and built with the latest technologies. 
+Welcome to Insta Movies! This app allows you to browse movies and TV shows using data from The Movie
+Database (TMDb). It's packed with features and built with the latest technologies.
+
+### Status: 🚧 In progress 🚧
+
+Insta Movies is still in the early stages of development, and as such only some functionalities has
+been created so far.
 
 ## Features
-- **Multiple Screens**: The app provides a seamless experience across different Android device screen sizes and orientations.
 
-- **Dark Theme**: Enjoy a dark-themed interface that's easy on the eyes, especially in low-light conditions.
+- **Multiple Screens**: The app provides a seamless experience across different Android device
+  screen sizes and orientations.
 
-- **Material Design 3**: The app follows the latest Material Design guidelines for a modern and user-friendly UI.
+- **Dark Theme**: Enjoy a dark-themed interface that's easy on the eyes, especially in low-light
+  conditions.
 
-- **Dynamic Colors**: The app dynamically adapts to different color schemes for a personalized experience.
+- **Material Design 3**: The app follows the latest Material Design guidelines for a modern and
+  user-friendly UI.
+
+- **Dynamic Colors**: The app dynamically adapts to different color schemes for a personalized
+  experience.
 
 ## Architecture
-The IMDb-like Android app is built with a robust architecture to ensure maintainability, scalability, and clean code. We've used the MVVM pattern with Clean Architecture:
 
-- **MVVM (Model-View-ViewModel)**: Separates the user interface from the business logic and data, making the app easy to test and maintain.
+The IMDb-like Android app is built with a robust architecture to ensure maintainability,
+scalability, and clean code. We've used the MVVM pattern with Clean Architecture:
 
-- **Clean Architecture**: Ensures a clear separation of concerns, making it easier to make changes in the future without disrupting the entire app.
+- **MVVM (Model-View-ViewModel)**: Separates the user interface from the business logic and data,
+  making the app easy to test and maintain.
+
+- **Clean Architecture**: Ensures a clear separation of concerns, making it easier to make changes
+  in the future without disrupting the entire app.
 
 ## Technologies Used
-- **Jetpack Compose**: The latest UI toolkit for Android to create a modern, reactive user interface.
 
-- **Kotlin**: The programming language for Android development, known for its conciseness and safety.
+- **Jetpack Compose**: The latest UI toolkit for Android to create a modern, reactive user
+  interface.
+
+- **Kotlin**: The programming language for Android development, known for its conciseness and
+  safety.
 
 - **TMDb API**: To fetch movie and TV show data.
 
 ## Getting Started
+
 To run the app locally, follow these steps:
 
 1. Clone the repository to your local machine.
@@ -35,7 +54,9 @@ To run the app locally, follow these steps:
 3. Build and run the app on an Android emulator or a physical device.
 
 ## Contributing
-Contributions are welcome! If you'd like to contribute to this project, please fork the repository, create a branch, make your changes, and submit a pull request.
+
+Contributions are welcome! If you'd like to contribute to this project, please fork the repository,
+create a branch, make your changes, and submit a pull request.
 
 ## License
 
@@ -55,6 +76,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-Feel free to explore the code and use this project as a reference for your own Android development endeavors. If you have any questions or need assistance, please don't hesitate to reach out.
+Feel free to explore the code and use this project as a reference for your own Android development
+endeavors. If you have any questions or need assistance, please don't hesitate to reach out.
 
 Happy coding!
