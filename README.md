@@ -10,7 +10,31 @@ Database (TMDb). It's packed with features and built with the latest technologie
 Insta Movies is still in the early stages of development, and as such only some functionalities has
 been created so far.
 
+## Screenshots
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="screenshots/screenshot-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="screenshots/screenshot.png">
+  <img alt="App Screenshot" src="screenshots/screenshot.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="screenshots/screenshot-tablet-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="screenshots/screenshot-tablet.png">
+  <img alt="App Screenshot" src="screenshots/screenshot-tablet.png">
+</picture>
+
 ## Features
+
+- **Dynamic window resizing**:
+  The [WindowSizeClass](https://developer.android.com/reference/kotlin/androidx/compose/material3/windowsizeclass/WindowSizeClass)
+  allows us to get to know about current device size and configuration and observe any changes in
+  device size in case of orientation change or unfolding of device.
+
+- **Dynamic fold detection**:
+  The [WindowLayoutInfo](https://developer.android.com/reference/kotlin/androidx/window/layout/WindowLayoutInfo)
+  let us observe all display features including Folding Postures real-time whenever fold state
+  changes to help us adjust our UI accordingly.
 
 - **Multiple Screens**: The app provides a seamless experience across different Android device
   screen sizes and orientations.
