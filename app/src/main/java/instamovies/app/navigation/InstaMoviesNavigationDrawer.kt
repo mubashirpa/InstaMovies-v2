@@ -87,10 +87,10 @@ fun InstaMoviesModalNavigationDrawer(
                         ) {
                             Row(
                                 modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .height(72.dp)
-                                    .padding(horizontal = 28.dp),
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(72.dp)
+                                        .padding(horizontal = 28.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
@@ -113,9 +113,9 @@ fun InstaMoviesModalNavigationDrawer(
                         }
                         Column(
                             modifier =
-                            Modifier
-                                .layoutId(LayoutType.CONTENT)
-                                .verticalScroll(rememberScrollState()),
+                                Modifier
+                                    .layoutId(LayoutType.CONTENT)
+                                    .verticalScroll(rememberScrollState()),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             if (isNavigationRail) {
@@ -171,13 +171,13 @@ fun InstaMoviesModalNavigationDrawer(
                         }
                     },
                     measurePolicy =
-                    navigationMeasurePolicy(
-                        if (isNavigationRail) {
-                            navigationContentPosition
-                        } else {
-                            InstaMoviesNavigationContentPosition.TOP
-                        },
-                    ),
+                        navigationMeasurePolicy(
+                            if (isNavigationRail) {
+                                navigationContentPosition
+                            } else {
+                                InstaMoviesNavigationContentPosition.TOP
+                            },
+                        ),
                 )
             }
         },
@@ -218,10 +218,10 @@ fun InstaMoviesPermanentNavigationDrawer(
                             Text(
                                 text = stringResource(id = Strings.app_name).uppercase(),
                                 modifier =
-                                Modifier.padding(
-                                    horizontal = 28.dp,
-                                    vertical = 16.dp,
-                                ),
+                                    Modifier.padding(
+                                        horizontal = 28.dp,
+                                        vertical = 16.dp,
+                                    ),
                                 color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.titleMedium,
                             )
@@ -229,9 +229,9 @@ fun InstaMoviesPermanentNavigationDrawer(
                         }
                         Column(
                             modifier =
-                            Modifier
-                                .layoutId(LayoutType.CONTENT)
-                                .verticalScroll(rememberScrollState()),
+                                Modifier
+                                    .layoutId(LayoutType.CONTENT)
+                                    .verticalScroll(rememberScrollState()),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             destinations.forEach { destination ->

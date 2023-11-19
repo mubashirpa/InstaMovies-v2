@@ -80,10 +80,10 @@ fun PersonDetailsScreen(
                         onEvent(PersonDetailsUiEvent.OnRetry)
                     },
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                     message = personDetailsResource.message!!.asString(),
                 )
             }
@@ -91,9 +91,9 @@ fun PersonDetailsScreen(
             is Resource.Loading -> {
                 LoadingIndicator(
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
                 )
             }
 
@@ -125,10 +125,10 @@ fun PersonDetailsScreen(
                                 )
                             },
                             strategy =
-                            HorizontalTwoPaneStrategy(
-                                splitFraction = 0.5F,
-                                gapWidth = 16.dp,
-                            ),
+                                HorizontalTwoPaneStrategy(
+                                    splitFraction = 0.5F,
+                                    gapWidth = 16.dp,
+                                ),
                             displayFeatures = displayFeatures,
                             modifier = Modifier.padding(innerPadding),
                         )
@@ -168,9 +168,9 @@ private fun PersonDetailsSinglePainContent(
         )
         LazyColumn(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+                Modifier
+                    .fillMaxSize()
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(8.dp),
             content = {
@@ -296,22 +296,22 @@ private fun PersonDetailsAppBar(
 private fun Header(details: PersonDetails) {
     Row(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
     ) {
         Card {
             AsyncImage(
                 model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data("${Constants.TMDB_PROFILE_PREFIX}${details.profilePath}")
-                    .crossfade(true)
-                    .build(),
+                    ImageRequest.Builder(LocalContext.current)
+                        .data("${Constants.TMDB_PROFILE_PREFIX}${details.profilePath}")
+                        .crossfade(true)
+                        .build(),
                 contentDescription = null,
                 modifier =
-                Modifier
-                    .width(100.dp)
-                    .aspectRatio(2F / 3F),
+                    Modifier
+                        .width(100.dp)
+                        .aspectRatio(2F / 3F),
                 contentScale = ContentScale.FillBounds,
             )
         }
@@ -332,10 +332,10 @@ private fun Header(details: PersonDetails) {
                 Text(
                     text = stringResource(id = Strings.known_for),
                     modifier =
-                    Modifier.padding(
-                        top = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                        Modifier.padding(
+                            top = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelSmall,
                 )
@@ -348,10 +348,10 @@ private fun Header(details: PersonDetails) {
                 Text(
                     text = stringResource(id = Strings.born),
                     modifier =
-                    Modifier.padding(
-                        top = 8.dp,
-                        bottom = 2.dp,
-                    ),
+                        Modifier.padding(
+                            top = 8.dp,
+                            bottom = 2.dp,
+                        ),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelSmall,
                 )
@@ -439,9 +439,9 @@ private fun Photos(profiles: List<PersonProfile>) {
                     ProfileListItem(
                         filePath = it,
                         modifier =
-                        Modifier
-                            .width(80.dp)
-                            .aspectRatio(2F / 3F),
+                            Modifier
+                                .width(80.dp)
+                                .aspectRatio(2F / 3F),
                     )
                 }
             }

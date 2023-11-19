@@ -101,10 +101,10 @@ fun TvShowDetailsScreen(
                 ErrorScreen(
                     onRetry = {},
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                     message = tvShowDetailsResource.message!!.asString(),
                 )
             }
@@ -112,9 +112,9 @@ fun TvShowDetailsScreen(
             is Resource.Loading -> {
                 LoadingIndicator(
                     modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
                 )
             }
 
@@ -199,10 +199,10 @@ fun TvShowDetailsScreen(
                                     )
                                 },
                                 strategy =
-                                HorizontalTwoPaneStrategy(
-                                    splitFraction = 0.5F,
-                                    gapWidth = 16.dp,
-                                ),
+                                    HorizontalTwoPaneStrategy(
+                                        splitFraction = 0.5F,
+                                        gapWidth = 16.dp,
+                                    ),
                                 displayFeatures = displayFeatures,
                                 modifier = Modifier.padding(innerPadding),
                             )
@@ -279,9 +279,9 @@ private fun TvShowDetailsSinglePainContent(
                 Header(
                     details = details,
                     modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1F),
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1F),
                     userCountry = uiState.userCountry,
                     isDualPane = false,
                     onBackPressed = onBackPressed,
@@ -405,10 +405,10 @@ private fun Header(
         Box {
             AsyncImage(
                 model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data("${Constants.TMDB_BACKDROP_PREFIX}${details.backdropPath}")
-                    .crossfade(true)
-                    .build(),
+                    ImageRequest.Builder(LocalContext.current)
+                        .data("${Constants.TMDB_BACKDROP_PREFIX}${details.backdropPath}")
+                        .crossfade(true)
+                        .build(),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 alignment = Alignment.TopCenter,
@@ -416,15 +416,15 @@ private fun Header(
             )
             Box(
                 modifier =
-                Modifier
-                    .fillMaxSize()
-                    .scrim(scrim),
+                    Modifier
+                        .fillMaxSize()
+                        .scrim(scrim),
             )
             Column(
                 modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -461,10 +461,10 @@ private fun Header(
                     BackButton(
                         onClick = onBackPressed,
                         colors =
-                        IconButtonDefaults.iconButtonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black,
-                        ),
+                            IconButtonDefaults.iconButtonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Black,
+                            ),
                     )
                 },
                 windowInsets = windowInsets,
@@ -520,10 +520,10 @@ private fun Overview(
     if (genres.isNotEmpty()) {
         FlowRow(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 8.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             genres.forEach { genre ->
@@ -539,10 +539,10 @@ private fun Overview(
     if (creators.isNotEmpty()) {
         FlowRow(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
@@ -596,9 +596,9 @@ private fun LastSeason(
     Text(
         text = stringResource(id = Strings.label_last_season),
         modifier =
-        Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp, bottom = 8.dp),
+            Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp, bottom = 8.dp),
         style = MaterialTheme.typography.titleMedium,
     )
     SeasonListItem(
