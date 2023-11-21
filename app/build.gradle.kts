@@ -1,4 +1,7 @@
+import com.android.build.api.variant.BuildConfigField
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.com.android.application)
@@ -46,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
@@ -99,5 +103,29 @@ ktlint {
     filter {
         exclude("**/generated/**")
         include("**/kotlin/**")
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val localPropertiesFile = rootProject.file("local.properties")
+        val localProperties = Properties()
+        localProperties.load(FileInputStream(localPropertiesFile))
+        variant.buildConfigFields.put(
+            "TMDB_API_KEY",
+            BuildConfigField(
+                "String",
+                "\"" + localProperties["TMDB_API_KEY"] + "\"",
+                "TMDB Api Key",
+            ),
+        )
+        variant.buildConfigFields.put(
+            "TMDB_API_TOKEN",
+            BuildConfigField(
+                "String",
+                "\"" + localProperties["TMDB_API_TOKEN"] + "\"",
+                "TMDB Api Token",
+            ),
+        )
     }
 }

@@ -1,6 +1,6 @@
 package instamovies.app.data.remote
 
-import instamovies.app.core.Constants
+import instamovies.app.BuildConfig
 import instamovies.app.data.remote.dto.list.ListsDto
 import instamovies.app.data.remote.dto.movie.MovieListsDto
 import instamovies.app.data.remote.dto.movie.MovieListsRangeDto
@@ -23,7 +23,7 @@ interface MovieApi {
 
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("4/list/{list_id}")
     suspend fun getList(
@@ -37,7 +37,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/movie/now_playing")
     suspend fun getNowPlayingMovies(
@@ -51,7 +51,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/movie/popular")
     suspend fun getPopularMovies(
@@ -65,7 +65,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/movie/top_rated")
     suspend fun getTopRatedMovies(
@@ -79,7 +79,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/movie/upcoming")
     suspend fun getUpcomingMovies(
@@ -95,7 +95,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/movie/{movie_id}")
     suspend fun getMovieDetails(
@@ -111,7 +111,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/person/popular")
     suspend fun getPopularPerson(
@@ -126,7 +126,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/person/{person_id}")
     suspend fun getPersonDetails(
@@ -139,7 +139,7 @@ interface MovieApi {
 
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/search/multi")
     suspend fun searchMulti(
@@ -156,7 +156,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/trending/all/{time_window}")
     suspend fun getTrending(
@@ -169,7 +169,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/trending/person/{time_window}")
     suspend fun getTrendingPerson(
@@ -184,7 +184,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/tv/airing_today")
     suspend fun getAiringTodaySeries(
@@ -198,7 +198,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/tv/on_the_air")
     suspend fun getOnTheAirSeries(
@@ -212,7 +212,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/tv/popular")
     suspend fun getPopularSeries(
@@ -225,7 +225,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/tv/top_rated")
     suspend fun getTopRatedSeries(
@@ -240,7 +240,7 @@ interface MovieApi {
      */
     @Headers(
         "accept: application/json",
-        "Authorization: Bearer ${Constants.TMDB_API_TOKEN}",
+        "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}",
     )
     @GET("3/tv/{series_id}")
     suspend fun getSeriesDetails(
