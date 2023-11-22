@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
@@ -32,13 +33,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,7 +74,6 @@ import instamovies.app.domain.model.series.details.SeriesCreatedBy
 import instamovies.app.domain.model.series.details.SeriesDetails
 import instamovies.app.domain.model.series.details.SeriesGenre
 import instamovies.app.domain.model.series.details.SeriesSeason
-import instamovies.app.presentation.components.BackButton
 import instamovies.app.presentation.components.CastGridItem
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
@@ -458,12 +464,14 @@ private fun Header(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    BackButton(
+                    AppBarButton(
+                        icon = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Navigate up",
                         onClick = onBackPressed,
                         colors =
                             IconButtonDefaults.iconButtonColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black,
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                contentColor = MaterialTheme.colorScheme.onSurface,
                             ),
                     )
                 },
@@ -638,4 +646,36 @@ private fun Recommendations(
             }
         },
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppBarButton(
+    icon: ImageVector,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
+    onClick: () -> Unit,
+) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = {
+            PlainTooltip {
+                Text(text = stringResource(id = Strings.navigate_up))
+            }
+        },
+        state = rememberTooltipState(),
+    ) {
+        FilledIconButton(
+            onClick = onClick,
+            modifier = modifier,
+            colors = colors,
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                modifier = Modifier.size(16.dp),
+            )
+        }
+    }
 }
