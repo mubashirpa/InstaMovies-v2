@@ -2,13 +2,18 @@ package instamovies.app.presentation.home_container.screen.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -38,7 +43,7 @@ import instamovies.app.presentation.home_container.HomeContainerUiEvent
 import instamovies.app.presentation.home_container.HomeContainerUiState
 import instamovies.app.R.string as Strings
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun BoxScope.HomeAppBar(
     uiState: HomeContainerUiState,
@@ -64,12 +69,15 @@ fun BoxScope.HomeAppBar(
                         if (isDocked) {
                             Modifier
                         } else {
-                            Modifier.navigationBarsPadding()
+                            Modifier
+                                .fillMaxSize()
+                                .imePadding()
+                                .imeNestedScroll()
                         },
                     ),
             content = {
                 if (uiState.searchText.isNotEmpty()) {
-                    items(searchList) { result ->
+                    items(items = searchList, key = { it.id ?: 0 }) { result ->
                         SearchListItem(result = result) { mediaType, id, name ->
                             onEvent(HomeContainerUiEvent.OnSearch)
                             when (mediaType) {
@@ -88,7 +96,7 @@ fun BoxScope.HomeAppBar(
                         }
                     }
                 } else {
-                    items(trendingList) { result ->
+                    items(items = trendingList, key = { it.id ?: 0 }) { result ->
                         SearchListItem(result = result) { mediaType, id, name ->
                             onEvent(HomeContainerUiEvent.OnSearch)
                             when (mediaType) {
@@ -107,7 +115,9 @@ fun BoxScope.HomeAppBar(
                         }
                     }
                 }
-                item { Spacer(modifier = Modifier.height(8.dp)) }
+                if (!isDocked) {
+                    item { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
+                }
             },
         )
     }
