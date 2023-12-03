@@ -11,7 +11,6 @@
     <string name="label_all_seasons">All Seasons</string>
     <string name="label_animate_bottom_sheet_corner_size" translatable="false">ModalBottomSheet Corner Size</string>
     <string name="label_animate_bottom_sheet_top_padding" translatable="false">ModalBottomSheet DragHandle Top Padding</string>
-    <string name="label_animate_rating_bar_star_color" translatable="false">RatingBar Star Color</string>
     <string name="label_contact">Contact</string>
     <string name="label_full_cast_and_crew">Full Cast &amp; Crew</string>
     <string name="label_home">Home</string>
