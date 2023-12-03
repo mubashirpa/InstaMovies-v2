@@ -62,7 +62,6 @@ fun PersonGridItem(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PersonGridItemLayout(
     name: String,

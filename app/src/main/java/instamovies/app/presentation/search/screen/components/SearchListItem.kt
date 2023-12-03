@@ -144,7 +144,6 @@ fun SearchListItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MovieListItem(
     title: String,
@@ -222,7 +221,6 @@ private fun MovieListItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PersonListItem(
     name: String,

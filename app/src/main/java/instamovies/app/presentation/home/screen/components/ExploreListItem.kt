@@ -15,7 +15,6 @@ import coil.request.ImageRequest
 import instamovies.app.core.Constants
 import instamovies.app.presentation.theme.InstaMoviesTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreListItem(
     posterPath: String?,
