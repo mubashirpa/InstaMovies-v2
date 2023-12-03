@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.33.2-alpha"
 activity-compose = "1.8.1"
-agp = "8.2.0-rc03"
+agp = "8.2.0"
 androidx-test-ext-junit = "1.1.5"
 ben-manes-versions = "0.49.0"
 coil = "2.5.0"
@@ -15,11 +15,10 @@ hilt = "2.48.1"
 hilt-navigation-compose = "1.1.0"
 junit = "4.13.2"
 kotlin = "1.9.20"
-kotlinCompilerExtensionVersion = "1.5.4"
+kotlinCompilerExtensionVersion = "1.5.5"
 ksp = "1.9.20-1.0.14"
-lifecycle-runtime-ktx = "2.6.2"
-material3 = "1.2.0-alpha11"
-material3-adaptive = "1.0.0-alpha01"
+lifecycle-runtime-ktx = "2.7.0-rc01"
+material3 = "1.2.0-alpha12"
 minSdk = "26"
 paging = "3.2.1"
 palette = "1.0.0"
@@ -34,8 +33,6 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-compose-material3-adaptive = { module = "androidx.compose.material3:material3-adaptive", version.ref = "material3-adaptive" }
-compose-material3-adaptive-navigation = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive" }
 compose-material3-window = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
@@ -71,8 +68,6 @@ version-catalog-update = { id = "nl.littlerobots.version-catalog-update", versio
 compose = [
     "compose-material-icons-extended",
     "compose-material3",
-    "compose-material3-adaptive",
-    "compose-material3-adaptive-navigation",
     "compose-material3-window",
     "compose-ui",
     "compose-ui-graphics",
