@@ -43,7 +43,7 @@ fun CastAndCrewBottomSheet(
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val scope = rememberCoroutineScope()
         val isFullscreen =
-            sheetState.targetValue == SheetValue.Expanded &&
+            (sheetState.targetValue == SheetValue.Expanded) &&
                 (scrollState.canScrollForward || scrollState.canScrollBackward)
         val cornerSize by animateDpAsState(
             targetValue = if (isFullscreen) 0.dp else 28.dp,
@@ -70,7 +70,7 @@ fun CastAndCrewBottomSheet(
                     val casts = credits?.cast.orEmpty()
                     item {
                         Text(
-                            text = "Cast",
+                            text = "Cast ${casts.size}",
                             modifier = Modifier.padding(16.dp),
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -89,15 +89,15 @@ fun CastAndCrewBottomSheet(
                         )
                     }
 
+                    val crews = credits?.crew.orEmpty()
                     item {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Crew",
+                            text = "Crew ${crews.size}",
                             modifier = Modifier.padding(16.dp),
                             style = MaterialTheme.typography.titleMedium,
                         )
                     }
-                    val crews = credits?.crew.orEmpty()
                     items(crews) { crew ->
                         CastListItem(
                             crew = crew,
