@@ -155,7 +155,8 @@ private fun Explore(
         val exploreList = uiState.exploreResource.data.orEmpty()
         if (exploreList.isNotEmpty()) {
             val listSize = exploreList.size
-            val pageCount = Int.MAX_VALUE
+            // val pageCount = Int.MAX_VALUE TODO("Fix: java.lang.IllegalArgumentException: Cannot coerce value to an empty range: maximum -1564.0 is less than minimum 0.0.")
+            val pageCount = 1000
             val maxRounds = pageCount / listSize
             val initialPage = (maxRounds / 2) * listSize
             val pagerState =
