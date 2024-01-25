@@ -1,14 +1,13 @@
 import com.android.build.api.variant.BuildConfigField
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.com.google.dagger.hilt.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.gradle.ktlint)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.devtoolsKsp)
+//    alias(libs.plugins.gradleKtlint)
+    alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -77,6 +76,7 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test.junit4)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+
     implementation(libs.bundles.retrofit2)
     implementation(libs.bundles.hilt)
     ksp(libs.hilt.android.compiler)
@@ -85,25 +85,6 @@ dependencies {
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
     implementation(libs.accompanist.adaptive)
-}
-
-ktlint {
-    version.set("1.0.1")
-    debug.set(true)
-    verbose.set(true)
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    ignoreFailures.set(false)
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.SARIF)
-    }
-    filter {
-        exclude("**/generated/**")
-        include("**/kotlin/**")
-    }
 }
 
 androidComponents {
