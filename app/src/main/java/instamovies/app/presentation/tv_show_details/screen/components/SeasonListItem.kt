@@ -155,7 +155,7 @@ private fun SeasonListItemLayout(
                             stringResource(
                                 id = Strings.season_overview_placeholder,
                                 seasonNumber,
-                                seasonName,
+                                seriesName,
                                 premierDate.orEmpty(),
                             ),
                         overflow = TextOverflow.Ellipsis,
