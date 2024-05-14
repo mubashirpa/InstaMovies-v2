@@ -4,8 +4,8 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.devtoolsKsp)
-//    alias(libs.plugins.gradleKtlint)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinAndroid)
 }
@@ -50,9 +50,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -77,14 +74,16 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
 
-    implementation(libs.bundles.retrofit2)
-    implementation(libs.bundles.hilt)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.core.splashscreen)
+    implementation(libs.accompanist.adaptive)
     implementation(libs.coil.compose)
+    implementation(libs.core.splashscreen)
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
-    implementation(libs.accompanist.adaptive)
+
+    implementation(libs.bundles.hilt)
+    implementation(libs.bundles.retrofit2)
+
+    ksp(libs.hilt.android.compiler)
 }
 
 androidComponents {

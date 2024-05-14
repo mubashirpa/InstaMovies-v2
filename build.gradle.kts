@@ -4,6 +4,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.benManesVersions)
+    alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.devtoolsKsp) apply false
     alias(libs.plugins.hiltAndroid) apply false
     alias(libs.plugins.kotlinAndroid) apply false
@@ -11,7 +12,8 @@ plugins {
 }
 
 versionCatalogUpdate {
-    sortByKey.set(true)
+    sortByKey.set(false)
+
     keep {
         keepUnusedVersions.set(true)
         keepUnusedLibraries.set(true)
