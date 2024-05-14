@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -105,7 +105,7 @@ private fun CastGridItemLayout(
                     .size(56.dp)
                     .clip(CircleShape)
                     .background(CardDefaults.cardColors().containerColor)
-                    .indication(interactionSource, rememberRipple()),
+                    .indication(interactionSource, ripple()),
             contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.height(4.dp))

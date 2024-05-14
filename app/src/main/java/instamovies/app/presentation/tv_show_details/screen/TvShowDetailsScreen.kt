@@ -1,6 +1,5 @@
 package instamovies.app.presentation.tv_show_details.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -354,7 +353,7 @@ private fun TvShowDetailsSinglePainContent(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Header(
     details: SeriesDetails,

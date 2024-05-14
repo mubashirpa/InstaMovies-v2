@@ -3,13 +3,14 @@ package instamovies.app.presentation.home_container.screen.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -54,15 +55,17 @@ fun SearchListItem(
         }
     }
 
-    if (!title.isNullOrEmpty()) {
+    title?.let {
         SearchListItemLayout(
-            title = title,
+            title = it,
             imagePath = result.posterPath,
             mediaType = mediaType,
             releaseYear = releaseYear,
             onClick = {
-                if (id != null && mediaType != null) {
-                    onClick(mediaType, id, title)
+                id?.let { safeId ->
+                    mediaType?.let { safeMediaType ->
+                        onClick(safeMediaType, safeId, title)
+                    }
                 }
             },
         )
@@ -106,15 +109,17 @@ fun SearchListItem(
         }
     }
 
-    if (!title.isNullOrEmpty()) {
+    title?.let {
         SearchListItemLayout(
-            title = title,
+            title = it,
             imagePath = imagePath,
             mediaType = mediaType,
             releaseYear = releaseYear,
             onClick = {
-                if (id != null && mediaType != null) {
-                    onClick(mediaType, id, title)
+                id?.let { safeId ->
+                    mediaType?.let { safeMediaType ->
+                        onClick(safeMediaType, safeId, title)
+                    }
                 }
             },
         )
@@ -146,6 +151,7 @@ private fun SearchListItemLayout(
                 } else {
                     mediaType?.name.orEmpty()
                 }
+
             Text(text = text.uppercase())
         },
         leadingContent = {
@@ -157,6 +163,7 @@ private fun SearchListItemLayout(
                         } else {
                             "${Constants.TMDB_POSTER_PREFIX}$imagePath"
                         }
+
                     AsyncImage(
                         model =
                             ImageRequest.Builder(LocalContext.current)
@@ -173,17 +180,16 @@ private fun SearchListItemLayout(
             }
         },
         trailingContent =
-            if (releaseYear.isNullOrEmpty()) {
-                null
-            } else {
+            releaseYear?.let {
                 {
                     Text(text = releaseYear)
                 }
             },
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SearchListItemPreview() {
     InstaMoviesTheme {
@@ -197,7 +203,6 @@ private fun SearchListItemPreview() {
                     ),
                 onClick = { _, _, _ -> },
             )
-            Spacer(modifier = Modifier.size(10.dp))
             SearchListItem(
                 result =
                     SearchResultModel(

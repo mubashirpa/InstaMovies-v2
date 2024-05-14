@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -80,7 +80,7 @@ private fun PersonListItemLayout(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1F)
-                        .indication(interactionSource, rememberRipple()),
+                        .indication(interactionSource, ripple()),
                 contentScale = ContentScale.Crop,
             )
         }

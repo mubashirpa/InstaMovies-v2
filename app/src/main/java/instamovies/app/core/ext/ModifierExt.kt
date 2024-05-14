@@ -1,6 +1,5 @@
 package instamovies.app.core.ext
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.pager.PagerState
@@ -20,7 +19,6 @@ import kotlin.math.absoluteValue
  * @param page Index of the current page
  * @param state The state to control this pager
  */
-@OptIn(ExperimentalFoundationApi::class)
 fun Modifier.carousalTransition(
     page: Int,
     state: PagerState,
@@ -52,7 +50,6 @@ fun Modifier.carousalTransition(
  * @param page Index of the current page
  * @param state The state to control this pager
  */
-@OptIn(ExperimentalFoundationApi::class)
 private fun calculateCurrentOffsetForPage(
     page: Int,
     state: PagerState,

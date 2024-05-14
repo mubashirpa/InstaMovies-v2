@@ -1,6 +1,5 @@
 package instamovies.app.presentation.tv_shows.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,7 +44,7 @@ import java.io.IOException
 
 private val ScrollableTabRowPadding = 16.dp
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TvShowsScreen(
     uiState: TvShowsUiState,

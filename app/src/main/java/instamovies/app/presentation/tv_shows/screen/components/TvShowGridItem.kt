@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -87,7 +87,7 @@ private fun TvShowGridItemLayout(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(4F / 5F)
-                        .indication(interactionSource, rememberRipple()),
+                        .indication(interactionSource, ripple()),
                 contentScale = ContentScale.FillBounds,
             )
         }
