@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.34.0"
 activity-compose = "1.9.0"
-agp = "8.4.2"
+agp = "8.5.0"
 ben-manes-versions = "0.51.0"
 coil = "2.6.0"
 compileSdk = "34"
