@@ -303,7 +303,8 @@ private fun Header(details: PersonDetails) {
         Card {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_PROFILE_PREFIX}${details.profilePath}")
                         .crossfade(true)
                         .build(),
