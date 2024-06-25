@@ -8,12 +8,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imeNestedScroll
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -28,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -58,8 +58,11 @@ fun BoxScope.HomeAppBar(
     navigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     val searchList = uiState.searchResource.data.orEmpty()
-    val isActive = uiState.searchbarActive
+    val expanded = uiState.searchbarExpanded
     val isDocked = navigationType != InstaMoviesNavigationType.BOTTOM_NAVIGATION
+    val onExpandedChange: (Boolean) -> Unit = {
+        onEvent(HomeContainerUiEvent.OnSearchBarExpandedChange(it))
+    }
     val content: @Composable (ColumnScope.() -> Unit) = {
         LazyColumn(
             modifier =
@@ -71,52 +74,37 @@ fun BoxScope.HomeAppBar(
                         } else {
                             Modifier
                                 .fillMaxSize()
-                                .imePadding()
                                 .imeNestedScroll()
                         },
                     ),
             content = {
-                if (uiState.searchText.isNotEmpty()) {
-                    items(items = searchList, key = { it.id ?: 0 }) { result ->
+                if (uiState.searchQuery.isNotEmpty()) {
+                    items(items = searchList, key = { it.id!! }) { result ->
                         SearchListItem(result = result) { mediaType, id, name ->
                             onEvent(HomeContainerUiEvent.OnSearch)
                             when (mediaType) {
-                                MediaType.MOVIE -> {
-                                    navigateToMovieDetails(id)
-                                }
-
-                                MediaType.PERSON -> {
-                                    navigateToPersonDetails(id, name)
-                                }
-
-                                MediaType.TV -> {
-                                    navigateToTvShowDetails(id)
-                                }
+                                MediaType.MOVIE -> navigateToMovieDetails(id)
+                                MediaType.PERSON -> navigateToPersonDetails(id, name)
+                                MediaType.TV -> navigateToTvShowDetails(id)
                             }
                         }
                     }
                 } else {
-                    items(items = trendingList, key = { it.id ?: 0 }) { result ->
+                    items(items = trendingList, key = { it.id!! }) { result ->
                         SearchListItem(result = result) { mediaType, id, name ->
                             onEvent(HomeContainerUiEvent.OnSearch)
                             when (mediaType) {
-                                MediaType.MOVIE -> {
-                                    navigateToMovieDetails(id)
-                                }
-
-                                MediaType.PERSON -> {
-                                    navigateToPersonDetails(id, name)
-                                }
-
-                                MediaType.TV -> {
-                                    navigateToTvShowDetails(id)
-                                }
+                                MediaType.MOVIE -> navigateToMovieDetails(id)
+                                MediaType.PERSON -> navigateToPersonDetails(id, name)
+                                MediaType.TV -> navigateToTvShowDetails(id)
                             }
                         }
                     }
                 }
                 if (!isDocked) {
-                    item { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
+                    item {
+                        Spacer(modifier = Modifier.navigationBarsPadding())
+                    }
                 }
             },
         )
@@ -124,150 +112,174 @@ fun BoxScope.HomeAppBar(
 
     if (isDocked) {
         DockedSearchBar(
-            query = uiState.searchText,
-            onQueryChange = { onEvent(HomeContainerUiEvent.OnSearchTextChange(it)) },
-            onSearch = {
-                onEvent(HomeContainerUiEvent.OnSearch)
-                if (it.isNotEmpty()) {
-                    navigateToSearch(it)
-                }
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = uiState.searchQuery,
+                    onQueryChange = { query ->
+                        onEvent(HomeContainerUiEvent.OnQueryChange(query))
+                    },
+                    onSearch = { query ->
+                        val trimmedQuery = query.trim()
+
+                        onEvent(HomeContainerUiEvent.OnSearch)
+                        if (trimmedQuery.isNotEmpty()) {
+                            navigateToSearch(trimmedQuery)
+                        }
+                    },
+                    expanded = expanded,
+                    onExpandedChange = onExpandedChange,
+                    placeholder = {
+                        Text(text = stringResource(id = Strings.search))
+                    },
+                    leadingIcon = {
+                        if (expanded) {
+                            IconButton(
+                                onClick = {
+                                    onEvent(HomeContainerUiEvent.OnSearchBarExpandedChange(false))
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = null,
+                                )
+                            }
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                    trailingIcon = {
+                        when {
+                            expanded && uiState.searching -> {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    strokeWidth = 2.dp,
+                                )
+                            }
+
+                            expanded && uiState.searchQuery.isNotEmpty() -> {
+                                IconButton(
+                                    onClick = {
+                                        onEvent(HomeContainerUiEvent.OnQueryChange(""))
+                                    },
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+
+                            else -> {
+                                IconButton(onClick = navigateToProfile) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+                        }
+                    },
+                )
             },
-            active = isActive,
-            onActiveChange = { onEvent(HomeContainerUiEvent.OnSearchBarActiveChange(it)) },
+            expanded = expanded,
+            onExpandedChange = onExpandedChange,
             modifier =
                 Modifier
-                    .align(Alignment.TopStart)
-                    .padding(horizontal = 16.dp)
+                    .align(Alignment.TopCenter)
+                    .windowInsetsPadding(WindowInsets.statusBars)
                     .padding(top = 8.dp)
-                    .statusBarsPadding()
-                    .semantics { traversalIndex = -1f }
-                    .then(if (navigationType == InstaMoviesNavigationType.NAVIGATION_RAIL) Modifier.fillMaxWidth() else Modifier),
-            placeholder = { Text(text = stringResource(id = Strings.search)) },
-            leadingIcon = {
-                if (isActive) {
-                    IconButton(onClick = {
-                        onEvent(
-                            HomeContainerUiEvent.OnSearchBarActiveChange(
-                                false,
-                            ),
-                        )
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                } else {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                    )
-                }
-            },
-            trailingIcon = {
-                when {
-                    isActive && uiState.searching -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            strokeWidth = 2.dp,
-                        )
-                    }
-
-                    isActive && uiState.searchText.isNotEmpty() -> {
-                        IconButton(onClick = { onEvent(HomeContainerUiEvent.OnSearchTextChange("")) }) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = null,
-                            )
-                        }
-                    }
-
-                    isActive -> {}
-
-                    else -> {
-                        IconButton(onClick = navigateToProfile) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = null,
-                            )
-                        }
-                    }
-                }
-            },
+                    .semantics { traversalIndex = -1f },
             content = content,
         )
     } else {
         SearchBar(
-            query = uiState.searchText,
-            onQueryChange = { onEvent(HomeContainerUiEvent.OnSearchTextChange(it)) },
-            onSearch = {
-                onEvent(HomeContainerUiEvent.OnSearch)
-                if (it.isNotEmpty()) {
-                    navigateToSearch(it)
-                }
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = uiState.searchQuery,
+                    onQueryChange = { query ->
+                        onEvent(HomeContainerUiEvent.OnQueryChange(query))
+                    },
+                    onSearch = { query ->
+                        val trimmedQuery = query.trim()
+
+                        onEvent(HomeContainerUiEvent.OnSearch)
+                        if (trimmedQuery.isNotEmpty()) {
+                            navigateToSearch(trimmedQuery)
+                        }
+                    },
+                    expanded = expanded,
+                    onExpandedChange = onExpandedChange,
+                    placeholder = {
+                        Text(text = stringResource(id = Strings.search))
+                    },
+                    leadingIcon = {
+                        if (expanded) {
+                            IconButton(
+                                onClick = {
+                                    onEvent(HomeContainerUiEvent.OnSearchBarExpandedChange(false))
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = null,
+                                )
+                            }
+                        } else {
+                            IconButton(onClick = onMenuIconClick) {
+                                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+                            }
+                        }
+                    },
+                    trailingIcon = {
+                        when {
+                            expanded -> {
+                                if (uiState.searching) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        strokeWidth = 2.dp,
+                                    )
+                                } else {
+                                    if (uiState.searchQuery.isNotEmpty()) {
+                                        IconButton(
+                                            onClick = {
+                                                onEvent(HomeContainerUiEvent.OnQueryChange(""))
+                                            },
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Clear,
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    } else {
+                                        Icon(
+                                            imageVector = Icons.Default.Search,
+                                            contentDescription = null,
+                                        )
+                                    }
+                                }
+                            }
+
+                            else -> {
+                                IconButton(onClick = navigateToProfile) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+                        }
+                    },
+                )
             },
-            active = isActive,
-            onActiveChange = { onEvent(HomeContainerUiEvent.OnSearchBarActiveChange(it)) },
+            expanded = expanded,
+            onExpandedChange = onExpandedChange,
             modifier =
                 Modifier
                     .align(Alignment.TopCenter)
                     .semantics { traversalIndex = -1f },
-            placeholder = { Text(text = stringResource(id = Strings.search)) },
-            leadingIcon = {
-                if (isActive) {
-                    IconButton(onClick = {
-                        onEvent(
-                            HomeContainerUiEvent.OnSearchBarActiveChange(
-                                false,
-                            ),
-                        )
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                } else {
-                    IconButton(onClick = onMenuIconClick) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-                    }
-                }
-            },
-            trailingIcon = {
-                when {
-                    isActive && uiState.searching -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            strokeWidth = 2.dp,
-                        )
-                    }
-
-                    isActive && uiState.searchText.isNotEmpty() -> {
-                        IconButton(onClick = { onEvent(HomeContainerUiEvent.OnSearchTextChange("")) }) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = null,
-                            )
-                        }
-                    }
-
-                    isActive -> {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = null,
-                        )
-                    }
-
-                    else -> {
-                        IconButton(onClick = navigateToProfile) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = null,
-                            )
-                        }
-                    }
-                }
-            },
             content = content,
         )
     }
