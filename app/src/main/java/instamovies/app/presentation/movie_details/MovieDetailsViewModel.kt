@@ -6,9 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import instamovies.app.domain.usecase.movie.GetMovieDetailsUseCase
-import instamovies.app.navigation.Routes
+import instamovies.app.navigation.Screen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -23,8 +24,7 @@ class MovieDetailsViewModel
         var uiState by mutableStateOf(MovieDetailsUiState())
             private set
 
-        private val movieId: Int =
-            checkNotNull(savedStateHandle[Routes.Args.MOVIE_DETAILS_MOVIE_ID])
+        private val movieId: Int = savedStateHandle.toRoute<Screen.MovieDetails>().movieId
 
         init {
             getMovieDetails(movieId)

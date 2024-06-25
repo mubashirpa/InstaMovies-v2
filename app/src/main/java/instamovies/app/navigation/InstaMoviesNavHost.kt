@@ -6,10 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.window.layout.DisplayFeature
 import instamovies.app.core.util.InstaMoviesContentType
@@ -39,161 +38,106 @@ fun InstaMoviesNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeContainerScreen.route,
+        startDestination = Screen.HomeContainer,
         modifier = modifier,
     ) {
-        composable(route = Screen.HomeContainerScreen.route) {
+        composable<Screen.HomeContainer> {
             val viewModel: HomeContainerViewModel = hiltViewModel()
+
             HomeContainerScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 widthSizeClass = widthSizeClass,
                 navigationType = navigationType,
                 navigationContentPosition = navigationContentPosition,
-                navigateToMovieDetails = {
-                    navController.navigate(Screen.MovieDetailsScreen.withArgs(it))
+                navigateToMovieDetails = { id ->
+                    navController.navigate(Screen.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetailsScreen.withArgs(id, name))
+                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
                 },
                 navigateToSearch = {
-                    navController.navigate(Screen.SearchScreen.withArgs(it))
+                    navController.navigate(Screen.Search(searchQuery = it))
                 },
-                navigateToTvShowDetails = {
-                    navController.navigate(Screen.TvShowDetailsScreen.withArgs(it))
+                navigateToTvShowDetails = { id ->
+                    navController.navigate(Screen.TvShowDetails(seriesId = id))
                 },
             )
         }
-        composable(
-            route = "${Screen.MovieDetailsScreen.route}${Screen.MovieDetailsScreen.args}",
-            arguments =
-                listOf(
-                    navArgument(Routes.Args.MOVIE_DETAILS_MOVIE_ID) {
-                        type = NavType.IntType
-                        defaultValue = 0
-                    },
-                ),
-        ) {
+        composable<Screen.MovieDetails> {
             val viewModel: MovieDetailsViewModel = hiltViewModel()
+
             MovieDetailsScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
-                navigateToMovieDetails = {
-                    navController.navigate(Screen.MovieDetailsScreen.withArgs(it))
+                navigateToMovieDetails = { id ->
+                    navController.navigate(Screen.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetailsScreen.withArgs(id, name))
+                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
         }
-        composable(
-            route = "${Screen.PersonDetailsScreen.route}${Screen.PersonDetailsScreen.args}",
-            arguments =
-                listOf(
-                    navArgument(Routes.Args.PERSON_DETAILS_PERSON_ID) {
-                        type = NavType.IntType
-                        defaultValue = 0
-                    },
-                ),
-        ) { backStackEntry ->
+        composable<Screen.PersonDetails> { backStackEntry ->
             val viewModel: PersonDetailsViewModel = hiltViewModel()
-            val title =
-                backStackEntry.arguments?.getString(Routes.Args.PERSON_DETAILS_TITLE).orEmpty()
+            val personDetails = backStackEntry.toRoute<Screen.PersonDetails>()
+
             PersonDetailsScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
-                title = title,
-                navigateToMovieDetails = {
-                    navController.navigate(Screen.MovieDetailsScreen.withArgs(it))
+                title = personDetails.personName,
+                navigateToMovieDetails = { id ->
+                    navController.navigate(Screen.MovieDetails(movieId = id))
                 },
-                navigateToTvShowDetails = {
-                    navController.navigate(Screen.TvShowDetailsScreen.withArgs(it))
+                navigateToTvShowDetails = { id ->
+                    navController.navigate(Screen.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
         }
-        composable(
-            route = "${Screen.SearchScreen.route}${Screen.SearchScreen.args}",
-            arguments =
-                listOf(
-                    navArgument(Routes.Args.SEARCH_SCREEN_QUERY) {
-                        type = NavType.StringType
-                    },
-                ),
-        ) { backStackEntry ->
+        composable<Screen.Search> { backStackEntry ->
             val viewModel: SearchViewModel = hiltViewModel()
-            val title =
-                backStackEntry.arguments?.getString(Routes.Args.SEARCH_SCREEN_QUERY).orEmpty()
+            val search = backStackEntry.toRoute<Screen.Search>()
+
             SearchScreen(
-                title = title,
+                title = search.searchQuery,
                 searchPagingItems = viewModel.searchStateFlow.collectAsLazyPagingItems(),
-                navigateToMovieDetails = {
-                    navController.navigate(Screen.MovieDetailsScreen.withArgs(it))
+                navigateToMovieDetails = { id ->
+                    navController.navigate(Screen.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetailsScreen.withArgs(id, name))
+                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
                 },
-                navigateToTvShowDetails = {
-                    navController.navigate(Screen.TvShowDetailsScreen.withArgs(it))
+                navigateToTvShowDetails = { id ->
+                    navController.navigate(Screen.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
-
-            // TODO("Remove this")
-//            val viewModel2: MovieDetailsViewModel = hiltViewModel()
-//            Test(
-//                title = title,
-//                searchPagingItems = viewModel.searchStateFlow.collectAsLazyPagingItems(),
-//                navigateToMovieDetails = {
-//                    navController.navigate(Screen.MovieDetailsScreen.withArgs(it))
-//                },
-//                navigateToPersonDetails = { id, name ->
-//                    navController.navigate(Screen.PersonDetailsScreen.withArgs(id, name))
-//                },
-//                navigateToTvShowDetails = {
-//                    navController.navigate(Screen.TvShowDetailsScreen.withArgs(it))
-//                },
-//                onBackPressed = {
-//                    navController.navigateUp()
-//                },
-//                contentType = contentType,
-//                displayFeatures = displayFeatures,
-//                uiState = viewModel2.uiState,
-//                onEvent = viewModel2::onEvent
-//            )
         }
-        composable(
-            route = "${Screen.TvShowDetailsScreen.route}${Screen.TvShowDetailsScreen.args}",
-            arguments =
-                listOf(
-                    navArgument(Routes.Args.TV_SHOW_DETAILS_SERIES_ID) {
-                        type = NavType.IntType
-                        defaultValue = 0
-                    },
-                ),
-        ) {
+        composable<Screen.TvShowDetails> {
             val viewModel: TvShowDetailsViewModel = hiltViewModel()
+
             TvShowDetailsScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetailsScreen.withArgs(id, name))
+                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
                 },
-                navigateToTvShowDetails = {
-                    navController.navigate(Screen.TvShowDetailsScreen.withArgs(it))
+                navigateToTvShowDetails = { id ->
+                    navController.navigate(Screen.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()

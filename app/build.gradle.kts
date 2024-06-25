@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.devtoolsKsp)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -84,8 +85,10 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manifest)
 
     implementation(libs.accompanist.adaptive)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.core.splashscreen)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
 

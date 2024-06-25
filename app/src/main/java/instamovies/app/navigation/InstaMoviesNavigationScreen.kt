@@ -14,34 +14,34 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import instamovies.app.R.string as Strings
 
 sealed class InstaMoviesNavigationScreen(
-    var route: String,
+    var screen: Screen,
     var selectedIcon: ImageVector,
     var unselectedIcon: ImageVector,
     @StringRes val label: Int,
 ) {
     data object InstaMovies : InstaMoviesNavigationScreen(
-        Screen.HomeScreen.route,
+        Screen.Home,
         Icons.Filled.Home,
         Icons.Outlined.Home,
         Strings.label_home,
     )
 
     data object Movies : InstaMoviesNavigationScreen(
-        Screen.MoviesScreen.route,
+        Screen.Movies,
         Icons.Filled.Movie,
         Icons.Outlined.Movie,
         Strings.label_movies,
     )
 
     data object TvShows : InstaMoviesNavigationScreen(
-        Screen.TvShowsScreen.route,
+        Screen.TvShows,
         Icons.Filled.Tv,
         Icons.Outlined.Tv,
         Strings.label_tv_shows,
     )
 
     data object People : InstaMoviesNavigationScreen(
-        Screen.PersonScreen.route,
+        Screen.Person,
         Icons.Filled.People,
         Icons.Outlined.People,
         Strings.label_people,

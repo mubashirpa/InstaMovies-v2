@@ -34,11 +34,12 @@ fun HomeNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen.route,
+        startDestination = Screen.Home,
         modifier = modifier,
     ) {
-        composable(route = Screen.HomeScreen.route) {
+        composable<Screen.Home> {
             val viewModel: HomeViewModel = hiltViewModel()
+
             HomeScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
@@ -52,8 +53,9 @@ fun HomeNavHost(
                 },
             )
         }
-        composable(route = Screen.MoviesScreen.route) {
+        composable<Screen.Movies> {
             val viewModel: MoviesViewModel = hiltViewModel()
+
             MoviesScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
@@ -61,15 +63,17 @@ fun HomeNavHost(
                 navigateToMovieDetails = navigateToMovieDetails,
             )
         }
-        composable(route = Screen.PersonScreen.route) {
+        composable<Screen.Person> {
             val viewModel: PersonViewModel = hiltViewModel()
+
             PersonScreen(
                 personPagingItems = viewModel.personStateFlow.collectAsLazyPagingItems(),
                 navigateToPersonDetails = navigateToPersonDetails,
             )
         }
-        composable(route = Screen.TvShowsScreen.route) {
+        composable<Screen.TvShows> {
             val viewModel: TvShowsViewModel = hiltViewModel()
+
             TvShowsScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,

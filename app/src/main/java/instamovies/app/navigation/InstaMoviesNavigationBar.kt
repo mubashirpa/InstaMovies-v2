@@ -29,14 +29,15 @@ fun HomeNavigationBar(navController: NavController) {
 
     NavigationBar {
         destinations.forEach { destination ->
+            // TODO("Fix selected destination")
             val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                currentDestination?.hierarchy?.any { it.route?.endsWith(destination.screen.toString()) == true } == true
             val labelId = destination.label
 
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                    navController.navigate(destination.route) {
+                    navController.navigate(destination.screen) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -56,7 +57,9 @@ fun HomeNavigationBar(navController: NavController) {
                         contentDescription = stringResource(id = labelId),
                     )
                 },
-                label = { Text(stringResource(id = labelId)) },
+                label = {
+                    Text(text = stringResource(id = labelId))
+                },
             )
         }
     }

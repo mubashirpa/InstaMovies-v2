@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.devtoolsKsp) apply false
     alias(libs.plugins.hiltAndroid) apply false
     alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.versionCatalogUpdate)
 }
 

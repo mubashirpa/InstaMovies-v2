@@ -1,42 +1,42 @@
 package instamovies.app.navigation
 
-sealed class Screen(val route: String, val args: String? = null) {
-    data object HomeScreen : Screen(Routes.Screen.HOME_SCREEN)
+import kotlinx.serialization.Serializable
 
-    data object HomeContainerScreen : Screen(Routes.Screen.HOME_CONTAINER_SCREEN)
+@Serializable
+sealed class Screen {
+    @Serializable
+    data object Home : Screen()
 
-    data object MoviesScreen : Screen(Routes.Screen.MOVIES_SCREEN)
+    @Serializable
+    data object HomeContainer : Screen()
 
-    data object MovieDetailsScreen :
-        Screen(Routes.Screen.MOVIE_DETAILS_SCREEN, Routes.Args.MOVIE_DETAILS_SCREEN)
+    @Serializable
+    data object Movies : Screen()
 
-    data object PersonDetailsScreen :
-        Screen(Routes.Screen.PERSON_DETAILS_SCREEN, Routes.Args.PERSON_DETAILS_SCREEN)
+    @Serializable
+    data class MovieDetails(
+        val movieId: Int,
+    ) : Screen()
 
-    data object PersonScreen : Screen(Routes.Screen.PERSON_SCREEN)
+    @Serializable
+    data class PersonDetails(
+        val personId: Int,
+        val personName: String,
+    ) : Screen()
 
-    data object SearchScreen : Screen(Routes.Screen.SEARCH_SCREEN, Routes.Args.SEARCH_SCREEN)
+    @Serializable
+    data object Person : Screen()
 
-    data object TvShowDetailsScreen :
-        Screen(Routes.Screen.TV_SHOW_DETAILS_SCREEN, Routes.Args.TV_SHOW_DETAILS_SCREEN)
+    @Serializable
+    data class Search(
+        val searchQuery: String,
+    ) : Screen()
 
-    data object TvShowsScreen : Screen(Routes.Screen.TV_SHOWS_SCREEN)
+    @Serializable
+    data class TvShowDetails(
+        val seriesId: Int,
+    ) : Screen()
 
-    fun withArgs(vararg args: String?): String {
-        return buildString {
-            append(route)
-            args.forEach { arg ->
-                append("/$arg")
-            }
-        }
-    }
-
-    fun withArgs(vararg args: Any?): String {
-        return buildString {
-            append(route)
-            args.forEach { arg ->
-                append("/$arg")
-            }
-        }
-    }
+    @Serializable
+    data object TvShows : Screen()
 }

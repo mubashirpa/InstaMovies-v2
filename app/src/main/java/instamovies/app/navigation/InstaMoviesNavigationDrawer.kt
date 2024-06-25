@@ -120,16 +120,23 @@ fun InstaMoviesModalNavigationDrawer(
                         ) {
                             if (isNavigationRail) {
                                 destinations.forEach { destination ->
+                                    // TODO("Fix selected destination")
                                     val selected =
-                                        currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                                        currentDestination?.hierarchy?.any {
+                                            it.route?.endsWith(
+                                                destination.screen.toString(),
+                                            ) == true
+                                        } == true
                                     val labelId = destination.label
 
                                     NavigationDrawerItem(
-                                        label = { Text(stringResource(id = labelId)) },
+                                        label = {
+                                            Text(stringResource(id = labelId))
+                                        },
                                         selected = selected,
                                         onClick = {
                                             scope.launch { drawerState.close() }
-                                            navController.navigate(destination.route) {
+                                            navController.navigate(destination.screen) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
                                                 }
@@ -152,22 +159,29 @@ fun InstaMoviesModalNavigationDrawer(
                                         },
                                     )
                                 }
-                                Spacer(Modifier.height(12.dp))
+                                Spacer(modifier = Modifier.height(12.dp))
                                 DividerItem(modifier = Modifier.padding(horizontal = 28.dp))
-                                Spacer(Modifier.height(12.dp))
+                                Spacer(modifier = Modifier.height(12.dp))
                             }
                             items.forEachIndexed { _, drawerItem ->
                                 NavigationDrawerItem(
-                                    label = { Text(stringResource(id = drawerItem.labelId)) },
+                                    label = {
+                                        Text(stringResource(id = drawerItem.labelId))
+                                    },
                                     selected = false,
                                     onClick = {
                                         scope.launch { drawerState.close() }
                                     },
                                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                                    icon = { Icon(drawerItem.icon, contentDescription = null) },
+                                    icon = {
+                                        Icon(
+                                            imageVector = drawerItem.icon,
+                                            contentDescription = null,
+                                        )
+                                    },
                                 )
                             }
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     },
                     measurePolicy =
@@ -214,7 +228,7 @@ fun InstaMoviesPermanentNavigationDrawer(
                             modifier = Modifier.layoutId(LayoutType.HEADER),
                             horizontalAlignment = Alignment.Start,
                         ) {
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             Text(
                                 text = stringResource(id = Strings.app_name).uppercase(),
                                 modifier =
@@ -225,7 +239,7 @@ fun InstaMoviesPermanentNavigationDrawer(
                                 color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.titleMedium,
                             )
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                         Column(
                             modifier =
@@ -235,15 +249,22 @@ fun InstaMoviesPermanentNavigationDrawer(
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             destinations.forEach { destination ->
+                                // TODO("Fix selected destination")
                                 val selected =
-                                    currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                                    currentDestination?.hierarchy?.any {
+                                        it.route?.endsWith(
+                                            destination.screen.toString(),
+                                        ) == true
+                                    } == true
                                 val labelId = destination.label
 
                                 NavigationDrawerItem(
-                                    label = { Text(stringResource(id = labelId)) },
+                                    label = {
+                                        Text(stringResource(id = labelId))
+                                    },
                                     selected = selected,
                                     onClick = {
-                                        navController.navigate(destination.route) {
+                                        navController.navigate(destination.screen) {
                                             popUpTo(navController.graph.findStartDestination().id) {
                                                 saveState = true
                                             }
@@ -266,24 +287,26 @@ fun InstaMoviesPermanentNavigationDrawer(
                                     },
                                 )
                             }
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             DividerItem(modifier = Modifier.padding(horizontal = 28.dp))
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             items.forEachIndexed { _, drawerItem ->
                                 NavigationDrawerItem(
-                                    label = { Text(stringResource(id = drawerItem.labelId)) },
+                                    label = {
+                                        Text(stringResource(id = drawerItem.labelId))
+                                    },
                                     selected = false,
                                     onClick = {},
                                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                                     icon = {
                                         Icon(
-                                            drawerItem.icon,
+                                            imageVector = drawerItem.icon,
                                             contentDescription = null,
                                         )
                                     },
                                 )
                             }
-                            Spacer(Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     },
                     measurePolicy = navigationMeasurePolicy(navigationContentPosition),
@@ -320,7 +343,9 @@ private fun InstaMoviesModalNavigationDrawerPreview() {
             drawerState = rememberDrawerState(initialValue = DrawerValue.Open),
             navigationContentPosition = InstaMoviesNavigationContentPosition.TOP,
             navigationType = InstaMoviesNavigationType.BOTTOM_NAVIGATION,
-            content = { Surface(modifier = Modifier.fillMaxSize()) {} },
+            content = {
+                Surface(modifier = Modifier.fillMaxSize()) {}
+            },
         )
     }
 }
@@ -332,7 +357,9 @@ private fun InstaMoviesPermanentNavigationDrawerPreview() {
         InstaMoviesPermanentNavigationDrawer(
             navController = rememberNavController(),
             navigationContentPosition = InstaMoviesNavigationContentPosition.CENTER,
-            content = { Surface(modifier = Modifier.fillMaxSize()) {} },
+            content = {
+                Surface(modifier = Modifier.fillMaxSize()) {}
+            },
         )
     }
 }
