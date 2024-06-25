@@ -22,8 +22,8 @@ paging-compose = "3.3.0"
 palette = "1.0.0"
 retrofit2 = "2.11.0"
 targetSdk = "34"
-test-espresso-core = "3.6.0-rc01"
-test-ext-junit = "1.2.0-rc01"
+test-espresso-core = "3.6.0"
+test-ext-junit = "1.2.0"
 version-catalog-update = "0.8.4"
 
 [libraries]
@@ -35,6 +35,7 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 compose-material3-window = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
+compose-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
@@ -72,6 +73,7 @@ compose = [
     "compose-material-icons-extended",
     "compose-material3",
     "compose-material3-window",
+    "compose-material3-window-size",
     "compose-ui",
     "compose-ui-graphics",
     "compose-ui-tooling-preview",
