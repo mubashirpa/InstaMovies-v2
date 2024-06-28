@@ -4,9 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -136,7 +138,8 @@ private fun CastListItemLayout(
             Card {
                 AsyncImage(
                     model =
-                        ImageRequest.Builder(LocalContext.current)
+                        ImageRequest
+                            .Builder(LocalContext.current)
                             .data("${Constants.TMDB_PROFILE_PREFIX}$profilePath")
                             .crossfade(true)
                             .build(),
@@ -146,6 +149,7 @@ private fun CastListItemLayout(
                 )
             }
         },
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
     )
 }
 

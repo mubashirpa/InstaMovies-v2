@@ -18,6 +18,7 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -175,7 +177,8 @@ private fun SeasonListItemLayout(
             ) {
                 AsyncImage(
                     model =
-                        ImageRequest.Builder(LocalContext.current)
+                        ImageRequest
+                            .Builder(LocalContext.current)
                             .data("${Constants.TMDB_POSTER_PREFIX}$posterPath")
                             .crossfade(true)
                             .build(),
@@ -188,6 +191,7 @@ private fun SeasonListItemLayout(
                 )
             }
         },
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
     )
 }
 
