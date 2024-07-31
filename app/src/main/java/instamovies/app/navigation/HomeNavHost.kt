@@ -11,14 +11,14 @@ import instamovies.app.core.util.InstaMoviesNavigationType
 import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.presentation.home.HomeViewModel
 import instamovies.app.presentation.home.screen.HomeScreen
-import instamovies.app.presentation.home_container.HomeContainerUiEvent
-import instamovies.app.presentation.home_container.HomeContainerUiState
+import instamovies.app.presentation.homeContainer.HomeContainerUiEvent
+import instamovies.app.presentation.homeContainer.HomeContainerUiState
 import instamovies.app.presentation.movies.MoviesViewModel
 import instamovies.app.presentation.movies.screen.MoviesScreen
 import instamovies.app.presentation.person.PersonViewModel
 import instamovies.app.presentation.person.screen.PersonScreen
-import instamovies.app.presentation.tv_shows.TvShowsViewModel
-import instamovies.app.presentation.tv_shows.screen.TvShowsScreen
+import instamovies.app.presentation.tvShows.TvShowsScreen
+import instamovies.app.presentation.tvShows.TvShowsViewModel
 
 @Composable
 fun HomeNavHost(

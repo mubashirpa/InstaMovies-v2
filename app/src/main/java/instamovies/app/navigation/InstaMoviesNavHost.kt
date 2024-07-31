@@ -11,16 +11,16 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.window.layout.DisplayFeature
 import instamovies.app.core.util.InstaMoviesContentType
 import instamovies.app.core.util.InstaMoviesWindowWidthType
-import instamovies.app.presentation.home_container.HomeContainerViewModel
-import instamovies.app.presentation.home_container.screen.HomeContainerScreen
-import instamovies.app.presentation.movie_details.MovieDetailsViewModel
-import instamovies.app.presentation.movie_details.screen.MovieDetailsScreen
-import instamovies.app.presentation.person_details.PersonDetailsViewModel
-import instamovies.app.presentation.person_details.screen.PersonDetailsScreen
+import instamovies.app.presentation.homeContainer.HomeContainerScreen
+import instamovies.app.presentation.homeContainer.HomeContainerViewModel
+import instamovies.app.presentation.movieDetails.MovieDetailsScreen
+import instamovies.app.presentation.movieDetails.MovieDetailsViewModel
+import instamovies.app.presentation.personDetails.PersonDetailsScreen
+import instamovies.app.presentation.personDetails.PersonDetailsViewModel
 import instamovies.app.presentation.search.SearchViewModel
 import instamovies.app.presentation.search.screen.SearchScreen
-import instamovies.app.presentation.tv_show_details.TvShowDetailsViewModel
-import instamovies.app.presentation.tv_show_details.screen.TvShowDetailsScreen
+import instamovies.app.presentation.tvShowDetails.TvShowDetailsScreen
+import instamovies.app.presentation.tvShowDetails.TvShowDetailsViewModel
 
 @Composable
 fun InstaMoviesNavHost(
