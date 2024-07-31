@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_show_details.screen.components
+package instamovies.app.presentation.tvShowDetails.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_show_details
+package instamovies.app.presentation.tvShowDetails
 
 import instamovies.app.core.util.Resource
 import instamovies.app.domain.model.series.details.SeriesDetails

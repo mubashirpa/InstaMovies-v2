@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_show_details.screen
+package instamovies.app.presentation.tvShowDetails
 
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
@@ -78,12 +78,10 @@ import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
 import instamovies.app.presentation.theme.InstaMoviesDynamicTheme
-import instamovies.app.presentation.tv_show_details.TvShowDetailsUiEvent
-import instamovies.app.presentation.tv_show_details.TvShowDetailsUiState
-import instamovies.app.presentation.tv_show_details.screen.components.CastAndCrewBottomSheet
-import instamovies.app.presentation.tv_show_details.screen.components.CreatorListItem
-import instamovies.app.presentation.tv_show_details.screen.components.SeasonListItem
-import instamovies.app.presentation.tv_show_details.screen.components.SeasonsBottomSheet
+import instamovies.app.presentation.tvShowDetails.components.CastAndCrewBottomSheet
+import instamovies.app.presentation.tvShowDetails.components.CreatorListItem
+import instamovies.app.presentation.tvShowDetails.components.SeasonListItem
+import instamovies.app.presentation.tvShowDetails.components.SeasonsBottomSheet
 import instamovies.app.R.string as Strings
 
 @Composable
@@ -367,9 +365,16 @@ private fun Header(
     val contentRatings = details.contentRatings?.results.orEmpty()
     val contentRating =
         if (contentRatings.isNotEmpty()) {
-            details.contentRatings?.results?.find { it.iso31661?.equals(userCountry) == true }?.rating.orEmpty()
+            details.contentRatings
+                ?.results
+                ?.find { it.iso31661?.equals(userCountry) == true }
+                ?.rating
+                .orEmpty()
                 .ifEmpty {
-                    details.contentRatings?.results?.first()?.rating
+                    details.contentRatings
+                        ?.results
+                        ?.first()
+                        ?.rating
                 }
         } else {
             null
@@ -410,7 +415,8 @@ private fun Header(
         Box {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_BACKDROP_PREFIX}${details.backdropPath}")
                         .crossfade(true)
                         .build(),

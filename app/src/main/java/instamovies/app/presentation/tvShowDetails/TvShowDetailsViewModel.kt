@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_show_details
+package instamovies.app.presentation.tvShowDetails
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
