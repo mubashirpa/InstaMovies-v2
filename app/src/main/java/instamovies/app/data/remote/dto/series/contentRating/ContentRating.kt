@@ -1,4 +1,4 @@
-package instamovies.app.data.remote.dto.series.content_rating
+package instamovies.app.data.remote.dto.series.contentRating
 
 data class ContentRating(
     val id: Int? = null,

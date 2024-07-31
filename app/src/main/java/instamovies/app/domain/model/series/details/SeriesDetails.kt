@@ -1,7 +1,7 @@
 package instamovies.app.domain.model.series.details
 
 import instamovies.app.domain.model.series.SeriesResultModel
-import instamovies.app.domain.model.series.content_rating.ContentRatingModel
+import instamovies.app.domain.model.series.contentRating.ContentRatingModel
 import instamovies.app.domain.model.series.credits.SeriesCredits
 
 data class SeriesDetails(

@@ -1,4 +1,4 @@
-package instamovies.app.domain.model.series.content_rating
+package instamovies.app.domain.model.series.contentRating
 
 data class ContentRatingResultModel(
     val iso31661: String? = null,

@@ -2,7 +2,7 @@ package instamovies.app.data.remote.dto.series.details
 
 import com.google.gson.annotations.SerializedName
 import instamovies.app.data.remote.dto.series.SeriesListsDto
-import instamovies.app.data.remote.dto.series.content_rating.ContentRating
+import instamovies.app.data.remote.dto.series.contentRating.ContentRating
 import instamovies.app.data.remote.dto.series.credits.SeriesCreditsDto
 
 data class SeriesDetailsDto(

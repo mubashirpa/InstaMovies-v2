@@ -1,4 +1,4 @@
-package instamovies.app.data.remote.dto.series.content_rating
+package instamovies.app.data.remote.dto.series.contentRating
 
 import com.google.gson.annotations.SerializedName
 
