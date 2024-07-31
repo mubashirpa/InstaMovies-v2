@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_shows
+package instamovies.app.presentation.tvShows
 
 sealed class TvShowsUiEvent {
     data object GetAiringTodaySeries : TvShowsUiEvent()

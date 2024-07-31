@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_shows
+package instamovies.app.presentation.tvShows
 
 import androidx.annotation.StringRes
 import instamovies.app.R.string as Strings

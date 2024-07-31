@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_shows.screen
+package instamovies.app.presentation.tvShows
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +34,7 @@ import instamovies.app.domain.model.series.SeriesResultModel
 import instamovies.app.presentation.components.Axis
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
-import instamovies.app.presentation.tv_shows.TvShowsScreenPages
-import instamovies.app.presentation.tv_shows.TvShowsUiEvent
-import instamovies.app.presentation.tv_shows.TvShowsUiState
-import instamovies.app.presentation.tv_shows.screen.components.TvShowGridItem
+import instamovies.app.presentation.tvShows.components.TvShowGridItem
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException

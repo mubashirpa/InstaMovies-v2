@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_shows
+package instamovies.app.presentation.tvShows
 
 import androidx.paging.PagingData
 import instamovies.app.domain.model.series.SeriesResultModel

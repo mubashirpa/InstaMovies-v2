@@ -1,4 +1,4 @@
-package instamovies.app.presentation.tv_shows.screen.components
+package instamovies.app.presentation.tvShows.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
@@ -78,7 +78,8 @@ private fun TvShowGridItemLayout(
         Card {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_POSTER_PREFIX}$posterPath")
                         .crossfade(true)
                         .build(),
