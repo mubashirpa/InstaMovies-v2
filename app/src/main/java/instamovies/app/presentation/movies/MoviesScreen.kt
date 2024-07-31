@@ -1,4 +1,4 @@
-package instamovies.app.presentation.movies.screen
+package instamovies.app.presentation.movies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +34,7 @@ import instamovies.app.domain.model.movie.MovieResultModel
 import instamovies.app.presentation.components.Axis
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
-import instamovies.app.presentation.movies.MoviesScreenPages
-import instamovies.app.presentation.movies.MoviesUiEvent
-import instamovies.app.presentation.movies.MoviesUiState
-import instamovies.app.presentation.movies.screen.components.MovieGridItem
+import instamovies.app.presentation.movies.components.MovieGridItem
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
