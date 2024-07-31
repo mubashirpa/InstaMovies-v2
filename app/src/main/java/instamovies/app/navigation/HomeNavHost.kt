@@ -10,7 +10,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import instamovies.app.core.util.InstaMoviesNavigationType
 import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.presentation.home.HomeViewModel
-import instamovies.app.presentation.home.screen.HomeScreen
+import instamovies.app.presentation.home.HomeScreen
 import instamovies.app.presentation.homeContainer.HomeContainerUiEvent
 import instamovies.app.presentation.homeContainer.HomeContainerUiState
 import instamovies.app.presentation.movies.MoviesViewModel

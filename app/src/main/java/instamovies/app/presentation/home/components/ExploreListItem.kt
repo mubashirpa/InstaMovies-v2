@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home.screen.components
+package instamovies.app.presentation.home.components
 
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +23,8 @@ fun ExploreListItem(
     Card(onClick = onClick, modifier = modifier) {
         AsyncImage(
             model =
-                ImageRequest.Builder(LocalContext.current)
+                ImageRequest
+                    .Builder(LocalContext.current)
                     .data("${Constants.TMDB_BACKDROP_PREFIX}$posterPath")
                     .crossfade(true)
                     .build(),

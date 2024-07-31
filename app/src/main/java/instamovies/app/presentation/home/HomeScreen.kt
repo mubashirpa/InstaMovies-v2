@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home.screen
+package instamovies.app.presentation.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,10 +31,8 @@ import instamovies.app.presentation.components.Axis
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
-import instamovies.app.presentation.home.HomeUiEvent
-import instamovies.app.presentation.home.HomeUiState
-import instamovies.app.presentation.home.screen.components.ExploreListItem
-import instamovies.app.presentation.home.screen.components.PersonListItem
+import instamovies.app.presentation.home.components.ExploreListItem
+import instamovies.app.presentation.home.components.PersonListItem
 import instamovies.app.R.string as Strings
 
 @Composable

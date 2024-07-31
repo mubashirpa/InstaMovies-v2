@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home.screen.components
+package instamovies.app.presentation.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
@@ -71,7 +71,8 @@ private fun PersonListItemLayout(
         Card {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_PROFILE_PREFIX}$profilePath")
                         .crossfade(true)
                         .build(),
