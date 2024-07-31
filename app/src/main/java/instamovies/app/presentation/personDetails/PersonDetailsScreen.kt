@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person_details.screen
+package instamovies.app.presentation.personDetails
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,9 +52,7 @@ import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.ExpandableText
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
-import instamovies.app.presentation.person_details.PersonDetailsUiEvent
-import instamovies.app.presentation.person_details.PersonDetailsUiState
-import instamovies.app.presentation.person_details.screen.components.ProfileListItem
+import instamovies.app.presentation.personDetails.components.ProfileListItem
 import instamovies.app.R.string as Strings
 
 @Composable

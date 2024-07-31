@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person_details.screen.components
+package instamovies.app.presentation.personDetails.components
 
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
@@ -17,7 +17,8 @@ fun ProfileListItem(
     Card {
         AsyncImage(
             model =
-                ImageRequest.Builder(LocalContext.current)
+                ImageRequest
+                    .Builder(LocalContext.current)
                     .data("${Constants.TMDB_STILL_PREFIX}$filePath")
                     .crossfade(true)
                     .build(),

@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person_details
+package instamovies.app.presentation.personDetails
 
 sealed class PersonDetailsUiEvent {
     data object OnRetry : PersonDetailsUiEvent()

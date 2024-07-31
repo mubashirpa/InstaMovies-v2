@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person_details
+package instamovies.app.presentation.personDetails
 
 import instamovies.app.core.util.Resource
 import instamovies.app.domain.model.person.PersonDetails
