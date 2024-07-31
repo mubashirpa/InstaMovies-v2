@@ -18,7 +18,7 @@ import instamovies.app.presentation.movieDetails.MovieDetailsViewModel
 import instamovies.app.presentation.personDetails.PersonDetailsScreen
 import instamovies.app.presentation.personDetails.PersonDetailsViewModel
 import instamovies.app.presentation.search.SearchViewModel
-import instamovies.app.presentation.search.screen.SearchScreen
+import instamovies.app.presentation.search.SearchScreen
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsScreen
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsViewModel
 

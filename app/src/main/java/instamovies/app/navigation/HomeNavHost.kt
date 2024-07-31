@@ -14,9 +14,9 @@ import instamovies.app.presentation.home.HomeScreen
 import instamovies.app.presentation.homeContainer.HomeContainerUiEvent
 import instamovies.app.presentation.homeContainer.HomeContainerUiState
 import instamovies.app.presentation.movies.MoviesViewModel
-import instamovies.app.presentation.movies.screen.MoviesScreen
+import instamovies.app.presentation.movies.MoviesScreen
 import instamovies.app.presentation.person.PersonViewModel
-import instamovies.app.presentation.person.screen.PersonScreen
+import instamovies.app.presentation.person.PersonScreen
 import instamovies.app.presentation.tvShows.TvShowsScreen
 import instamovies.app.presentation.tvShows.TvShowsViewModel
 
