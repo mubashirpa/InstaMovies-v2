@@ -1,4 +1,4 @@
-package instamovies.app.presentation.movie_details.screen.components
+package instamovies.app.presentation.movieDetails.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.PaddingValues

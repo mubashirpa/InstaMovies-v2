@@ -1,6 +1,5 @@
-package instamovies.app.presentation.movie_details.screen
+package instamovies.app.presentation.movieDetails
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,9 +76,7 @@ import instamovies.app.presentation.components.CastGridItem
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
-import instamovies.app.presentation.movie_details.MovieDetailsUiEvent
-import instamovies.app.presentation.movie_details.MovieDetailsUiState
-import instamovies.app.presentation.movie_details.screen.components.CastAndCrewBottomSheet
+import instamovies.app.presentation.movieDetails.components.CastAndCrewBottomSheet
 import instamovies.app.presentation.theme.InstaMoviesDynamicTheme
 import instamovies.app.R.string as Strings
 
@@ -294,7 +291,7 @@ private fun MovieDetailsSinglePainContent(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Header(
     details: MovieDetails,
@@ -352,7 +349,8 @@ private fun Header(
         Box {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_BACKDROP_PREFIX}${details.backdropPath}")
                         .crossfade(true)
                         .build(),
