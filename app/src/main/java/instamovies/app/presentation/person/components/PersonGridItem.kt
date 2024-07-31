@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person.screen.components
+package instamovies.app.presentation.person.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,7 +79,8 @@ private fun PersonGridItemLayout(
         ) {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data("${Constants.TMDB_PROFILE_PREFIX}$profilePath")
                         .crossfade(true)
                         .build(),

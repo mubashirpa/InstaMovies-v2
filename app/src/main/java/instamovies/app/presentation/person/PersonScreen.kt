@@ -1,4 +1,4 @@
-package instamovies.app.presentation.person.screen
+package instamovies.app.presentation.person
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +23,7 @@ import instamovies.app.domain.model.person.popular.PersonResultModel
 import instamovies.app.presentation.components.Axis
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
-import instamovies.app.presentation.person.screen.components.PersonGridItem
+import instamovies.app.presentation.person.components.PersonGridItem
 import retrofit2.HttpException
 import java.io.IOException
 
