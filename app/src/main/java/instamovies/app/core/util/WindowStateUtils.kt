@@ -27,9 +27,14 @@ import kotlin.contracts.contract
 sealed interface DevicePosture {
     data object NormalPosture : DevicePosture
 
-    data class BookPosture(val hingePosition: Rect) : DevicePosture
+    data class BookPosture(
+        val hingePosition: Rect,
+    ) : DevicePosture
 
-    data class Separating(val hingePosition: Rect, var orientation: FoldingFeature.Orientation) : DevicePosture
+    data class Separating(
+        val hingePosition: Rect,
+        var orientation: FoldingFeature.Orientation,
+    ) : DevicePosture
 }
 
 @OptIn(ExperimentalContracts::class)
@@ -68,4 +73,10 @@ enum class InstaMoviesNavigationContentPosition {
 enum class InstaMoviesContentType {
     SINGLE_PANE,
     DUAL_PANE,
+}
+
+enum class InstaMoviesWindowWidthType {
+    COMPACT,
+    MEDIUM,
+    EXPANDED,
 }
