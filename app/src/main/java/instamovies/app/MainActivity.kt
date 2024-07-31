@@ -28,13 +28,18 @@ class MainActivity : ComponentActivity() {
             InstaMoviesTheme {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
+                val fillMaxSizeModifier = Modifier.fillMaxSize()
 
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = fillMaxSizeModifier,
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    InstaMoviesApp(windowSize = windowSize, displayFeatures = displayFeatures)
+                    InstaMoviesApp(
+                        windowSize = windowSize,
+                        displayFeatures = displayFeatures,
+                        modifier = fillMaxSizeModifier,
+                    )
                 }
             }
         }

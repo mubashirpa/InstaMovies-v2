@@ -2,19 +2,8 @@ package instamovies.app.presentation.home_container.screen.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imeNestedScroll
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
@@ -36,79 +25,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import instamovies.app.core.util.InstaMoviesNavigationType
-import instamovies.app.domain.model.MediaType
-import instamovies.app.domain.model.trending.TrendingResultModel
 import instamovies.app.presentation.home_container.HomeContainerUiEvent
 import instamovies.app.presentation.home_container.HomeContainerUiState
 import instamovies.app.R.string as Strings
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BoxScope.HomeAppBar(
     uiState: HomeContainerUiState,
     onEvent: (HomeContainerUiEvent) -> Unit,
-    navigationType: InstaMoviesNavigationType,
-    trendingList: List<TrendingResultModel>,
-    onMenuIconClick: () -> Unit,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
+    modifier: Modifier = Modifier,
+    isDocked: Boolean,
+    onOpenNavigationDrawer: () -> Unit,
     navigateToProfile: () -> Unit,
     navigateToSearch: (query: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    content: @Composable (ColumnScope.() -> Unit),
 ) {
-    val searchList = uiState.searchResource.data.orEmpty()
     val expanded = uiState.searchbarExpanded
-    val isDocked = navigationType != InstaMoviesNavigationType.BOTTOM_NAVIGATION
     val onExpandedChange: (Boolean) -> Unit = {
         onEvent(HomeContainerUiEvent.OnSearchBarExpandedChange(it))
     }
-    val content: @Composable (ColumnScope.() -> Unit) = {
-        LazyColumn(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .then(
-                        if (isDocked) {
-                            Modifier
-                        } else {
-                            Modifier
-                                .fillMaxSize()
-                                .imeNestedScroll()
-                        },
-                    ),
-            content = {
-                if (uiState.searchQuery.isNotEmpty()) {
-                    items(items = searchList, key = { it.id!! }) { result ->
-                        SearchListItem(result = result) { mediaType, id, name ->
-                            onEvent(HomeContainerUiEvent.OnSearch)
-                            when (mediaType) {
-                                MediaType.MOVIE -> navigateToMovieDetails(id)
-                                MediaType.PERSON -> navigateToPersonDetails(id, name)
-                                MediaType.TV -> navigateToTvShowDetails(id)
-                            }
-                        }
-                    }
-                } else {
-                    items(items = trendingList, key = { it.id!! }) { result ->
-                        SearchListItem(result = result) { mediaType, id, name ->
-                            onEvent(HomeContainerUiEvent.OnSearch)
-                            when (mediaType) {
-                                MediaType.MOVIE -> navigateToMovieDetails(id)
-                                MediaType.PERSON -> navigateToPersonDetails(id, name)
-                                MediaType.TV -> navigateToTvShowDetails(id)
-                            }
-                        }
-                    }
-                }
-                if (!isDocked) {
-                    item {
-                        Spacer(modifier = Modifier.navigationBarsPadding())
-                    }
-                }
-            },
-        )
-    }
+    val searchBarModifier =
+        modifier
+            .align(Alignment.TopCenter)
+            .semantics { traversalIndex = 0f }
 
     if (isDocked) {
         DockedSearchBar(
@@ -186,12 +126,7 @@ fun BoxScope.HomeAppBar(
             },
             expanded = expanded,
             onExpandedChange = onExpandedChange,
-            modifier =
-                Modifier
-                    .align(Alignment.TopCenter)
-                    .windowInsetsPadding(WindowInsets.statusBars)
-                    .padding(top = 8.dp)
-                    .semantics { traversalIndex = -1f },
+            modifier = searchBarModifier.padding(top = 8.dp),
             content = content,
         )
     } else {
@@ -228,7 +163,7 @@ fun BoxScope.HomeAppBar(
                                 )
                             }
                         } else {
-                            IconButton(onClick = onMenuIconClick) {
+                            IconButton(onClick = onOpenNavigationDrawer) {
                                 Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                             }
                         }
@@ -276,10 +211,7 @@ fun BoxScope.HomeAppBar(
             },
             expanded = expanded,
             onExpandedChange = onExpandedChange,
-            modifier =
-                Modifier
-                    .align(Alignment.TopCenter)
-                    .semantics { traversalIndex = -1f },
+            modifier = searchBarModifier,
             content = content,
         )
     }

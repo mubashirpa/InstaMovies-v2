@@ -1,7 +1,5 @@
 package instamovies.app.navigation
 
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,8 +10,7 @@ import androidx.navigation.toRoute
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.window.layout.DisplayFeature
 import instamovies.app.core.util.InstaMoviesContentType
-import instamovies.app.core.util.InstaMoviesNavigationContentPosition
-import instamovies.app.core.util.InstaMoviesNavigationType
+import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.presentation.home_container.HomeContainerViewModel
 import instamovies.app.presentation.home_container.screen.HomeContainerScreen
 import instamovies.app.presentation.movie_details.MovieDetailsViewModel
@@ -28,12 +25,9 @@ import instamovies.app.presentation.tv_show_details.screen.TvShowDetailsScreen
 @Composable
 fun InstaMoviesNavHost(
     navController: NavHostController,
-    widthSizeClass: WindowWidthSizeClass,
-    navigationType: InstaMoviesNavigationType,
     contentType: InstaMoviesContentType,
+    windowWidthType: InstaMoviesWindowWidthType,
     displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: InstaMoviesNavigationContentPosition,
-    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -47,9 +41,7 @@ fun InstaMoviesNavHost(
             HomeContainerScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
-                widthSizeClass = widthSizeClass,
-                navigationType = navigationType,
-                navigationContentPosition = navigationContentPosition,
+                windowWidthType = windowWidthType,
                 navigateToMovieDetails = { id ->
                     navController.navigate(Screen.MovieDetails(movieId = id))
                 },

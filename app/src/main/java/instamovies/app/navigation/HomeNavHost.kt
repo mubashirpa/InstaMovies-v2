@@ -1,6 +1,5 @@
 package instamovies.app.navigation
 
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -9,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.paging.compose.collectAsLazyPagingItems
 import instamovies.app.core.util.InstaMoviesNavigationType
+import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.presentation.home.HomeViewModel
 import instamovies.app.presentation.home.screen.HomeScreen
 import instamovies.app.presentation.home_container.HomeContainerUiEvent
@@ -25,8 +25,8 @@ fun HomeNavHost(
     navController: NavHostController,
     uiState: HomeContainerUiState,
     onEvent: (HomeContainerUiEvent) -> Unit,
-    widthSizeClass: WindowWidthSizeClass,
     navigationType: InstaMoviesNavigationType,
+    windowWidthType: InstaMoviesWindowWidthType,
     modifier: Modifier = Modifier,
     navigateToMovieDetails: (id: Int) -> Unit,
     navigateToPersonDetails: (id: Int, name: String) -> Unit,
@@ -43,7 +43,7 @@ fun HomeNavHost(
             HomeScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
-                widthSizeClass = widthSizeClass,
+                windowWidthType = windowWidthType,
                 trendingResource = uiState.trendingResource,
                 navigateToMovieDetails = navigateToMovieDetails,
                 navigateToPersonDetails = navigateToPersonDetails,

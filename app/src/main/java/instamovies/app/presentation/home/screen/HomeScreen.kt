@@ -18,12 +18,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import instamovies.app.core.ext.carousalTransition
+import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.core.util.Resource
 import instamovies.app.domain.model.MediaType
 import instamovies.app.domain.model.trending.TrendingResultModel
@@ -41,7 +41,7 @@ import instamovies.app.R.string as Strings
 fun HomeScreen(
     uiState: HomeUiState,
     onEvent: (HomeUiEvent) -> Unit,
-    widthSizeClass: WindowWidthSizeClass,
+    windowWidthType: InstaMoviesWindowWidthType,
     trendingResource: Resource<List<TrendingResultModel>>,
     navigateToMovieDetails: (id: Int) -> Unit,
     navigateToPersonDetails: (id: Int, name: String) -> Unit,
@@ -89,7 +89,7 @@ fun HomeScreen(
             ) {
                 Explore(
                     uiState = uiState,
-                    widthSizeClass = widthSizeClass,
+                    windowWidthType = windowWidthType,
                     navigateToMovieDetails = navigateToMovieDetails,
                 )
                 Trending(
@@ -146,15 +146,14 @@ fun HomeScreen(
 @Composable
 private fun Explore(
     uiState: HomeUiState,
-    widthSizeClass: WindowWidthSizeClass,
+    windowWidthType: InstaMoviesWindowWidthType,
     navigateToMovieDetails: (id: Int) -> Unit,
 ) {
     if (uiState.exploreResource is Resource.Success) {
         val exploreList = uiState.exploreResource.data.orEmpty()
         if (exploreList.isNotEmpty()) {
             val listSize = exploreList.size
-            // val pageCount = Int.MAX_VALUE TODO("Fix: java.lang.IllegalArgumentException: Cannot coerce value to an empty range: maximum -1564.0 is less than minimum 0.0.")
-            val pageCount = 1000
+            val pageCount = Int.MAX_VALUE
             val maxRounds = pageCount / listSize
             val initialPage = (maxRounds / 2) * listSize
             val pagerState =
@@ -166,8 +165,8 @@ private fun Explore(
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.titleMedium,
                 )
-                when (widthSizeClass) {
-                    WindowWidthSizeClass.Compact -> {
+                when (windowWidthType) {
+                    InstaMoviesWindowWidthType.COMPACT -> {
                         HorizontalPager(
                             state = pagerState,
                             modifier = Modifier.fillMaxWidth(),
@@ -176,6 +175,7 @@ private fun Explore(
                             val page = it % exploreList.size
                             val id = exploreList.getOrNull(page)?.id ?: 0
                             val posterPath = exploreList.getOrNull(page)?.posterPath
+
                             ExploreListItem(
                                 posterPath = posterPath,
                                 modifier =
@@ -199,6 +199,7 @@ private fun Explore(
                             val page = it % exploreList.size
                             val id = exploreList.getOrNull(page)?.id ?: 0
                             val posterPath = exploreList.getOrNull(page)?.posterPath
+
                             ExploreListItem(
                                 posterPath = posterPath,
                                 modifier =
