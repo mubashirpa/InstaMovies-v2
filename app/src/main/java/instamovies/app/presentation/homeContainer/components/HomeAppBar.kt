@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home_container.screen.components
+package instamovies.app.presentation.homeContainer.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import instamovies.app.presentation.home_container.HomeContainerUiEvent
-import instamovies.app.presentation.home_container.HomeContainerUiState
+import instamovies.app.presentation.homeContainer.HomeContainerUiEvent
+import instamovies.app.presentation.homeContainer.HomeContainerUiState
 import instamovies.app.R.string as Strings
 
 @OptIn(ExperimentalMaterial3Api::class)

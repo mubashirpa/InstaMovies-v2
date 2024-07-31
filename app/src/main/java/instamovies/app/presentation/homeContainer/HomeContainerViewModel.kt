@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home_container
+package instamovies.app.presentation.homeContainer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,13 +60,14 @@ class HomeContainerViewModel
         }
 
         private fun getTrending() {
-            getTrendingUseCase().onEach { resource ->
-                uiState =
-                    uiState.copy(
-                        searching = resource is Resource.Loading,
-                        trendingResource = resource,
-                    )
-            }.launchIn(viewModelScope)
+            getTrendingUseCase()
+                .onEach { resource ->
+                    uiState =
+                        uiState.copy(
+                            searching = resource is Resource.Loading,
+                            trendingResource = resource,
+                        )
+                }.launchIn(viewModelScope)
         }
 
         private fun searchMulti(query: String) {
@@ -80,13 +81,14 @@ class HomeContainerViewModel
             searchMultiUseCaseJob =
                 viewModelScope.launch {
                     delay(500)
-                    searchMultiUseCase(query).onEach { resource ->
-                        uiState =
-                            uiState.copy(
-                                searchResource = resource,
-                                searching = resource is Resource.Loading,
-                            )
-                    }.launchIn(this)
+                    searchMultiUseCase(query)
+                        .onEach { resource ->
+                            uiState =
+                                uiState.copy(
+                                    searchResource = resource,
+                                    searching = resource is Resource.Loading,
+                                )
+                        }.launchIn(this)
                 }
         }
     }

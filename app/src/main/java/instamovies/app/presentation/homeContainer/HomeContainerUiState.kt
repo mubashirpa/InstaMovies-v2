@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home_container
+package instamovies.app.presentation.homeContainer
 
 import instamovies.app.core.util.Resource
 import instamovies.app.domain.model.search.SearchResultModel

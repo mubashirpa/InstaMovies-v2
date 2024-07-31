@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home_container.screen.components
+package instamovies.app.presentation.homeContainer.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -166,7 +166,8 @@ private fun SearchListItemLayout(
 
                     AsyncImage(
                         model =
-                            ImageRequest.Builder(LocalContext.current)
+                            ImageRequest
+                                .Builder(LocalContext.current)
                                 .data(imageUri)
                                 .crossfade(true)
                                 .build(),

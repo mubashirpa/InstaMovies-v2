@@ -1,4 +1,4 @@
-package instamovies.app.presentation.home_container.screen
+package instamovies.app.presentation.homeContainer
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -33,10 +33,8 @@ import instamovies.app.domain.model.MediaType
 import instamovies.app.navigation.HomeNavHost
 import instamovies.app.navigation.InstaMoviesNavigationWrapper
 import instamovies.app.navigation.Screen
-import instamovies.app.presentation.home_container.HomeContainerUiEvent
-import instamovies.app.presentation.home_container.HomeContainerUiState
-import instamovies.app.presentation.home_container.screen.components.HomeAppBar
-import instamovies.app.presentation.home_container.screen.components.SearchListItem
+import instamovies.app.presentation.homeContainer.components.HomeAppBar
+import instamovies.app.presentation.homeContainer.components.SearchListItem
 import kotlinx.coroutines.launch
 import instamovies.app.R.string as Strings
 
