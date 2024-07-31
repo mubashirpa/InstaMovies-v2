@@ -1,5 +1,6 @@
 package instamovies.app.presentation.movies
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,15 +12,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -49,22 +51,14 @@ fun MoviesScreen(
     navigationType: InstaMoviesNavigationType,
     navigateToMovieDetails: (id: Int) -> Unit,
 ) {
+    val configuration = LocalConfiguration.current
     val pages = MoviesScreenPages.entries.toTypedArray()
     val pagerState = rememberPagerState { pages.size }
     val coroutineScope = rememberCoroutineScope()
     val isCompactDevice = navigationType == InstaMoviesNavigationType.BOTTOM_NAVIGATION
 
     Column(modifier = Modifier.fillMaxSize()) {
-        PrimaryScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            modifier = Modifier.fillMaxWidth(),
-            edgePadding = if (isCompactDevice) ScrollableTabRowPadding else 0.dp,
-            divider = {
-                if (isCompactDevice) {
-                    HorizontalDivider()
-                }
-            },
-        ) {
+        val tabs: @Composable () -> Unit = {
             pages.forEachIndexed { index, page ->
                 Tab(
                     selected = pagerState.currentPage == index,
@@ -73,11 +67,28 @@ fun MoviesScreen(
                             pagerState.scrollToPage(index)
                         }
                     },
-                    text = { Text(text = stringResource(id = page.titleResId)) },
+                    text = {
+                        Text(text = stringResource(id = page.titleResId))
+                    },
                     selectedContentColor = MaterialTheme.colorScheme.primary,
                     unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+        }
+
+        if (isCompactDevice && configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            PrimaryScrollableTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                modifier = Modifier.fillMaxWidth(),
+                edgePadding = ScrollableTabRowPadding,
+                tabs = tabs,
+            )
+        } else {
+            PrimaryTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                modifier = Modifier.fillMaxWidth(),
+                tabs = tabs,
+            )
         }
         HorizontalPager(
             state = pagerState,
