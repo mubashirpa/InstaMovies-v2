@@ -1,4 +1,4 @@
-package instamovies.app.presentation.search.screen
+package instamovies.app.presentation.search
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +24,7 @@ import instamovies.app.domain.model.search.SearchResultModel
 import instamovies.app.presentation.components.BackButton
 import instamovies.app.presentation.components.ErrorScreen
 import instamovies.app.presentation.components.LoadingIndicator
-import instamovies.app.presentation.search.screen.components.SearchListItem
+import instamovies.app.presentation.search.components.SearchListItem
 import retrofit2.HttpException
 import java.io.IOException
 import instamovies.app.R.string as Strings

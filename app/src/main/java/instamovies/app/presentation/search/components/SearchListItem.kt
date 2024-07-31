@@ -1,4 +1,4 @@
-package instamovies.app.presentation.search.screen.components
+package instamovies.app.presentation.search.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -195,7 +195,8 @@ private fun MovieListItem(
                 Card {
                     AsyncImage(
                         model =
-                            ImageRequest.Builder(LocalContext.current)
+                            ImageRequest
+                                .Builder(LocalContext.current)
                                 .data("${Constants.TMDB_POSTER_PREFIX}$posterPath")
                                 .crossfade(true)
                                 .build(),
@@ -361,7 +362,11 @@ private fun convertIdsToGenres(
                 emptyMap()
             }
         }
-    return genres.filterKeys { it in genreIds }.values.joinToString(", ").ifBlank { null }
+    return genres
+        .filterKeys { it in genreIds }
+        .values
+        .joinToString(", ")
+        .ifBlank { null }
 }
 
 @Preview
