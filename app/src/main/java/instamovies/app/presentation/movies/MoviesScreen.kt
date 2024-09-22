@@ -41,8 +41,6 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-private val ScrollableTabRowPadding = 16.dp
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesScreen(
@@ -80,7 +78,6 @@ fun MoviesScreen(
             PrimaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
                 modifier = Modifier.fillMaxWidth(),
-                edgePadding = ScrollableTabRowPadding,
                 tabs = tabs,
             )
         } else {
