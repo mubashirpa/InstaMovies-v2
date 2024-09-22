@@ -32,24 +32,20 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import instamovies.app.core.util.InstaMoviesNavigationContentPosition
 import instamovies.app.R.string as Strings
 
 @Composable
 fun ModalNavigationDrawerContent(
-    selectedDestination: String,
+    currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
     isNavigationRail: Boolean,
-    navigateToTopLevelDestination: (InstaMoviesNavigationScreen) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
-    val destinations =
-        listOf(
-            InstaMoviesNavigationScreen.InstaMovies,
-            InstaMoviesNavigationScreen.Movies,
-            InstaMoviesNavigationScreen.TvShows,
-            InstaMoviesNavigationScreen.People,
-        )
     val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
 
     ModalDrawerSheet {
@@ -91,31 +87,23 @@ fun ModalNavigationDrawerContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     if (isNavigationRail) {
-                        destinations.forEach { destination ->
-                            // TODO("Fix selected destination")
+                        topLevelRoutes.forEach { topLevelRoute ->
                             val selected =
-                                selectedDestination.endsWith(destination.screen.toString())
-                            val labelId = destination.label
+                                currentDestination?.hierarchy?.any { it.hasRoute(topLevelRoute.route::class) } == true
 
                             NavigationDrawerItem(
                                 label = {
-                                    Text(stringResource(id = labelId))
+                                    Text(stringResource(id = topLevelRoute.labelId))
                                 },
                                 selected = selected,
                                 onClick = {
-                                    navigateToTopLevelDestination(destination)
+                                    navigateToTopLevelDestination(topLevelRoute)
                                 },
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                                 icon = {
-                                    val imageVector =
-                                        if (selected) {
-                                            destination.selectedIcon
-                                        } else {
-                                            destination.unselectedIcon
-                                        }
                                     Icon(
-                                        imageVector = imageVector,
-                                        contentDescription = stringResource(id = labelId),
+                                        imageVector = if (selected) topLevelRoute.selectedIcon else topLevelRoute.unselectedIcon,
+                                        contentDescription = stringResource(id = topLevelRoute.labelId),
                                     )
                                 },
                             )
@@ -124,13 +112,19 @@ fun ModalNavigationDrawerContent(
                         DividerItem(modifier = Modifier.padding(horizontal = 28.dp))
                         Spacer(modifier = Modifier.height(12.dp))
                     }
-                    items.forEachIndexed { _, drawerItem ->
+                    items.forEachIndexed { position, drawerItem ->
                         NavigationDrawerItem(
                             label = {
                                 Text(stringResource(id = drawerItem.labelId))
                             },
                             selected = false,
-                            onClick = onDrawerClicked, // TODO
+                            onClick = {
+                                // TODO
+                                when (position) {
+                                    0 -> onDrawerClicked()
+                                    1 -> onDrawerClicked()
+                                }
+                            },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
                                 Icon(
@@ -157,17 +151,10 @@ fun ModalNavigationDrawerContent(
 
 @Composable
 fun PermanentNavigationDrawerContent(
-    selectedDestination: String,
+    currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
-    navigateToTopLevelDestination: (InstaMoviesNavigationScreen) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
 ) {
-    val destinations =
-        listOf(
-            InstaMoviesNavigationScreen.InstaMovies,
-            InstaMoviesNavigationScreen.Movies,
-            InstaMoviesNavigationScreen.TvShows,
-            InstaMoviesNavigationScreen.People,
-        )
     val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
 
     PermanentDrawerSheet(modifier = Modifier.width(240.dp)) {
@@ -198,30 +185,23 @@ fun PermanentNavigationDrawerContent(
                             .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    destinations.forEach { destination ->
-                        // TODO("Fix selected destination")
-                        val selected = selectedDestination.endsWith(destination.screen.toString())
-                        val labelId = destination.label
+                    topLevelRoutes.forEach { topLevelRoute ->
+                        val selected =
+                            currentDestination?.hierarchy?.any { it.hasRoute(topLevelRoute.route::class) } == true
 
                         NavigationDrawerItem(
                             label = {
-                                Text(stringResource(id = labelId))
+                                Text(stringResource(id = topLevelRoute.labelId))
                             },
                             selected = selected,
                             onClick = {
-                                navigateToTopLevelDestination(destination)
+                                navigateToTopLevelDestination(topLevelRoute)
                             },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
-                                val imageVector =
-                                    if (selected) {
-                                        destination.selectedIcon
-                                    } else {
-                                        destination.unselectedIcon
-                                    }
                                 Icon(
-                                    imageVector = imageVector,
-                                    contentDescription = stringResource(id = labelId),
+                                    imageVector = if (selected) topLevelRoute.selectedIcon else topLevelRoute.unselectedIcon,
+                                    contentDescription = stringResource(id = topLevelRoute.labelId),
                                 )
                             },
                         )

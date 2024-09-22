@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imeNestedScroll
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +14,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,14 +23,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import instamovies.app.core.util.InstaMoviesNavigationType
 import instamovies.app.core.util.InstaMoviesWindowWidthType
 import instamovies.app.domain.model.MediaType
 import instamovies.app.navigation.HomeNavHost
 import instamovies.app.navigation.InstaMoviesNavigationWrapper
-import instamovies.app.navigation.Screen
 import instamovies.app.presentation.homeContainer.components.HomeAppBar
 import instamovies.app.presentation.homeContainer.components.SearchListItem
 import kotlinx.coroutines.launch
@@ -78,18 +74,14 @@ private fun HomeContainerNavigationWrapper(
     navigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination =
-        navBackStackEntry?.destination?.route ?: Screen.Home.toString()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
     InstaMoviesNavigationWrapper(
         navController = navController,
         drawerState = drawerState,
-        selectedDestination = selectedDestination,
-        navigateToTopLevelDestination = { destination ->
-            navController.navigate(destination.screen) {
+        navigateToTopLevelDestination = { topLevelRoute ->
+            navController.navigate(topLevelRoute.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
@@ -159,11 +151,9 @@ private fun HomeContainerContent(
                     Modifier
                         .then(
                             if (isDockedSearchBar) {
-                                Modifier
-                                    .imePadding()
-                                    .padding(top = innerPadding.calculateTopPadding())
+                                Modifier.padding(top = innerPadding.calculateTopPadding())
                             } else {
-                                Modifier.imePadding()
+                                Modifier
                             },
                         ),
                 isDocked = isDockedSearchBar,
@@ -181,9 +171,7 @@ private fun HomeContainerContent(
                                 if (isDockedSearchBar) {
                                     Modifier
                                 } else {
-                                    Modifier
-//                                        .imePadding()
-                                        .imeNestedScroll()
+                                    Modifier.imeNestedScroll()
                                 },
                             ),
                         content = {

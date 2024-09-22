@@ -8,11 +8,13 @@ import androidx.compose.material3.adaptive.currentWindowSize
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldLayout
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -31,8 +33,7 @@ class InstaMoviesNavigationSuiteScope(
 fun InstaMoviesNavigationWrapper(
     navController: NavHostController,
     drawerState: DrawerState,
-    selectedDestination: String,
-    navigateToTopLevelDestination: (InstaMoviesNavigationScreen) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
     content: @Composable InstaMoviesNavigationSuiteScope.() -> Unit,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()
@@ -80,10 +81,13 @@ fun InstaMoviesNavigationWrapper(
         }
     }
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     ModalNavigationDrawer(
         drawerContent = {
             ModalNavigationDrawerContent(
-                selectedDestination = selectedDestination,
+                currentDestination = currentDestination,
                 navigationContentPosition = navigationContentPosition,
                 isNavigationRail = navigationLayoutType == NavigationSuiteType.NavigationRail,
                 navigateToTopLevelDestination = navigateToTopLevelDestination,
@@ -118,7 +122,7 @@ fun InstaMoviesNavigationWrapper(
 
                         NavigationSuiteType.NavigationDrawer -> {
                             PermanentNavigationDrawerContent(
-                                selectedDestination = selectedDestination,
+                                currentDestination = currentDestination,
                                 navigationContentPosition = navigationContentPosition,
                                 navigateToTopLevelDestination = navigateToTopLevelDestination,
                             )

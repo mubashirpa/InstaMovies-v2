@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,27 +18,18 @@ import instamovies.app.presentation.theme.InstaMoviesTheme
 
 @Composable
 fun HomeNavigationBar(navController: NavController) {
-    val destinations =
-        listOf(
-            InstaMoviesNavigationScreen.InstaMovies,
-            InstaMoviesNavigationScreen.Movies,
-            InstaMoviesNavigationScreen.TvShows,
-            InstaMoviesNavigationScreen.People,
-        )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
     NavigationBar {
-        destinations.forEach { destination ->
-            // TODO("Fix selected destination")
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+
+        topLevelRoutes.forEach { topLevelRoute ->
             val selected =
-                currentDestination?.hierarchy?.any { it.route?.endsWith(destination.screen.toString()) == true } == true
-            val labelId = destination.label
+                currentDestination?.hierarchy?.any { it.hasRoute(topLevelRoute.route::class) } == true
 
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                    navController.navigate(destination.screen) {
+                    navController.navigate(topLevelRoute.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -46,19 +38,13 @@ fun HomeNavigationBar(navController: NavController) {
                     }
                 },
                 icon = {
-                    val imageVector =
-                        if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
-                        }
                     Icon(
-                        imageVector = imageVector,
-                        contentDescription = stringResource(id = labelId),
+                        imageVector = if (selected) topLevelRoute.selectedIcon else topLevelRoute.unselectedIcon,
+                        contentDescription = stringResource(id = topLevelRoute.labelId),
                     )
                 },
                 label = {
-                    Text(text = stringResource(id = labelId))
+                    Text(text = stringResource(id = topLevelRoute.labelId))
                 },
             )
         }

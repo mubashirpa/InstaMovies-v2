@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,17 +40,10 @@ fun HomeNavigationRail(
     navigationContentPosition: InstaMoviesNavigationContentPosition,
     onMenuIconClick: () -> Unit,
 ) {
-    val destinations =
-        listOf(
-            InstaMoviesNavigationScreen.InstaMovies,
-            InstaMoviesNavigationScreen.Movies,
-            InstaMoviesNavigationScreen.TvShows,
-            InstaMoviesNavigationScreen.People,
-        )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
     NavigationRail {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+
         // TODO remove custom nav rail positioning when NavRail component supports it. ticket : b/232495216
         Layout(
             content = {
@@ -75,16 +69,14 @@ fun HomeNavigationRail(
                     verticalArrangement = Arrangement.spacedBy(NavigationRailVerticalPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    destinations.forEach { destination ->
-                        // TODO("Fix selected destination")
+                    topLevelRoutes.forEach { topLevelRoute ->
                         val selected =
-                            currentDestination?.hierarchy?.any { it.route?.endsWith(destination.screen.toString()) == true } == true
-                        val labelId = destination.label
+                            currentDestination?.hierarchy?.any { it.hasRoute(topLevelRoute.route::class) } == true
 
                         NavigationRailItem(
                             selected = selected,
                             onClick = {
-                                navController.navigate(destination.screen) {
+                                navController.navigate(topLevelRoute.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
@@ -93,19 +85,13 @@ fun HomeNavigationRail(
                                 }
                             },
                             icon = {
-                                val imageVector =
-                                    if (selected) {
-                                        destination.selectedIcon
-                                    } else {
-                                        destination.unselectedIcon
-                                    }
                                 Icon(
-                                    imageVector = imageVector,
-                                    contentDescription = stringResource(id = labelId),
+                                    imageVector = if (selected) topLevelRoute.selectedIcon else topLevelRoute.unselectedIcon,
+                                    contentDescription = stringResource(id = topLevelRoute.labelId),
                                 )
                             },
                             label = {
-                                Text(stringResource(id = labelId))
+                                Text(stringResource(id = topLevelRoute.labelId))
                             },
                         )
                     }
