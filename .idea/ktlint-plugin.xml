@@ -3,4 +3,12 @@
   <component name="KtLint plugin">
     <ktlintMode>DISTRACT_FREE</ktlintMode>
   </component>
+  <component name="com.nbadal.ktlint.KtlintProjectSettings">
+    <ktlintMode>DISTRACT_FREE</ktlintMode>
+    <externalJarPaths>
+      <list>
+        <option value="$PROJECT_DIR$/../ktlint/ktlint-compose-0.4.19-all.jar" />
+      </list>
+    </externalJarPaths>
+  </component>
 </project>
