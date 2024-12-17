@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -25,6 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
+import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -53,6 +56,7 @@ import instamovies.app.presentation.components.ExpandableText
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
 import instamovies.app.presentation.personDetails.components.ProfileListItem
+import org.jetbrains.annotations.ApiStatus.Experimental
 import instamovies.app.R.string as Strings
 
 @Composable
@@ -421,6 +425,8 @@ private fun KnownFor(
     )
 }
 
+@Experimental
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Photos(profiles: List<PersonProfile>) {
     Text(
@@ -428,22 +434,24 @@ private fun Photos(profiles: List<PersonProfile>) {
         modifier = Modifier.padding(16.dp),
         style = MaterialTheme.typography.titleMedium,
     )
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+    HorizontalUncontainedCarousel(
+        state = rememberCarouselState { profiles.count() },
+        itemWidth = 186.dp,
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+        itemSpacing = 12.dp,
         contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        content = {
-            items(profiles) { profile ->
-                profile.filePath?.also {
-                    ProfileListItem(
-                        filePath = it,
-                        modifier =
-                            Modifier
-                                .width(80.dp)
-                                .aspectRatio(2F / 3F),
-                    )
-                }
-            }
-        },
-    )
+    ) { index ->
+        val profile = profiles[index]
+
+        ProfileListItem(
+            filePath = profile.filePath,
+            modifier =
+                Modifier
+                    .height(205.dp)
+                    .maskClip(MaterialTheme.shapes.medium),
+        )
+    }
 }
