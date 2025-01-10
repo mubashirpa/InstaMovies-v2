@@ -312,7 +312,7 @@ private fun Header(
             }
         }
     // TODO("Fix this")
-    val contentRating = "PG-13"
+    val contentRating = "NA"
     val rating = details.voteAverage?.roundHighest()?.toString()
     var cardModifier = modifier
     var cardShape = RectangleShape
@@ -487,6 +487,18 @@ private fun Overview(
             }
         }
     }
+    // TODO
+//    FlowRow(
+//        modifier =
+//            Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 16.dp)
+//                .padding(top = 16.dp),
+//        horizontalArrangement = Arrangement.spacedBy(24.dp),
+//        verticalArrangement = Arrangement.spacedBy(24.dp),
+//    ) {
+//        CreatorListItem(name = "Mubashir")
+//    }
 }
 
 @Composable
@@ -558,7 +570,7 @@ private fun AppBarButton(
     onClick: () -> Unit,
 ) {
     TooltipBox(
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
         tooltip = {
             PlainTooltip {
                 Text(text = stringResource(id = Strings.navigate_up))
@@ -577,5 +589,21 @@ private fun AppBarButton(
                 modifier = Modifier.size(16.dp),
             )
         }
+    }
+}
+
+@Composable
+fun CreatorListItem(name: String) {
+    Column {
+        Text(
+            text = name,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+        Text(
+            text = stringResource(id = Strings.creator),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }

@@ -663,7 +663,7 @@ private fun AppBarButton(
     onClick: () -> Unit,
 ) {
     TooltipBox(
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
         tooltip = {
             PlainTooltip {
                 Text(text = stringResource(id = Strings.navigate_up))
