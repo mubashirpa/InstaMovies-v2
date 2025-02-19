@@ -1,45 +1,46 @@
-import com.android.build.api.variant.BuildConfigField
-import org.gradle.kotlin.dsl.android
 import java.io.FileInputStream
 import java.util.Properties
 
-plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.devtoolsKsp)
-    alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinSerialization)
-}
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties()
+localProperties.load(FileInputStream(localPropertiesFile))
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.devtools.ksp)
+}
+
 android {
     namespace = "instamovies.app"
-    compileSdk =
-        libs.versions.compileSdk
-            .get()
-            .toInt()
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "instamovies.app"
-        minSdk =
-            libs.versions.minSdk
-                .get()
-                .toInt()
-        targetSdk =
-            libs.versions.targetSdk
-                .get()
-                .toInt()
+        minSdk = 24
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+
+        buildConfigField(
+            "String",
+            "TMDB_API_KEY",
+            "\"${localProperties.getProperty("TMDB_API_KEY")}\"",
+        )
+        buildConfigField(
+            "String",
+            "TMDB_API_TOKEN",
+            "\"${localProperties.getProperty("TMDB_API_TOKEN")}\"",
+        )
     }
 
     signingConfigs {
@@ -67,74 +68,45 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-
-    val composeBom = platform(libs.compose.bom)
-
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(composeBom)
-    implementation(libs.bundles.compose)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.test.ext.junit)
-    androidTestImplementation(libs.test.espresso.core)
-    androidTestImplementation(composeBom)
-    androidTestImplementation(libs.compose.ui.test.junit4)
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.accompanist.adaptive)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.coil.compose)
-    implementation(libs.core.splashscreen)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.bundles.material3.adaptive)
+    implementation(libs.bundles.coil3)
+    implementation(libs.bundles.hilt)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.bundles.retrofit2)
+    implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.accompanist.adaptive)
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
-
-    implementation(libs.bundles.hilt)
-    implementation(libs.bundles.retrofit2)
-
-    ksp(libs.hilt.android.compiler)
-}
-
-androidComponents {
-    onVariants { variant ->
-        val localPropertiesFile = rootProject.file("local.properties")
-        val localProperties = Properties()
-        localProperties.load(FileInputStream(localPropertiesFile))
-        variant.buildConfigFields.put(
-            "TMDB_API_KEY",
-            BuildConfigField(
-                "String",
-                "\"" + localProperties["TMDB_API_KEY"] + "\"",
-                "TMDB Api Key",
-            ),
-        )
-        variant.buildConfigFields.put(
-            "TMDB_API_TOKEN",
-            BuildConfigField(
-                "String",
-                "\"" + localProperties["TMDB_API_TOKEN"] + "\"",
-                "TMDB Api Token",
-            ),
-        )
-    }
 }

@@ -5,9 +5,10 @@
   </component>
   <component name="com.nbadal.ktlint.KtlintProjectSettings">
     <ktlintMode>DISTRACT_FREE</ktlintMode>
+    <ktlintRulesetVersion>DEFAULT</ktlintRulesetVersion>
     <externalJarPaths>
       <list>
-        <option value="$PROJECT_DIR$/../ktlint/ktlint-compose-0.4.19-all.jar" />
+        <option value="$PROJECT_DIR$/../ktlint/ktlint-compose-0.4.22-all.jar" />
       </list>
     </externalJarPaths>
   </component>
