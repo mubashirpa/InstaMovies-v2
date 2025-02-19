@@ -148,7 +148,7 @@ private fun SeasonListItemLayout(
                             }
                         }
                         if (hasYear) {
-                            Text(text = year!!)
+                            Text(text = year)
                         }
                     }
                 }
