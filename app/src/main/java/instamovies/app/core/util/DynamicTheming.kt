@@ -31,12 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
-import coil.imageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
-import coil.size.Scale
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.SuccessResult
+import coil3.request.allowHardware
+import coil3.size.Scale
+import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -150,7 +151,10 @@ class DominantColorState(
 }
 
 @Immutable
-private data class DominantColors(val color: Color, val onColor: Color)
+private data class DominantColors(
+    val color: Color,
+    val onColor: Color,
+)
 
 /**
  * Fetches the given [imageUrl] with Coil, then uses [Palette] to calculate the dominant color.
@@ -160,10 +164,12 @@ private suspend fun calculateSwatchesInImage(
     imageUrl: String,
 ): List<Palette.Swatch> {
     val request =
-        ImageRequest.Builder(context)
+        ImageRequest
+            .Builder(context)
             .data(imageUrl)
             // We scale the image to cover 128px x 128px (i.e. min dimension == 128px)
-            .size(128).scale(Scale.FILL)
+            .size(128)
+            .scale(Scale.FILL)
             // Disable hardware bitmaps, since Palette uses Bitmap.getPixels()
             .allowHardware(false)
             // Set a custom memory cache key to avoid overwriting the displayed image in the cache
@@ -172,14 +178,15 @@ private suspend fun calculateSwatchesInImage(
 
     val bitmap =
         when (val result = context.imageLoader.execute(request)) {
-            is SuccessResult -> result.drawable.toBitmap()
+            is SuccessResult -> result.image.toBitmap()
             else -> null
         }
 
     return bitmap?.let {
         withContext(Dispatchers.Default) {
             val palette =
-                Palette.Builder(bitmap)
+                Palette
+                    .Builder(bitmap)
                     // Disable any bitmap resizing in Palette. We've already loaded an appropriately
                     // sized bitmap through Coil
                     .resizeBitmapArea(0)

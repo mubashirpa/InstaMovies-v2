@@ -34,8 +34,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import instamovies.app.core.Constants
 import instamovies.app.core.ext.roundHighest
 import instamovies.app.core.util.enumValueOf
@@ -205,7 +206,8 @@ private fun MediaGridItemLayout(
             Card {
                 AsyncImage(
                     model =
-                        ImageRequest.Builder(LocalContext.current)
+                        ImageRequest
+                            .Builder(LocalContext.current)
                             .data("${Constants.TMDB_POSTER_PREFIX}$posterPath")
                             .crossfade(true)
                             .build(),

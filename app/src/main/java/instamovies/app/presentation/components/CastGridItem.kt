@@ -25,8 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import instamovies.app.core.Constants
 import instamovies.app.domain.model.movie.credits.MovieCast
 import instamovies.app.domain.model.series.credits.SeriesCast
@@ -95,7 +96,8 @@ private fun CastGridItemLayout(
     ) {
         AsyncImage(
             model =
-                ImageRequest.Builder(LocalContext.current)
+                ImageRequest
+                    .Builder(LocalContext.current)
                     .data("${Constants.TMDB_PROFILE_PREFIX}$profilePath")
                     .crossfade(true)
                     .build(),
