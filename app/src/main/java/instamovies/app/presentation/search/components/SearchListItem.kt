@@ -16,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -285,7 +287,7 @@ private fun PersonListItem(
                                     .aspectRatio(2F / 3F),
                             contentScale = ContentScale.FillBounds,
                         ) {
-                            val state = painter.state
+                            val state by painter.state.collectAsState()
                             if (state is AsyncImagePainter.State.Error) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
