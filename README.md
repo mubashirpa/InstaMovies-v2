@@ -5,10 +5,17 @@ Millions of movies, TV shows and people to discover. Explore now.
 Welcome to Insta Movies! This app allows you to browse movies and TV shows using data from The Movie
 Database (TMDb). It's packed with features and built with the latest technologies.
 
-### Status: 🚧 In progress 🚧
+## **Download the App**
 
-Insta Movies is still in the early stages of development, and as such only some functionalities has
-been created so far.
+Insta Movies is currently available on the **Amazon Appstore**.
+
+<a href='https://www.amazon.com/gp/product/B0DT4PWM5X'>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-appstore-badge-english-black.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-appstore-badge-english-white.png">
+  <img alt="Get it on Amazon Appstore" src="https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-appstore-badge-english-white.png" height='66px'>
+</picture>
+</a>
 
 ## Screenshots
 
