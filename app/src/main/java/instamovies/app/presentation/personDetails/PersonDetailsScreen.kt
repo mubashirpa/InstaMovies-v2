@@ -387,8 +387,8 @@ private fun Biography(
     )
     ExpandableText(
         text = biography,
-        maxLines = if (isDualPane) Int.MAX_VALUE else 10,
         modifier = Modifier.padding(horizontal = 16.dp),
+        maxLines = if (isDualPane) Int.MAX_VALUE else 10,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         style = MaterialTheme.typography.bodyLarge,
     )
