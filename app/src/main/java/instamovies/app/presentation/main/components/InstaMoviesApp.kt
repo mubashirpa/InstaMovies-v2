@@ -1,4 +1,4 @@
-package instamovies.app.presentation
+package instamovies.app.presentation.main.components
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
