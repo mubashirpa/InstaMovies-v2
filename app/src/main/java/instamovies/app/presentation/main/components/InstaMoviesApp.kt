@@ -40,33 +40,31 @@ fun InstaMoviesApp(
 
     val foldingDevicePosture =
         when {
-            isBookPosture(foldingFeature) -> {
-                DevicePosture.BookPosture(foldingFeature.bounds)
-            }
+            isBookPosture(foldingFeature) -> DevicePosture.BookPosture(foldingFeature.bounds)
 
-            isSeparating(foldingFeature) -> {
-                DevicePosture.Separating(foldingFeature.bounds, foldingFeature.orientation)
-            }
+            isSeparating(foldingFeature) ->
+                DevicePosture.Separating(
+                    foldingFeature.bounds,
+                    foldingFeature.orientation,
+                )
 
-            else -> {
-                DevicePosture.NormalPosture
-            }
+            else -> DevicePosture.NormalPosture
         }
 
     val contentType =
-        when {
-            windowSize.widthSizeClass == WindowWidthSizeClass.Expanded -> {
-                InstaMoviesContentType.DUAL_PANE
-            }
+        when (windowSize.widthSizeClass) {
+            WindowWidthSizeClass.Compact -> InstaMoviesContentType.SINGLE_PANE
 
-            windowSize.widthSizeClass == WindowWidthSizeClass.Medium &&
-                foldingDevicePosture != DevicePosture.NormalPosture -> {
-                InstaMoviesContentType.DUAL_PANE
-            }
+            WindowWidthSizeClass.Medium ->
+                if (foldingDevicePosture != DevicePosture.NormalPosture) {
+                    InstaMoviesContentType.DUAL_PANE
+                } else {
+                    InstaMoviesContentType.SINGLE_PANE
+                }
 
-            else -> {
-                InstaMoviesContentType.SINGLE_PANE
-            }
+            WindowWidthSizeClass.Expanded -> InstaMoviesContentType.DUAL_PANE
+
+            else -> InstaMoviesContentType.SINGLE_PANE
         }
 
     val windowWidthType =
@@ -80,7 +78,7 @@ fun InstaMoviesApp(
         modifier = modifier,
         contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
     ) { innerPadding ->
-        InstaMoviesContent(
+        InstaMoviesNavHost(
             navController = navController,
             contentType = contentType,
             windowWidthType = windowWidthType,
@@ -93,21 +91,4 @@ fun InstaMoviesApp(
                     .imePadding(),
         )
     }
-}
-
-@Composable
-private fun InstaMoviesContent(
-    navController: NavHostController,
-    contentType: InstaMoviesContentType,
-    windowWidthType: InstaMoviesWindowWidthType,
-    displayFeatures: List<DisplayFeature>,
-    modifier: Modifier = Modifier,
-) {
-    InstaMoviesNavHost(
-        navController = navController,
-        contentType = contentType,
-        windowWidthType = windowWidthType,
-        displayFeatures = displayFeatures,
-        modifier = modifier,
-    )
 }
