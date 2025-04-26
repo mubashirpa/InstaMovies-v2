@@ -9,14 +9,14 @@ import androidx.navigation.compose.composable
 import androidx.paging.compose.collectAsLazyPagingItems
 import instamovies.app.core.util.InstaMoviesNavigationType
 import instamovies.app.core.util.InstaMoviesWindowWidthType
-import instamovies.app.presentation.home.HomeViewModel
 import instamovies.app.presentation.home.HomeScreen
+import instamovies.app.presentation.home.HomeViewModel
 import instamovies.app.presentation.homeContainer.HomeContainerUiEvent
 import instamovies.app.presentation.homeContainer.HomeContainerUiState
-import instamovies.app.presentation.movies.MoviesViewModel
 import instamovies.app.presentation.movies.MoviesScreen
-import instamovies.app.presentation.person.PersonViewModel
+import instamovies.app.presentation.movies.MoviesViewModel
 import instamovies.app.presentation.person.PersonScreen
+import instamovies.app.presentation.person.PersonViewModel
 import instamovies.app.presentation.tvShows.TvShowsScreen
 import instamovies.app.presentation.tvShows.TvShowsViewModel
 
@@ -34,10 +34,10 @@ fun HomeNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home,
+        startDestination = Route.Home,
         modifier = modifier,
     ) {
-        composable<Screen.Home> {
+        composable<Route.Home> {
             val viewModel: HomeViewModel = hiltViewModel()
 
             HomeScreen(
@@ -53,7 +53,7 @@ fun HomeNavHost(
                 },
             )
         }
-        composable<Screen.Movies> {
+        composable<Route.Movies> {
             val viewModel: MoviesViewModel = hiltViewModel()
 
             MoviesScreen(
@@ -63,7 +63,7 @@ fun HomeNavHost(
                 navigateToMovieDetails = navigateToMovieDetails,
             )
         }
-        composable<Screen.Person> {
+        composable<Route.Person> {
             val viewModel: PersonViewModel = hiltViewModel()
 
             PersonScreen(
@@ -71,7 +71,7 @@ fun HomeNavHost(
                 navigateToPersonDetails = navigateToPersonDetails,
             )
         }
-        composable<Screen.TvShows> {
+        composable<Route.TvShows> {
             val viewModel: TvShowsViewModel = hiltViewModel()
 
             TvShowsScreen(

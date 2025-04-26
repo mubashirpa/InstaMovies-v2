@@ -33,7 +33,7 @@ class InstaMoviesNavigationSuiteScope(
 fun InstaMoviesNavigationWrapper(
     navController: NavHostController,
     drawerState: DrawerState,
-    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
     content: @Composable InstaMoviesNavigationSuiteScope.() -> Unit,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()

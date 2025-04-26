@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import instamovies.app.domain.usecase.series.GetSeriesDetailsUseCase
-import instamovies.app.navigation.Screen
+import instamovies.app.navigation.Route
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.Locale
@@ -25,7 +25,7 @@ class TvShowDetailsViewModel
         var uiState by mutableStateOf(TvShowDetailsUiState())
             private set
 
-        private val seriesId: Int = savedStateHandle.toRoute<Screen.TvShowDetails>().seriesId
+        private val seriesId: Int = savedStateHandle.toRoute<Route.TvShowDetails>().seriesId
 
         init {
             val locale = Locale.getDefault()

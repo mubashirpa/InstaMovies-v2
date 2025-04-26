@@ -2,41 +2,40 @@ package instamovies.app.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-sealed class Screen {
+sealed class Route {
     @Serializable
-    data object Home : Screen()
+    data object Home : Route()
 
     @Serializable
-    data object HomeContainer : Screen()
+    data object HomeContainer : Route()
 
     @Serializable
-    data object Movies : Screen()
+    data object Movies : Route()
 
     @Serializable
     data class MovieDetails(
         val movieId: Int,
-    ) : Screen()
+    ) : Route()
 
     @Serializable
     data class PersonDetails(
         val personId: Int,
         val personName: String,
-    ) : Screen()
+    ) : Route()
 
     @Serializable
-    data object Person : Screen()
+    data object Person : Route()
 
     @Serializable
     data class Search(
         val searchQuery: String,
-    ) : Screen()
+    ) : Route()
 
     @Serializable
     data class TvShowDetails(
         val seriesId: Int,
-    ) : Screen()
+    ) : Route()
 
     @Serializable
-    data object TvShows : Screen()
+    data object TvShows : Route()
 }

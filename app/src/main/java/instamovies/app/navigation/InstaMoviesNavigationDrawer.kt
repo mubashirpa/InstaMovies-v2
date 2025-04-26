@@ -43,7 +43,7 @@ fun ModalNavigationDrawerContent(
     currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
     isNavigationRail: Boolean,
-    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
     val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
@@ -153,7 +153,7 @@ fun ModalNavigationDrawerContent(
 fun PermanentNavigationDrawerContent(
     currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
-    navigateToTopLevelDestination: (TopLevelRoute<out Screen>) -> Unit,
+    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
 ) {
     val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
 

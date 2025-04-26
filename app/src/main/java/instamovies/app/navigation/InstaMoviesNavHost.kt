@@ -17,8 +17,8 @@ import instamovies.app.presentation.movieDetails.MovieDetailsScreen
 import instamovies.app.presentation.movieDetails.MovieDetailsViewModel
 import instamovies.app.presentation.personDetails.PersonDetailsScreen
 import instamovies.app.presentation.personDetails.PersonDetailsViewModel
-import instamovies.app.presentation.search.SearchViewModel
 import instamovies.app.presentation.search.SearchScreen
+import instamovies.app.presentation.search.SearchViewModel
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsScreen
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsViewModel
 
@@ -32,10 +32,10 @@ fun InstaMoviesNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeContainer,
+        startDestination = Route.HomeContainer,
         modifier = modifier,
     ) {
-        composable<Screen.HomeContainer> {
+        composable<Route.HomeContainer> {
             val viewModel: HomeContainerViewModel = hiltViewModel()
 
             HomeContainerScreen(
@@ -43,20 +43,20 @@ fun InstaMoviesNavHost(
                 onEvent = viewModel::onEvent,
                 windowWidthType = windowWidthType,
                 navigateToMovieDetails = { id ->
-                    navController.navigate(Screen.MovieDetails(movieId = id))
+                    navController.navigate(Route.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
+                    navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
                 navigateToSearch = {
-                    navController.navigate(Screen.Search(searchQuery = it))
+                    navController.navigate(Route.Search(searchQuery = it))
                 },
                 navigateToTvShowDetails = { id ->
-                    navController.navigate(Screen.TvShowDetails(seriesId = id))
+                    navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
             )
         }
-        composable<Screen.MovieDetails> {
+        composable<Route.MovieDetails> {
             val viewModel: MovieDetailsViewModel = hiltViewModel()
 
             MovieDetailsScreen(
@@ -65,19 +65,19 @@ fun InstaMoviesNavHost(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 navigateToMovieDetails = { id ->
-                    navController.navigate(Screen.MovieDetails(movieId = id))
+                    navController.navigate(Route.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
+                    navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
         }
-        composable<Screen.PersonDetails> { backStackEntry ->
+        composable<Route.PersonDetails> { backStackEntry ->
             val viewModel: PersonDetailsViewModel = hiltViewModel()
-            val personDetails = backStackEntry.toRoute<Screen.PersonDetails>()
+            val personDetails = backStackEntry.toRoute<Route.PersonDetails>()
 
             PersonDetailsScreen(
                 contentType = contentType,
@@ -86,38 +86,38 @@ fun InstaMoviesNavHost(
                 onEvent = viewModel::onEvent,
                 title = personDetails.personName,
                 navigateToMovieDetails = { id ->
-                    navController.navigate(Screen.MovieDetails(movieId = id))
+                    navController.navigate(Route.MovieDetails(movieId = id))
                 },
                 navigateToTvShowDetails = { id ->
-                    navController.navigate(Screen.TvShowDetails(seriesId = id))
+                    navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
         }
-        composable<Screen.Search> { backStackEntry ->
+        composable<Route.Search> { backStackEntry ->
             val viewModel: SearchViewModel = hiltViewModel()
-            val search = backStackEntry.toRoute<Screen.Search>()
+            val search = backStackEntry.toRoute<Route.Search>()
 
             SearchScreen(
                 title = search.searchQuery,
                 searchPagingItems = viewModel.searchStateFlow.collectAsLazyPagingItems(),
                 navigateToMovieDetails = { id ->
-                    navController.navigate(Screen.MovieDetails(movieId = id))
+                    navController.navigate(Route.MovieDetails(movieId = id))
                 },
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
+                    navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
                 navigateToTvShowDetails = { id ->
-                    navController.navigate(Screen.TvShowDetails(seriesId = id))
+                    navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()
                 },
             )
         }
-        composable<Screen.TvShowDetails> {
+        composable<Route.TvShowDetails> {
             val viewModel: TvShowDetailsViewModel = hiltViewModel()
 
             TvShowDetailsScreen(
@@ -126,10 +126,10 @@ fun InstaMoviesNavHost(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 navigateToPersonDetails = { id, name ->
-                    navController.navigate(Screen.PersonDetails(personId = id, personName = name))
+                    navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
                 navigateToTvShowDetails = { id ->
-                    navController.navigate(Screen.TvShowDetails(seriesId = id))
+                    navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = {
                     navController.navigateUp()

@@ -24,25 +24,25 @@ val topLevelRoutes =
     listOf(
         TopLevelRoute(
             labelId = Strings.label_home,
-            route = Screen.Home,
+            route = Route.Home,
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
         ),
         TopLevelRoute(
             labelId = Strings.label_movies,
-            route = Screen.Movies,
+            route = Route.Movies,
             selectedIcon = Icons.Filled.Movie,
             unselectedIcon = Icons.Outlined.Movie,
         ),
         TopLevelRoute(
             labelId = Strings.label_tv_shows,
-            route = Screen.TvShows,
+            route = Route.TvShows,
             selectedIcon = Icons.Filled.Tv,
             unselectedIcon = Icons.Outlined.Tv,
         ),
         TopLevelRoute(
             labelId = Strings.label_people,
-            route = Screen.Person,
+            route = Route.Person,
             selectedIcon = Icons.Filled.People,
             unselectedIcon = Icons.Outlined.People,
         ),
