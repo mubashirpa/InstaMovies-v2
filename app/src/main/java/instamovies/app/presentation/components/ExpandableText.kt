@@ -36,7 +36,6 @@ fun ExpandableText(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
-
     var textWithMoreLess by remember { mutableStateOf(buildAnnotatedString { append(text) }) }
     val linkStyle = SpanStyle(color = MaterialTheme.colorScheme.primary)
 
@@ -52,9 +51,7 @@ fun ExpandableText(
                             LinkAnnotation.Clickable(
                                 tag = TAG_SHOW_LESS,
                                 styles = TextLinkStyles(style = linkStyle),
-                                linkInteractionListener = {
-                                    isExpanded = !isExpanded
-                                },
+                                linkInteractionListener = { isExpanded = !isExpanded },
                             ),
                         ) {
                             append(" Show less")
@@ -65,11 +62,15 @@ fun ExpandableText(
             !isExpanded && textLayoutResult!!.hasVisualOverflow -> {
                 val lastCharIndex = textLayoutResult!!.getLineEnd(maxLines - 1)
                 val showMoreString = "...Show more"
+
+                val safeEndIndex =
+                    text.lastIndexOf(' ', startIndex = lastCharIndex - showMoreString.length)
                 val adjustedText =
-                    text
-                        .substring(startIndex = 0, endIndex = lastCharIndex)
-                        .dropLast(showMoreString.length)
-                        .dropLastWhile { it == ' ' || it == '.' }
+                    if (safeEndIndex > 0) {
+                        text.substring(0, safeEndIndex)
+                    } else {
+                        text.substring(0, lastCharIndex)
+                    }
 
                 textWithMoreLess =
                     buildAnnotatedString {
@@ -78,9 +79,7 @@ fun ExpandableText(
                             LinkAnnotation.Clickable(
                                 tag = TAG_SHOW_MORE,
                                 styles = TextLinkStyles(style = linkStyle),
-                                linkInteractionListener = {
-                                    isExpanded = !isExpanded
-                                },
+                                linkInteractionListener = { isExpanded = !isExpanded },
                             ),
                         ) {
                             append(showMoreString)
