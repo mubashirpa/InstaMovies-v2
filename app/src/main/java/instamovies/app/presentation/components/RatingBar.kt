@@ -38,7 +38,7 @@ fun RatingBar(
     val tempRating = rating.coerceAtMost(stars.toDouble())
     val filledStars = floor(tempRating).toInt()
     val unfilledStars = (stars - ceil(tempRating)).toInt()
-    val halfStar = !(tempRating.rem(1).equals(0.0))
+    val halfStar = tempRating.rem(1) != 0.0
 
     Row(
         modifier = modifier,
