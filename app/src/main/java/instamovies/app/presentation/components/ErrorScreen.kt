@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import instamovies.app.core.util.CompletePreviews
 import instamovies.app.presentation.theme.InstaMoviesTheme
 import instamovies.app.R.string as Strings
 
@@ -89,7 +88,6 @@ enum class Axis {
     Vertical,
 }
 
-@CompletePreviews
 @Composable
 private fun ErrorScreenPreview() {
     InstaMoviesTheme {
