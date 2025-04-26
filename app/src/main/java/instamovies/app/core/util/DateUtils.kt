@@ -1,6 +1,8 @@
 package instamovies.app.core.util
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -69,18 +71,18 @@ object DateUtils {
         return formatter.format(Date(dateInMillis ?: 0))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun parseDate(
         dateString: String,
         pattern: String,
-    ): Boolean {
-        return try {
+    ): Boolean =
+        try {
             val formatter = DateTimeFormatter.ofPattern(pattern)
             formatter.parse(dateString)
             true
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             false
-        } catch (e: DateTimeParseException) {
+        } catch (_: DateTimeParseException) {
             false
         }
-    }
 }
