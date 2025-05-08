@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         setContent {
             InstaMoviesTheme {
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 InstaMoviesApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
-                    modifier = Modifier.Companion.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }
