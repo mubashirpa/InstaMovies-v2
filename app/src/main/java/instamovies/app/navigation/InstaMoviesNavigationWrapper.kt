@@ -122,9 +122,10 @@ fun InstaMoviesNavigationWrapper(
                     }
                 },
                 layoutType = navigationLayoutType,
-            ) {
-                InstaMoviesNavigationSuiteScope(navigationLayoutType).content()
-            }
+                content = {
+                    InstaMoviesNavigationSuiteScope(navigationLayoutType).content()
+                },
+            )
         },
     )
 }
