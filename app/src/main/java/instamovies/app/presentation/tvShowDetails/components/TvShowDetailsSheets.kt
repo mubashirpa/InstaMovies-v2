@@ -1,6 +1,5 @@
 package instamovies.app.presentation.tvShowDetails.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,13 +10,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -45,25 +41,10 @@ fun SeasonsBottomSheet(
         val scrollState = rememberScrollState()
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val scope = rememberCoroutineScope()
-        val isFullscreen =
-            sheetState.targetValue == SheetValue.Expanded &&
-                (scrollState.canScrollForward || scrollState.canScrollBackward)
-        val cornerSize by animateDpAsState(
-            targetValue = if (isFullscreen) 0.dp else 28.dp,
-            label = stringResource(id = Strings.label_animate_bottom_sheet_corner_size),
-        )
 
         ModalBottomSheet(
             onDismissRequest = onDismissRequest,
             sheetState = sheetState,
-            shape = RoundedCornerShape(topStart = cornerSize, topEnd = cornerSize),
-            dragHandle = {
-                val topPadding by animateDpAsState(
-                    targetValue = if (isFullscreen) innerPadding.calculateTopPadding() else 0.dp,
-                    label = stringResource(id = Strings.label_animate_bottom_sheet_top_padding),
-                )
-                BottomSheetDefaults.DragHandle(modifier = Modifier.padding(top = topPadding))
-            },
         ) {
             Column(
                 modifier =
@@ -112,25 +93,10 @@ fun CastAndCrewBottomSheet(
         val scrollState = rememberLazyListState()
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val scope = rememberCoroutineScope()
-        val isFullscreen =
-            sheetState.targetValue == SheetValue.Expanded &&
-                (scrollState.canScrollForward || scrollState.canScrollBackward)
-        val cornerSize by animateDpAsState(
-            targetValue = if (isFullscreen) 0.dp else 28.dp,
-            label = stringResource(id = Strings.label_animate_bottom_sheet_corner_size),
-        )
 
         ModalBottomSheet(
             onDismissRequest = onDismissRequest,
             sheetState = sheetState,
-            shape = RoundedCornerShape(topStart = cornerSize, topEnd = cornerSize),
-            dragHandle = {
-                val topPadding by animateDpAsState(
-                    targetValue = if (isFullscreen) innerPadding.calculateTopPadding() else 0.dp,
-                    label = stringResource(id = Strings.label_animate_bottom_sheet_top_padding),
-                )
-                BottomSheetDefaults.DragHandle(modifier = Modifier.padding(top = topPadding))
-            },
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
