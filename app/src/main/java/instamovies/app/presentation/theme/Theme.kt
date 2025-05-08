@@ -100,7 +100,6 @@ fun InstaMoviesTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        shapes = Shapes,
         typography = Typography,
         content = content,
     )
@@ -111,7 +110,7 @@ fun InstaMoviesTheme(
  * surface color. These values are defined within the WCAG AA guidelines, and we use a value of
  * 3:1 which is the minimum for user-interface components.
  */
-const val MinContrastOfPrimaryVsSurface = 3f
+const val MIN_CONTRAST_OF_PRIMARY_VS_SURFACE = 3f
 
 /**
  * Theme that updates the colors dynamically depending on the podcast image URL
@@ -125,7 +124,7 @@ fun InstaMoviesDynamicTheme(
     val dominantColorState =
         rememberDominantColorState { color ->
             // We want a color which has sufficient contrast against the surface color
-            color.contrastAgainst(surfaceColor) >= MinContrastOfPrimaryVsSurface
+            color.contrastAgainst(surfaceColor) >= MIN_CONTRAST_OF_PRIMARY_VS_SURFACE
         }
     DynamicThemePrimaryColorsFromImage(dominantColorState) {
         // Update the dominantColorState with colors coming from the podcast image URL
