@@ -57,7 +57,6 @@ import instamovies.app.presentation.components.ExpandableText
 import instamovies.app.presentation.components.LoadingIndicator
 import instamovies.app.presentation.components.MediaGridItem
 import instamovies.app.presentation.personDetails.components.ProfileListItem
-import org.jetbrains.annotations.ApiStatus.Experimental
 import instamovies.app.R.string as Strings
 
 @Composable
@@ -426,7 +425,6 @@ private fun KnownFor(
     )
 }
 
-@Experimental
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Photos(profiles: List<PersonProfile>) {
