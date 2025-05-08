@@ -44,29 +44,21 @@ fun InstaMoviesNavigationWrapper(
 
     val navigationLayoutType =
         when {
-            adaptiveInfo.windowPosture.isTabletop || adaptiveInfo.windowSizeClass.isCompact() -> {
-                NavigationSuiteType.NavigationBar
-            }
-
+            adaptiveInfo.windowPosture.isTabletop -> NavigationSuiteType.NavigationBar
+            adaptiveInfo.windowSizeClass.isCompact() -> NavigationSuiteType.NavigationBar
             adaptiveInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED &&
-                windowSize.width >= 1200.dp -> {
-                NavigationSuiteType.NavigationDrawer
-            }
+                windowSize.width >= 1200.dp -> NavigationSuiteType.NavigationDrawer
 
-            else -> {
-                NavigationSuiteType.NavigationRail
-            }
+            else -> NavigationSuiteType.NavigationRail
         }
-
     val navigationContentPosition =
         when (adaptiveInfo.windowSizeClass.windowHeightSizeClass) {
-            WindowHeightSizeClass.MEDIUM, WindowHeightSizeClass.EXPANDED -> {
-                InstaMoviesNavigationContentPosition.CENTER
-            }
+            WindowHeightSizeClass.COMPACT -> InstaMoviesNavigationContentPosition.TOP
+            WindowHeightSizeClass.MEDIUM,
+            WindowHeightSizeClass.EXPANDED,
+            -> InstaMoviesNavigationContentPosition.CENTER
 
-            else -> {
-                InstaMoviesNavigationContentPosition.TOP
-            }
+            else -> InstaMoviesNavigationContentPosition.TOP
         }
 
     val coroutineScope = rememberCoroutineScope()
