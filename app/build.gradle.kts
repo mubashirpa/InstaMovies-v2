@@ -26,8 +26,8 @@ android {
         applicationId = "instamovies.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10000 // Format: MAJOR * 10000 + MINOR * 100 + PATCH
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
