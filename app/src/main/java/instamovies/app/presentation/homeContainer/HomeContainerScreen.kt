@@ -1,26 +1,34 @@
 package instamovies.app.presentation.homeContainer
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.isTraversalGroup
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -47,19 +55,19 @@ fun HomeContainerScreen(
     uiState: HomeContainerUiState,
     onEvent: (HomeContainerUiEvent) -> Unit,
     windowWidthType: InstaMoviesWindowWidthType,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
-    navigateToSearch: (query: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToSearch: (query: String) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     HomeContainerNavigationWrapper(
         uiState = uiState,
         onEvent = onEvent,
         windowWidthType = windowWidthType,
-        navigateToMovieDetails = navigateToMovieDetails,
-        navigateToPersonDetails = navigateToPersonDetails,
-        navigateToSearch = navigateToSearch,
-        navigateToTvShowDetails = navigateToTvShowDetails,
+        onNavigateToMovieDetails = onNavigateToMovieDetails,
+        onNavigateToPersonDetails = onNavigateToPersonDetails,
+        onNavigateToSearch = onNavigateToSearch,
+        onNavigateToTvShowDetails = onNavigateToTvShowDetails,
     )
 }
 
@@ -68,10 +76,10 @@ private fun HomeContainerNavigationWrapper(
     uiState: HomeContainerUiState,
     onEvent: (HomeContainerUiEvent) -> Unit,
     windowWidthType: InstaMoviesWindowWidthType,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
-    navigateToSearch: (query: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToSearch: (query: String) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -96,21 +104,21 @@ private fun HomeContainerNavigationWrapper(
             navController = navController,
             navigationType = navigationSuiteType.toInstaMoviesNavigationType(),
             windowWidthType = windowWidthType,
-            modifier = Modifier.fillMaxSize(),
-            onOpenNavigationDrawer = {
+            onNavigationIconClick = {
                 coroutineScope.launch {
                     drawerState.open()
                 }
             },
-            navigateToMovieDetails = navigateToMovieDetails,
-            navigateToPersonDetails = navigateToPersonDetails,
-            navigateToSearch = navigateToSearch,
-            navigateToTvShowDetails = navigateToTvShowDetails,
+            onNavigateToMovieDetails = onNavigateToMovieDetails,
+            onNavigateToPersonDetails = onNavigateToPersonDetails,
+            onNavigateToSearch = onNavigateToSearch,
+            onNavigateToTvShowDetails = onNavigateToTvShowDetails,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 private fun HomeContainerContent(
     uiState: HomeContainerUiState,
@@ -118,82 +126,93 @@ private fun HomeContainerContent(
     navController: NavHostController,
     navigationType: InstaMoviesNavigationType,
     windowWidthType: InstaMoviesWindowWidthType,
+    onNavigationIconClick: () -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToSearch: (query: String) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
-    onOpenNavigationDrawer: () -> Unit,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
-    navigateToSearch: (query: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val trendingList = uiState.trendingResource.data.orEmpty()
     val searchList = uiState.searchResource.data.orEmpty()
-    val isDockedSearchBar = navigationType != InstaMoviesNavigationType.BOTTOM_NAVIGATION
+    val isBottomNavigationVisible = navigationType == InstaMoviesNavigationType.BOTTOM_NAVIGATION
+    val scrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
+    val searchBarState = rememberSearchBarState()
 
     Scaffold(
-        modifier = modifier,
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-    ) { innerPadding ->
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .semantics { isTraversalGroup = true },
-        ) {
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
             HomeAppBar(
                 uiState = uiState,
-                onEvent = onEvent,
-                modifier =
-                    Modifier
-                        .then(
-                            if (isDockedSearchBar) {
-                                Modifier.padding(top = innerPadding.calculateTopPadding())
-                            } else {
-                                Modifier
-                            },
-                        ),
-                isDocked = isDockedSearchBar,
-                onOpenNavigationDrawer = onOpenNavigationDrawer,
-                navigateToProfile = {
+                searchBarState = searchBarState,
+                isDocked = !isBottomNavigationVisible,
+                scrollBehavior = scrollBehavior,
+                onNavigationIconClick = onNavigationIconClick,
+                onNavigateToProfile = {
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar(context.getString(Strings.coming_soon))
                     }
                 },
-                navigateToSearch = navigateToSearch,
+                onNavigateToSearch = onNavigateToSearch,
                 content = {
                     LazyColumn(
                         modifier =
-                            Modifier.then(
-                                if (isDockedSearchBar) {
-                                    Modifier
-                                } else {
-                                    Modifier.imeNestedScroll()
-                                },
-                            ),
+                            if (!isBottomNavigationVisible) {
+                                Modifier
+                            } else {
+                                Modifier.imeNestedScroll()
+                            },
                         content = {
-                            if (uiState.searchQuery.isNotEmpty()) {
-                                items(items = searchList, key = { it.id!! }) { result ->
-                                    SearchListItem(result = result) { mediaType, id, name ->
-                                        onEvent(HomeContainerUiEvent.OnSearch)
-                                        when (mediaType) {
-                                            MediaType.MOVIE -> navigateToMovieDetails(id)
-                                            MediaType.PERSON -> navigateToPersonDetails(id, name)
-                                            MediaType.TV -> navigateToTvShowDetails(id)
+                            when {
+                                uiState.searchQueryState.text.isNotEmpty() -> {
+                                    items(items = searchList, key = { it.id!! }) { result ->
+                                        SearchListItem(result = result) { mediaType, id, name ->
+                                            coroutineScope
+                                                .launch {
+                                                    searchBarState.animateToCollapsed()
+                                                }.invokeOnCompletion {
+                                                    when (mediaType) {
+                                                        MediaType.MOVIE -> {
+                                                            onNavigateToMovieDetails(id)
+                                                        }
+
+                                                        MediaType.PERSON -> {
+                                                            onNavigateToPersonDetails(id, name)
+                                                        }
+
+                                                        MediaType.TV -> {
+                                                            onNavigateToTvShowDetails(id)
+                                                        }
+                                                    }
+                                                }
                                         }
                                     }
                                 }
-                            } else {
-                                items(items = trendingList, key = { it.id!! }) { result ->
-                                    SearchListItem(result = result) { mediaType, id, name ->
-                                        onEvent(HomeContainerUiEvent.OnSearch)
-                                        when (mediaType) {
-                                            MediaType.MOVIE -> navigateToMovieDetails(id)
-                                            MediaType.PERSON -> navigateToPersonDetails(id, name)
-                                            MediaType.TV -> navigateToTvShowDetails(id)
+
+                                else -> {
+                                    items(items = trendingList, key = { it.id!! }) { result ->
+                                        SearchListItem(result = result) { mediaType, id, name ->
+                                            coroutineScope
+                                                .launch {
+                                                    searchBarState.animateToCollapsed()
+                                                }.invokeOnCompletion {
+                                                    when (mediaType) {
+                                                        MediaType.MOVIE -> {
+                                                            onNavigateToMovieDetails(id)
+                                                        }
+
+                                                        MediaType.PERSON -> {
+                                                            onNavigateToPersonDetails(id, name)
+                                                        }
+
+                                                        MediaType.TV -> {
+                                                            onNavigateToTvShowDetails(id)
+                                                        }
+                                                    }
+                                                }
                                         }
                                     }
                                 }
@@ -202,25 +221,37 @@ private fun HomeContainerContent(
                     )
                 },
             )
-            HomeNavHost(
-                navController = navController,
-                uiState = uiState,
-                onEvent = onEvent,
-                navigationType = navigationType,
-                windowWidthType = windowWidthType,
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top =
-                                innerPadding
-                                    .calculateTopPadding()
-                                    .plus(72.dp),
-                        ),
-                navigateToMovieDetails = navigateToMovieDetails,
-                navigateToPersonDetails = navigateToPersonDetails,
-                navigateToTvShowDetails = navigateToTvShowDetails,
+                    if (isBottomNavigationVisible) {
+                        Modifier
+                    } else {
+                        Modifier.navigationBarsPadding()
+                    },
             )
-        }
+        },
+        contentWindowInsets =
+            WindowInsets.systemBars
+                .union(WindowInsets.displayCutout)
+                .only(WindowInsetsSides.Top),
+    ) { innerPadding ->
+        HomeNavHost(
+            navController = navController,
+            uiState = uiState,
+            onEvent = onEvent,
+            navigationType = navigationType,
+            windowWidthType = windowWidthType,
+            navigateToMovieDetails = onNavigateToMovieDetails,
+            navigateToPersonDetails = onNavigateToPersonDetails,
+            navigateToTvShowDetails = onNavigateToTvShowDetails,
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .consumeWindowInsets(innerPadding),
+        )
     }
 }

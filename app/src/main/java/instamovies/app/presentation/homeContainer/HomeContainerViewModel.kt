@@ -3,14 +3,17 @@ package instamovies.app.presentation.homeContainer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import instamovies.app.core.util.Resource
 import instamovies.app.domain.usecase.search.SearchMultiUseCase
 import instamovies.app.domain.usecase.trending.GetTrendingUseCase
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,28 +33,12 @@ class HomeContainerViewModel
 
         init {
             getTrending()
+            collectSearchQuery()
         }
 
         fun onEvent(event: HomeContainerUiEvent) {
             when (event) {
-                is HomeContainerUiEvent.OnSearchBarExpandedChange -> {
-                    uiState = uiState.copy(searchbarExpanded = event.expanded)
-                }
-
-                is HomeContainerUiEvent.OnQueryChange -> {
-                    uiState = uiState.copy(searchQuery = event.query)
-                    searchMulti(event.query)
-                }
-
-                HomeContainerUiEvent.OnSearch -> {
-                    uiState =
-                        uiState.copy(
-                            searchQuery = "",
-                            searchbarExpanded = false,
-                        )
-                }
-
-                HomeContainerUiEvent.OnRetry -> {
+                HomeContainerUiEvent.Retry -> {
                     if (uiState.trendingResource is Resource.Error) {
                         getTrending()
                     }
@@ -74,21 +61,31 @@ class HomeContainerViewModel
             searchMultiUseCaseJob?.cancel()
             searchMultiUseCaseJob = null
             uiState = uiState.copy(searching = false)
+
             if (query.isBlank()) {
                 uiState = uiState.copy(searchResource = Resource.Empty())
                 return
             }
+
             searchMultiUseCaseJob =
-                viewModelScope.launch {
-                    delay(500)
-                    searchMultiUseCase(query)
-                        .onEach { resource ->
-                            uiState =
-                                uiState.copy(
-                                    searchResource = resource,
-                                    searching = resource is Resource.Loading,
-                                )
-                        }.launchIn(this)
-                }
+                searchMultiUseCase(query)
+                    .onEach { resource ->
+                        uiState =
+                            uiState.copy(
+                                searchResource = resource,
+                                searching = resource is Resource.Loading,
+                            )
+                    }.launchIn(viewModelScope)
+        }
+
+        @OptIn(FlowPreview::class)
+        private fun collectSearchQuery() {
+            viewModelScope.launch {
+                snapshotFlow { uiState.searchQueryState.text }
+                    .debounce(500)
+                    .collectLatest { query ->
+                        searchMulti(query.trim().toString())
+                    }
+            }
         }
     }

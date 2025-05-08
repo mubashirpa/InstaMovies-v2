@@ -27,10 +27,10 @@ fun HomeNavHost(
     onEvent: (HomeContainerUiEvent) -> Unit,
     navigationType: InstaMoviesNavigationType,
     windowWidthType: InstaMoviesWindowWidthType,
-    modifier: Modifier = Modifier,
     navigateToMovieDetails: (id: Int) -> Unit,
     navigateToPersonDetails: (id: Int, name: String) -> Unit,
     navigateToTvShowDetails: (id: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
@@ -39,7 +39,6 @@ fun HomeNavHost(
     ) {
         composable<Route.Home> {
             val viewModel: HomeViewModel = hiltViewModel()
-
             HomeScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
@@ -49,13 +48,12 @@ fun HomeNavHost(
                 navigateToPersonDetails = navigateToPersonDetails,
                 navigateToTvShowDetails = navigateToTvShowDetails,
                 onRetry = {
-                    onEvent(HomeContainerUiEvent.OnRetry)
+                    onEvent(HomeContainerUiEvent.Retry)
                 },
             )
         }
         composable<Route.Movies> {
             val viewModel: MoviesViewModel = hiltViewModel()
-
             MoviesScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
@@ -65,7 +63,6 @@ fun HomeNavHost(
         }
         composable<Route.Person> {
             val viewModel: PersonViewModel = hiltViewModel()
-
             PersonScreen(
                 personPagingItems = viewModel.personStateFlow.collectAsLazyPagingItems(),
                 navigateToPersonDetails = navigateToPersonDetails,
@@ -73,7 +70,6 @@ fun HomeNavHost(
         }
         composable<Route.TvShows> {
             val viewModel: TvShowsViewModel = hiltViewModel()
-
             TvShowsScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,

@@ -37,28 +37,26 @@ fun InstaMoviesNavHost(
     ) {
         composable<Route.HomeContainer> {
             val viewModel: HomeContainerViewModel = hiltViewModel()
-
             HomeContainerScreen(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 windowWidthType = windowWidthType,
-                navigateToMovieDetails = { id ->
+                onNavigateToMovieDetails = { id ->
                     navController.navigate(Route.MovieDetails(movieId = id))
                 },
-                navigateToPersonDetails = { id, name ->
+                onNavigateToPersonDetails = { id, name ->
                     navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
-                navigateToSearch = {
+                onNavigateToSearch = {
                     navController.navigate(Route.Search(searchQuery = it))
                 },
-                navigateToTvShowDetails = { id ->
+                onNavigateToTvShowDetails = { id ->
                     navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
             )
         }
         composable<Route.MovieDetails> {
             val viewModel: MovieDetailsViewModel = hiltViewModel()
-
             MovieDetailsScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
@@ -70,9 +68,7 @@ fun InstaMoviesNavHost(
                 navigateToPersonDetails = { id, name ->
                     navController.navigate(Route.PersonDetails(personId = id, personName = name))
                 },
-                onBackPressed = {
-                    navController.navigateUp()
-                },
+                onBackPressed = navController::navigateUp,
             )
         }
         composable<Route.PersonDetails> { backStackEntry ->
@@ -91,9 +87,7 @@ fun InstaMoviesNavHost(
                 navigateToTvShowDetails = { id ->
                     navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
-                onBackPressed = {
-                    navController.navigateUp()
-                },
+                onBackPressed = navController::navigateUp,
             )
         }
         composable<Route.Search> { backStackEntry ->
@@ -112,14 +106,11 @@ fun InstaMoviesNavHost(
                 navigateToTvShowDetails = { id ->
                     navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
-                onBackPressed = {
-                    navController.navigateUp()
-                },
+                onBackPressed = navController::navigateUp,
             )
         }
         composable<Route.TvShowDetails> {
             val viewModel: TvShowDetailsViewModel = hiltViewModel()
-
             TvShowDetailsScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
@@ -131,9 +122,7 @@ fun InstaMoviesNavHost(
                 navigateToTvShowDetails = { id ->
                     navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
-                onBackPressed = {
-                    navController.navigateUp()
-                },
+                onBackPressed = navController::navigateUp,
             )
         }
     }
