@@ -1,14 +1,5 @@
 package instamovies.app.presentation.main.components
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -74,21 +65,11 @@ fun InstaMoviesApp(
             else -> InstaMoviesWindowWidthType.COMPACT
         }
 
-    Scaffold(
+    InstaMoviesNavHost(
+        navController = navController,
+        contentType = contentType,
+        windowWidthType = windowWidthType,
+        displayFeatures = displayFeatures,
         modifier = modifier,
-        contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
-    ) { innerPadding ->
-        InstaMoviesNavHost(
-            navController = navController,
-            contentType = contentType,
-            windowWidthType = windowWidthType,
-            displayFeatures = displayFeatures,
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-                    .imePadding(),
-        )
-    }
+    )
 }
