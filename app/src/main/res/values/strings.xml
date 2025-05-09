@@ -3,6 +3,7 @@
     <string name="_hour_minute">%1$dh %2$dm</string>
     <string name="biography">Biography</string>
     <string name="born">Born</string>
+    <string name="cancel">Cancel</string>
     <string name="coming_soon">Coming soon</string>
     <string name="creator">Creator</string>
     <string name="explore">Explore</string>
@@ -29,6 +30,7 @@
     <string name="label_view_all_seasons">View All Seasons</string>
     <string name="message_coming_soon">This screen is still under construction.</string>
     <string name="navigate_up">Navigate up</string>
+    <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="photos">Photos</string>
     <string name="popular">Popular</string>
@@ -37,8 +39,13 @@
     <string name="search">Search</string>
     <string name="season_overview_placeholder">Season %1$d of %2$s is premiered on %3$s.</string>
     <string name="series">Series</string>
+    <string name="support">Support</string>
+    <string name="theme">Theme</string>
     <string name="title_coming_soon">Screen under construction</string>
     <string name="trending">Trending</string>
+
+    <!-- Screen titles -->
+    <string name="title_settings_screen">Settings</string>
 
     <!-- Errors -->
     <string name="error_unexpected">An unexpected error occurred.</string>

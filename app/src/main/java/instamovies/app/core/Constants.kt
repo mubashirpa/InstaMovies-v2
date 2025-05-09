@@ -9,6 +9,7 @@ object Constants {
     const val TMDB_POSTER_PREFIX = "${TMDB_IMAGES_BASE_URL}w500"
     const val TMDB_PROFILE_PREFIX = "${TMDB_IMAGES_BASE_URL}w185"
     const val TMDB_STILL_PREFIX = "${TMDB_IMAGES_BASE_URL}w185"
+    const val SUPPORT_EMAIL = "mubashirpa2002@gmail.com"
 
     object PreferencesKeys {
         val APP_THEME = stringPreferencesKey("app_theme")
