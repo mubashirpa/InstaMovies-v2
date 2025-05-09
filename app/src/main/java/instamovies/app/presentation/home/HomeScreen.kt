@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import instamovies.app.core.ext.carousalTransition
@@ -87,30 +90,40 @@ fun HomeScreen(
             }
 
             else -> {
+                val layoutDirection = LocalLayoutDirection.current
+                val contentHorizontalPadding =
+                    PaddingValues(
+                        start = innerPadding.calculateStartPadding(layoutDirection).plus(16.dp),
+                        end = innerPadding.calculateEndPadding(layoutDirection).plus(16.dp),
+                    )
+
                 Column(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(innerPadding),
+                            .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Explore(
                         uiState = uiState,
                         windowWidthType = windowWidthType,
+                        contentPadding = contentHorizontalPadding,
                         onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
                     Trending(
                         trendingResource = trendingResource,
+                        contentPadding = contentHorizontalPadding,
                         onNavigateToMovieDetails = onNavigateToMovieDetails,
                         onNavigateToTvShowDetails = onNavigateToTvShowDetails,
                     )
                     TrendingPerson(
                         uiState = uiState,
+                        contentPadding = contentHorizontalPadding,
                         onNavigateToPersonDetails = onNavigateToPersonDetails,
                     )
                     Popular(
                         uiState = uiState,
+                        contentPadding = contentHorizontalPadding,
                         onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
 
@@ -120,10 +133,8 @@ fun HomeScreen(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(
-                                            horizontal = 16.dp,
-                                            vertical = 12.dp,
-                                        ),
+                                        .padding(contentHorizontalPadding)
+                                        .padding(vertical = 12.dp),
                             )
                         }
 
@@ -136,10 +147,8 @@ fun HomeScreen(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(
-                                            horizontal = 16.dp,
-                                            vertical = 12.dp,
-                                        ),
+                                        .padding(contentHorizontalPadding)
+                                        .padding(vertical = 12.dp),
                                 direction = Axis.Horizontal,
                             )
                         }
@@ -156,6 +165,7 @@ fun HomeScreen(
 private fun Explore(
     uiState: HomeUiState,
     windowWidthType: InstaMoviesWindowWidthType,
+    contentPadding: PaddingValues,
     onNavigateToMovieDetails: (id: Int) -> Unit,
 ) {
     if (uiState.exploreResource is Resource.Success) {
@@ -171,7 +181,10 @@ private fun Explore(
             Column {
                 Text(
                     text = stringResource(id = Strings.explore),
-                    modifier = Modifier.padding(16.dp),
+                    modifier =
+                        Modifier
+                            .padding(contentPadding)
+                            .padding(vertical = 16.dp),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 when (windowWidthType) {
@@ -201,7 +214,7 @@ private fun Explore(
                         HorizontalPager(
                             state = pagerState,
                             modifier = Modifier.fillMaxWidth(),
-                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            contentPadding = contentPadding,
                             pageSize = PageSize.Fixed(196.dp),
                             pageSpacing = 16.dp,
                         ) {
@@ -228,20 +241,25 @@ private fun Explore(
 @Composable
 private fun Trending(
     trendingResource: Resource<List<TrendingResultModel>>,
+    contentPadding: PaddingValues,
     onNavigateToMovieDetails: (id: Int) -> Unit,
     onNavigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     if (trendingResource is Resource.Success) {
         val trendingList = trendingResource.data.orEmpty()
+
         Column {
             Text(
                 text = stringResource(id = Strings.trending),
-                modifier = Modifier.padding(16.dp),
+                modifier =
+                    Modifier
+                        .padding(contentPadding)
+                        .padding(vertical = 16.dp),
                 style = MaterialTheme.typography.titleMedium,
             )
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp),
+                contentPadding = contentPadding,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
                     items(trendingList) { result ->
@@ -265,6 +283,7 @@ private fun Trending(
 @Composable
 private fun TrendingPerson(
     uiState: HomeUiState,
+    contentPadding: PaddingValues,
     onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
 ) {
     if (uiState.trendingPersonResource is Resource.Success) {
@@ -272,12 +291,15 @@ private fun TrendingPerson(
         Column {
             Text(
                 text = stringResource(id = Strings.label_trending_people),
-                modifier = Modifier.padding(16.dp),
+                modifier =
+                    Modifier
+                        .padding(contentPadding)
+                        .padding(vertical = 16.dp),
                 style = MaterialTheme.typography.titleMedium,
             )
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp),
+                contentPadding = contentPadding,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
                     items(trendingList) { result ->
@@ -295,6 +317,7 @@ private fun TrendingPerson(
 @Composable
 private fun Popular(
     uiState: HomeUiState,
+    contentPadding: PaddingValues,
     onNavigateToMovieDetails: (id: Int) -> Unit,
 ) {
     if (uiState.popularMoviesResource is Resource.Success) {
@@ -302,12 +325,15 @@ private fun Popular(
         Column {
             Text(
                 text = stringResource(id = Strings.popular),
-                modifier = Modifier.padding(16.dp),
+                modifier =
+                    Modifier
+                        .padding(contentPadding)
+                        .padding(vertical = 16.dp),
                 style = MaterialTheme.typography.titleMedium,
             )
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp),
+                contentPadding = contentPadding,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
                     items(popularList) { result ->
