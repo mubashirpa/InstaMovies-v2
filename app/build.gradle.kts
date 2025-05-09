@@ -109,4 +109,5 @@ dependencies {
     implementation(libs.accompanist.adaptive)
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
+    implementation(libs.androidx.datastore.preferences)
 }
