@@ -57,6 +57,7 @@ fun HomeContainerScreen(
     onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
     onNavigateToSearch: (query: String) -> Unit,
     onNavigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToSettings: () -> Unit,
 ) {
     HomeContainerNavigationWrapper(
         uiState = uiState,
@@ -66,6 +67,7 @@ fun HomeContainerScreen(
         onNavigateToPersonDetails = onNavigateToPersonDetails,
         onNavigateToSearch = onNavigateToSearch,
         onNavigateToTvShowDetails = onNavigateToTvShowDetails,
+        onNavigateToSettings = onNavigateToSettings,
     )
 }
 
@@ -78,6 +80,7 @@ private fun HomeContainerNavigationWrapper(
     onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
     onNavigateToSearch: (query: String) -> Unit,
     onNavigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToSettings: () -> Unit,
 ) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -86,7 +89,7 @@ private fun HomeContainerNavigationWrapper(
     InstaMoviesNavigationWrapper(
         navController = navController,
         drawerState = drawerState,
-        navigateToTopLevelDestination = { topLevelRoute ->
+        onNavigateToTopLevelDestination = { topLevelRoute ->
             navController.navigate(topLevelRoute.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
@@ -95,6 +98,7 @@ private fun HomeContainerNavigationWrapper(
                 restoreState = true
             }
         },
+        onNavigateToSettings = onNavigateToSettings,
     ) {
         HomeContainerContent(
             uiState = uiState,

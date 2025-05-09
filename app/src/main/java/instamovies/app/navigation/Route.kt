@@ -38,4 +38,7 @@ sealed class Route {
 
     @Serializable
     data object TvShows : Route()
+
+    @Serializable
+    data object Settings : Route()
 }

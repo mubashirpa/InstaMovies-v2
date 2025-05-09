@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuOpen
-import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -43,12 +42,14 @@ fun ModalNavigationDrawerContent(
     currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
     isNavigationRail: Boolean,
-    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
-    onDrawerClicked: () -> Unit = {},
+    onNavigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
+    onDrawerItemClick: (Int) -> Unit,
+    onDrawerClose: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
+    val items = listOf(DrawerItem.Settings)
 
-    ModalDrawerSheet {
+    ModalDrawerSheet(modifier = modifier) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             content = {
@@ -71,7 +72,7 @@ fun ModalNavigationDrawerContent(
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.primary,
                         )
-                        IconButton(onClick = onDrawerClicked) {
+                        IconButton(onClick = onDrawerClose) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.MenuOpen,
                                 contentDescription = null,
@@ -97,7 +98,7 @@ fun ModalNavigationDrawerContent(
                                 },
                                 selected = selected,
                                 onClick = {
-                                    navigateToTopLevelDestination(topLevelRoute)
+                                    onNavigateToTopLevelDestination(topLevelRoute)
                                 },
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                                 icon = {
@@ -112,18 +113,14 @@ fun ModalNavigationDrawerContent(
                         DividerItem(modifier = Modifier.padding(horizontal = 28.dp))
                         Spacer(modifier = Modifier.height(12.dp))
                     }
-                    items.forEachIndexed { position, drawerItem ->
+                    items.forEachIndexed { index, drawerItem ->
                         NavigationDrawerItem(
                             label = {
                                 Text(stringResource(id = drawerItem.labelId))
                             },
                             selected = false,
                             onClick = {
-                                // TODO
-                                when (position) {
-                                    0 -> onDrawerClicked()
-                                    1 -> onDrawerClicked()
-                                }
+                                onDrawerItemClick(index)
                             },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
@@ -153,11 +150,13 @@ fun ModalNavigationDrawerContent(
 fun PermanentNavigationDrawerContent(
     currentDestination: NavDestination?,
     navigationContentPosition: InstaMoviesNavigationContentPosition,
-    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
+    onNavigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
+    onDrawerItemClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val items = listOf(DrawerItem.Settings, DrawerItem.Contact)
+    val items = listOf(DrawerItem.Settings)
 
-    PermanentDrawerSheet(modifier = Modifier.width(240.dp)) {
+    PermanentDrawerSheet(modifier = modifier.width(240.dp)) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             content = {
@@ -195,7 +194,7 @@ fun PermanentNavigationDrawerContent(
                             },
                             selected = selected,
                             onClick = {
-                                navigateToTopLevelDestination(topLevelRoute)
+                                onNavigateToTopLevelDestination(topLevelRoute)
                             },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
@@ -209,13 +208,15 @@ fun PermanentNavigationDrawerContent(
                     Spacer(modifier = Modifier.height(12.dp))
                     DividerItem(modifier = Modifier.padding(horizontal = 28.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    items.forEachIndexed { _, drawerItem ->
+                    items.forEachIndexed { position, drawerItem ->
                         NavigationDrawerItem(
                             label = {
                                 Text(stringResource(id = drawerItem.labelId))
                             },
                             selected = false,
-                            onClick = {},
+                            onClick = {
+                                onDrawerItemClick(position)
+                            },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
                                 Icon(
@@ -246,6 +247,4 @@ private sealed class DrawerItem(
     var icon: ImageVector,
 ) {
     data object Settings : DrawerItem(Strings.label_settings, Icons.Outlined.Settings)
-
-    data object Contact : DrawerItem(Strings.label_contact, Icons.Outlined.Mail)
 }

@@ -19,6 +19,8 @@ import instamovies.app.presentation.personDetails.PersonDetailsScreen
 import instamovies.app.presentation.personDetails.PersonDetailsViewModel
 import instamovies.app.presentation.search.SearchScreen
 import instamovies.app.presentation.search.SearchViewModel
+import instamovies.app.presentation.settings.SettingsScreen
+import instamovies.app.presentation.settings.SettingsViewModel
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsScreen
 import instamovies.app.presentation.tvShowDetails.TvShowDetailsViewModel
 
@@ -52,6 +54,9 @@ fun InstaMoviesNavHost(
                 },
                 onNavigateToTvShowDetails = { id ->
                     navController.navigate(Route.TvShowDetails(seriesId = id))
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Route.Settings)
                 },
             )
         }
@@ -123,6 +128,14 @@ fun InstaMoviesNavHost(
                     navController.navigate(Route.TvShowDetails(seriesId = id))
                 },
                 onBackPressed = navController::navigateUp,
+            )
+        }
+        composable<Route.Settings> {
+            val viewModel: SettingsViewModel = hiltViewModel()
+            SettingsScreen(
+                uiState = viewModel.uiState,
+                onEvent = viewModel::onEvent,
+                onNavigateUp = navController::navigateUp,
             )
         }
     }

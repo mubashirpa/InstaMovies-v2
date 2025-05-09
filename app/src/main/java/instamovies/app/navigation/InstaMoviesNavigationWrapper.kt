@@ -33,7 +33,8 @@ class InstaMoviesNavigationSuiteScope(
 fun InstaMoviesNavigationWrapper(
     navController: NavHostController,
     drawerState: DrawerState,
-    navigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToTopLevelDestination: (TopLevelRoute<out Route>) -> Unit,
     content: @Composable InstaMoviesNavigationSuiteScope.() -> Unit,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()
@@ -82,8 +83,18 @@ fun InstaMoviesNavigationWrapper(
                 currentDestination = currentDestination,
                 navigationContentPosition = navigationContentPosition,
                 isNavigationRail = navigationLayoutType == NavigationSuiteType.NavigationRail,
-                navigateToTopLevelDestination = navigateToTopLevelDestination,
-                onDrawerClicked = {
+                onNavigateToTopLevelDestination = onNavigateToTopLevelDestination,
+                onDrawerItemClick = { index ->
+                    coroutineScope
+                        .launch {
+                            drawerState.close()
+                        }.invokeOnCompletion {
+                            when (index) {
+                                0 -> onNavigateToSettings()
+                            }
+                        }
+                },
+                onDrawerClose = {
                     coroutineScope.launch {
                         drawerState.close()
                     }
@@ -116,7 +127,12 @@ fun InstaMoviesNavigationWrapper(
                             PermanentNavigationDrawerContent(
                                 currentDestination = currentDestination,
                                 navigationContentPosition = navigationContentPosition,
-                                navigateToTopLevelDestination = navigateToTopLevelDestination,
+                                onNavigateToTopLevelDestination = onNavigateToTopLevelDestination,
+                                onDrawerItemClick = { index ->
+                                    when (index) {
+                                        0 -> onNavigateToSettings()
+                                    }
+                                },
                             )
                         }
                     }
