@@ -19,15 +19,15 @@ plugins {
 }
 
 android {
-    namespace = "instamovies.app"
+    namespace = "app.instamovies"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "instamovies.app"
+        applicationId = "app.instamovies"
         minSdk = 24
         targetSdk = 36
-        versionCode = 10000 // Format: MAJOR * 10000 + MINOR * 100 + PATCH
-        versionName = "1.0.0"
+        versionCode = 10100 // Format: MAJOR * 10000 + MINOR * 100 + PATCH
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

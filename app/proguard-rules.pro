@@ -22,6 +22,6 @@
 
 # This rule will properly ProGuard all the model classes in
 # the package instamovies.app.data.remote.dto.
--keepclassmembers class instamovies.app.data.remote.dto.** {
+-keepclassmembers class app.instamovies.data.remote.dto.** {
     *;
 }
