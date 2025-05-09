@@ -61,13 +61,13 @@ fun ExpandableText(
 
             !isExpanded && textLayoutResult!!.hasVisualOverflow -> {
                 val lastCharIndex = textLayoutResult!!.getLineEnd(maxLines - 1)
-                val showMoreString = "...Show more"
+                val showMoreString = " Show more"
 
                 val safeEndIndex =
                     text.lastIndexOf(' ', startIndex = lastCharIndex - showMoreString.length)
                 val adjustedText =
                     if (safeEndIndex > 0) {
-                        text.substring(0, safeEndIndex)
+                        text.substring(0, safeEndIndex).plus("...")
                     } else {
                         text.substring(0, lastCharIndex)
                     }
