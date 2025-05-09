@@ -27,9 +27,9 @@ fun HomeNavHost(
     onEvent: (HomeContainerUiEvent) -> Unit,
     navigationType: InstaMoviesNavigationType,
     windowWidthType: InstaMoviesWindowWidthType,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -44,9 +44,9 @@ fun HomeNavHost(
                 onEvent = viewModel::onEvent,
                 windowWidthType = windowWidthType,
                 trendingResource = uiState.trendingResource,
-                navigateToMovieDetails = navigateToMovieDetails,
-                navigateToPersonDetails = navigateToPersonDetails,
-                navigateToTvShowDetails = navigateToTvShowDetails,
+                onNavigateToMovieDetails = onNavigateToMovieDetails,
+                onNavigateToPersonDetails = onNavigateToPersonDetails,
+                onNavigateToTvShowDetails = onNavigateToTvShowDetails,
                 onRetry = {
                     onEvent(HomeContainerUiEvent.Retry)
                 },
@@ -58,14 +58,14 @@ fun HomeNavHost(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 navigationType = navigationType,
-                navigateToMovieDetails = navigateToMovieDetails,
+                onNavigateToMovieDetails = onNavigateToMovieDetails,
             )
         }
         composable<Route.Person> {
             val viewModel: PersonViewModel = hiltViewModel()
             PersonScreen(
                 personPagingItems = viewModel.personStateFlow.collectAsLazyPagingItems(),
-                navigateToPersonDetails = navigateToPersonDetails,
+                onNavigateToPersonDetails = onNavigateToPersonDetails,
             )
         }
         composable<Route.TvShows> {
@@ -74,7 +74,7 @@ fun HomeNavHost(
                 uiState = viewModel.uiState,
                 onEvent = viewModel::onEvent,
                 navigationType = navigationType,
-                navigateToTvShowDetails = navigateToTvShowDetails,
+                onNavigateToTvShowDetails = onNavigateToTvShowDetails,
             )
         }
     }

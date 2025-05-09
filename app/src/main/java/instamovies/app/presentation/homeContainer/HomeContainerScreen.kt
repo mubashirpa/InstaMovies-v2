@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DrawerValue
@@ -233,10 +231,7 @@ private fun HomeContainerContent(
                     },
             )
         },
-        contentWindowInsets =
-            WindowInsets.systemBars
-                .union(WindowInsets.displayCutout)
-                .only(WindowInsetsSides.Top),
+        contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Top),
     ) { innerPadding ->
         HomeNavHost(
             navController = navController,
@@ -244,9 +239,9 @@ private fun HomeContainerContent(
             onEvent = onEvent,
             navigationType = navigationType,
             windowWidthType = windowWidthType,
-            navigateToMovieDetails = onNavigateToMovieDetails,
-            navigateToPersonDetails = onNavigateToPersonDetails,
-            navigateToTvShowDetails = onNavigateToTvShowDetails,
+            onNavigateToMovieDetails = onNavigateToMovieDetails,
+            onNavigateToPersonDetails = onNavigateToPersonDetails,
+            onNavigateToTvShowDetails = onNavigateToTvShowDetails,
             modifier =
                 Modifier
                     .fillMaxSize()

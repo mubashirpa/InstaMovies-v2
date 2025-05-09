@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,10 +42,11 @@ fun HomeScreen(
     onEvent: (HomeUiEvent) -> Unit,
     windowWidthType: InstaMoviesWindowWidthType,
     trendingResource: Resource<List<TrendingResultModel>>,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
     onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val resources =
         listOf(
@@ -58,84 +60,93 @@ fun HomeScreen(
     val loading = resources.any { it is Resource.Loading }
     val error = resources.any { it is Resource.Error }
 
-    when {
-        isLoading -> {
-            LoadingIndicator(modifier = Modifier.fillMaxSize())
-        }
+    Scaffold(modifier = modifier) { innerPadding ->
+        when {
+            isLoading -> {
+                LoadingIndicator(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                )
+            }
 
-        isError -> {
-            ErrorScreen(
-                onRetry = {
-                    onEvent(HomeUiEvent.OnRetry)
-                    onRetry()
-                },
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                message = trendingResource.message!!.asString(),
-            )
-        }
+            isError -> {
+                ErrorScreen(
+                    onRetry = {
+                        onEvent(HomeUiEvent.OnRetry)
+                        onRetry()
+                    },
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                    message = trendingResource.message!!.asString(),
+                )
+            }
 
-        else -> {
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Explore(
-                    uiState = uiState,
-                    windowWidthType = windowWidthType,
-                    navigateToMovieDetails = navigateToMovieDetails,
-                )
-                Trending(
-                    trendingResource = trendingResource,
-                    navigateToMovieDetails = navigateToMovieDetails,
-                    navigateToTvShowDetails = navigateToTvShowDetails,
-                )
-                TrendingPerson(
-                    uiState = uiState,
-                    navigateToPersonDetails = navigateToPersonDetails,
-                )
-                Popular(
-                    uiState = uiState,
-                    navigateToMovieDetails = navigateToMovieDetails,
-                )
+            else -> {
+                Column(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(innerPadding),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Explore(
+                        uiState = uiState,
+                        windowWidthType = windowWidthType,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
+                    )
+                    Trending(
+                        trendingResource = trendingResource,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
+                        onNavigateToTvShowDetails = onNavigateToTvShowDetails,
+                    )
+                    TrendingPerson(
+                        uiState = uiState,
+                        onNavigateToPersonDetails = onNavigateToPersonDetails,
+                    )
+                    Popular(
+                        uiState = uiState,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
+                    )
 
-                when {
-                    loading -> {
-                        LoadingIndicator(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        horizontal = 16.dp,
-                                        vertical = 12.dp,
-                                    ),
-                        )
+                    when {
+                        loading -> {
+                            LoadingIndicator(
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 12.dp,
+                                        ),
+                            )
+                        }
+
+                        error -> {
+                            ErrorScreen(
+                                onRetry = {
+                                    onEvent(HomeUiEvent.OnRetry)
+                                    onRetry()
+                                },
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 12.dp,
+                                        ),
+                                direction = Axis.Horizontal,
+                            )
+                        }
                     }
 
-                    error -> {
-                        ErrorScreen(
-                            onRetry = {
-                                onEvent(HomeUiEvent.OnRetry)
-                                onRetry()
-                            },
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        horizontal = 16.dp,
-                                        vertical = 12.dp,
-                                    ),
-                            direction = Axis.Horizontal,
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
@@ -145,7 +156,7 @@ fun HomeScreen(
 private fun Explore(
     uiState: HomeUiState,
     windowWidthType: InstaMoviesWindowWidthType,
-    navigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
 ) {
     if (uiState.exploreResource is Resource.Success) {
         val exploreList = uiState.exploreResource.data.orEmpty()
@@ -181,7 +192,7 @@ private fun Explore(
                                         .fillMaxWidth()
                                         .aspectRatio(4F / 5F)
                                         .carousalTransition(it, pagerState),
-                                onClick = { navigateToMovieDetails(id) },
+                                onClick = { onNavigateToMovieDetails(id) },
                             )
                         }
                     }
@@ -204,7 +215,7 @@ private fun Explore(
                                     Modifier
                                         .fillMaxWidth()
                                         .aspectRatio(4F / 5F),
-                                onClick = { navigateToMovieDetails(id) },
+                                onClick = { onNavigateToMovieDetails(id) },
                             )
                         }
                     }
@@ -217,8 +228,8 @@ private fun Explore(
 @Composable
 private fun Trending(
     trendingResource: Resource<List<TrendingResultModel>>,
-    navigateToMovieDetails: (id: Int) -> Unit,
-    navigateToTvShowDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToTvShowDetails: (id: Int) -> Unit,
 ) {
     if (trendingResource is Resource.Success) {
         val trendingList = trendingResource.data.orEmpty()
@@ -238,8 +249,8 @@ private fun Trending(
                             result = result,
                             onClick = { mediaType, id ->
                                 when (mediaType) {
-                                    MediaType.MOVIE -> navigateToMovieDetails(id)
-                                    MediaType.TV -> navigateToTvShowDetails(id)
+                                    MediaType.MOVIE -> onNavigateToMovieDetails(id)
+                                    MediaType.TV -> onNavigateToTvShowDetails(id)
                                     else -> {}
                                 }
                             },
@@ -254,7 +265,7 @@ private fun Trending(
 @Composable
 private fun TrendingPerson(
     uiState: HomeUiState,
-    navigateToPersonDetails: (id: Int, name: String) -> Unit,
+    onNavigateToPersonDetails: (id: Int, name: String) -> Unit,
 ) {
     if (uiState.trendingPersonResource is Resource.Success) {
         val trendingList = uiState.trendingPersonResource.data.orEmpty()
@@ -272,7 +283,7 @@ private fun TrendingPerson(
                     items(trendingList) { result ->
                         PersonListItem(
                             result = result,
-                            onClick = navigateToPersonDetails,
+                            onClick = onNavigateToPersonDetails,
                         )
                     }
                 },
@@ -284,7 +295,7 @@ private fun TrendingPerson(
 @Composable
 private fun Popular(
     uiState: HomeUiState,
-    navigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
 ) {
     if (uiState.popularMoviesResource is Resource.Success) {
         val popularList = uiState.popularMoviesResource.data.orEmpty()
@@ -302,7 +313,7 @@ private fun Popular(
                     items(popularList) { result ->
                         MediaGridItem(
                             result = result,
-                            onClick = navigateToMovieDetails,
+                            onClick = onNavigateToMovieDetails,
                         )
                     }
                 },

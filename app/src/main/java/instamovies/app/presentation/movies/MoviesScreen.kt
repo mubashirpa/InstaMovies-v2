@@ -1,12 +1,24 @@
 package instamovies.app.presentation.movies
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
@@ -14,13 +26,16 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -45,7 +60,8 @@ fun MoviesScreen(
     uiState: MoviesUiState,
     onEvent: (MoviesUiEvent) -> Unit,
     navigationType: InstaMoviesNavigationType,
-    navigateToMovieDetails: (id: Int) -> Unit,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val configuration = LocalConfiguration.current
     val pages = MoviesScreenPages.entries.toTypedArray()
@@ -53,38 +69,56 @@ fun MoviesScreen(
     val coroutineScope = rememberCoroutineScope()
     val isCompactDevice = navigationType == InstaMoviesNavigationType.BOTTOM_NAVIGATION
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        val tabs: @Composable () -> Unit = {
-            pages.forEachIndexed { index, page ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.scrollToPage(index)
-                        }
-                    },
-                    text = {
-                        Text(text = stringResource(id = page.titleResId))
-                    },
-                    selectedContentColor = MaterialTheme.colorScheme.primary,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            val tabs: @Composable () -> Unit = {
+                pages.forEachIndexed { index, page ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.scrollToPage(index)
+                            }
+                        },
+                        text = {
+                            Text(text = stringResource(id = page.titleResId))
+                        },
+                        selectedContentColor = MaterialTheme.colorScheme.primary,
+                        unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
-        }
+            val tabRowModifier =
+                Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(
+                        WindowInsets.systemBars
+                            .union(WindowInsets.displayCutout)
+                            .only(WindowInsetsSides.Top),
+                    )
 
-        if (isCompactDevice && configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            PrimaryScrollableTabRow(
-                selectedTabIndex = pagerState.currentPage,
-                modifier = Modifier.fillMaxWidth(),
-                tabs = tabs,
-            )
-        } else {
-            PrimaryTabRow(
-                selectedTabIndex = pagerState.currentPage,
-                modifier = Modifier.fillMaxWidth(),
-                tabs = tabs,
-            )
-        }
+            Box(modifier = Modifier.background(TabRowDefaults.primaryContainerColor)) {
+                if (isCompactDevice && configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    PrimaryScrollableTabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        modifier = tabRowModifier,
+                        tabs = tabs,
+                    )
+                } else {
+                    PrimaryTabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        modifier = tabRowModifier,
+                        tabs = tabs,
+                    )
+                }
+            }
+        },
+        contentWindowInsets =
+            WindowInsets.systemBars
+                .union(WindowInsets.displayCutout)
+                .exclude(WindowInsets.navigationBars),
+    ) { innerPadding ->
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
@@ -94,7 +128,8 @@ fun MoviesScreen(
                 MoviesScreenPages.Popular -> {
                     MoviesContent(
                         moviesPagingItems = uiState.popularMovies.collectAsLazyPagingItems(),
-                        navigateToMovieDetails = navigateToMovieDetails,
+                        innerPadding = innerPadding,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
                 }
 
@@ -104,7 +139,8 @@ fun MoviesScreen(
                     }
                     MoviesContent(
                         moviesPagingItems = uiState.topRatedMovies.collectAsLazyPagingItems(),
-                        navigateToMovieDetails = navigateToMovieDetails,
+                        innerPadding = innerPadding,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
                 }
 
@@ -114,7 +150,8 @@ fun MoviesScreen(
                     }
                     MoviesContent(
                         moviesPagingItems = uiState.upcomingMovies.collectAsLazyPagingItems(),
-                        navigateToMovieDetails = navigateToMovieDetails,
+                        innerPadding = innerPadding,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
                 }
 
@@ -124,7 +161,8 @@ fun MoviesScreen(
                     }
                     MoviesContent(
                         moviesPagingItems = uiState.nowPlayingMovies.collectAsLazyPagingItems(),
-                        navigateToMovieDetails = navigateToMovieDetails,
+                        innerPadding = innerPadding,
+                        onNavigateToMovieDetails = onNavigateToMovieDetails,
                     )
                 }
             }
@@ -135,7 +173,8 @@ fun MoviesScreen(
 @Composable
 private fun MoviesContent(
     moviesPagingItems: LazyPagingItems<MovieResultModel>,
-    navigateToMovieDetails: (id: Int) -> Unit,
+    innerPadding: PaddingValues,
+    onNavigateToMovieDetails: (id: Int) -> Unit,
 ) {
     when (val refreshState = moviesPagingItems.loadState.refresh) {
         is LoadState.Error -> {
@@ -160,24 +199,35 @@ private fun MoviesContent(
                 modifier =
                     Modifier
                         .fillMaxSize()
+                        .padding(innerPadding)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                 message = message,
             )
         }
 
         LoadState.Loading -> {
-            LoadingIndicator(modifier = Modifier.fillMaxSize())
+            LoadingIndicator(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+            )
         }
 
         is LoadState.NotLoading -> {
+            val layoutDirection = LocalLayoutDirection.current
+            val contentPadding =
+                PaddingValues(
+                    start = innerPadding.calculateStartPadding(layoutDirection).plus(16.dp),
+                    top = innerPadding.calculateTopPadding().plus(12.dp),
+                    end = innerPadding.calculateEndPadding(layoutDirection).plus(16.dp),
+                    bottom = innerPadding.calculateBottomPadding().plus(12.dp),
+                )
+
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(100.dp),
                 modifier = Modifier.fillMaxSize(),
-                contentPadding =
-                    PaddingValues(
-                        horizontal = 16.dp,
-                        vertical = 12.dp,
-                    ),
+                contentPadding = contentPadding,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
@@ -190,7 +240,7 @@ private fun MoviesContent(
                         if (item != null) {
                             MovieGridItem(
                                 result = item,
-                                onClick = navigateToMovieDetails,
+                                onClick = onNavigateToMovieDetails,
                             )
                         }
                     }
