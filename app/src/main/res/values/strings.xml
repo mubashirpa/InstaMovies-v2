@@ -42,6 +42,7 @@
     <string name="theme">Theme</string>
     <string name="title_coming_soon">Screen under construction</string>
     <string name="trending">Trending</string>
+    <string name="update_failed">Update failed!</string>
 
     <!-- Screen titles -->
     <string name="title_settings_screen">Settings</string>
