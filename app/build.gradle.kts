@@ -26,8 +26,8 @@ android {
         applicationId = "app.instamovies"
         minSdk = 24
         targetSdk = 36
-        versionCode = 10100 // Format: MAJOR * 10000 + MINOR * 100 + PATCH
-        versionName = "1.1.0"
+        versionCode = 10101 // Format: MAJOR * 10000 + MINOR * 100 + PATCH
+        versionName = "1.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -110,4 +110,5 @@ dependencies {
     implementation(libs.paging.compose)
     implementation(libs.palette.ktx)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.bundles.google.play)
 }
