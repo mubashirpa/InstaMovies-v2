@@ -136,7 +136,7 @@ private fun MovieGridItemLayout(
 @Preview
 @Composable
 private fun MovieGridItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         MovieGridItemLayout(
             title = "Interstellar",
             posterPath = null,

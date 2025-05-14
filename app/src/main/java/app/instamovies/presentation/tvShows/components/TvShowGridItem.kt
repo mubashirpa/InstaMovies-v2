@@ -136,7 +136,7 @@ private fun TvShowGridItemLayout(
 @Preview
 @Composable
 private fun MovieGridItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme{
         TvShowGridItemLayout(
             name = "Breaking Bad",
             posterPath = null,

@@ -199,7 +199,7 @@ private fun SeasonListItemLayout(
 @Preview
 @Composable
 private fun SearchListItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         SeasonListItemLayout(
             seasonName = "Season 1",
             posterPath = null,

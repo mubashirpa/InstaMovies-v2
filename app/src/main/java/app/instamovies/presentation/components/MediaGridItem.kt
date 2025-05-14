@@ -283,7 +283,7 @@ private fun MediaGridItemLayout(
 @Preview
 @Composable
 private fun MediaGridItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             MediaGridItemLayout(
                 title = "Interstellar",

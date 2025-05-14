@@ -135,7 +135,7 @@ private fun CastGridItemLayout(
 @Preview
 @Composable
 private fun CastGridItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         CastGridItemLayout(
             name = "Robert Downey Jr.",
             profilePath = null,

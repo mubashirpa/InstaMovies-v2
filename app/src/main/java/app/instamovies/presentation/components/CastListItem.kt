@@ -157,7 +157,7 @@ private fun CastListItemLayout(
 @Preview
 @Composable
 private fun CastListItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         CastListItemLayout(
             name = "Robert Downey Jr.",
             profilePath = null,

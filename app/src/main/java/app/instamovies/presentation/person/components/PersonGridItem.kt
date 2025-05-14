@@ -142,7 +142,7 @@ private fun PersonGridItemLayout(
 @Preview
 @Composable
 private fun PersonGridItemPreview() {
-    InstaMoviesTheme(darkTheme = true) {
+    InstaMoviesTheme {
         PersonGridItemLayout(
             name = "Cillian Murphy",
             profilePath = null,
