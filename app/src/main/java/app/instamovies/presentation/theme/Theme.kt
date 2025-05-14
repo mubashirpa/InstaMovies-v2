@@ -2,6 +2,8 @@ package app.instamovies.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -14,7 +16,7 @@ import app.instamovies.core.util.DynamicThemePrimaryColorsFromImage
 import app.instamovies.core.util.contrastAgainst
 import app.instamovies.core.util.rememberDominantColorState
 
-private val DarkColorScheme =
+private val darkColorScheme =
     darkColorScheme(
         primary = md_theme_dark_primary,
         onPrimary = md_theme_dark_onPrimary,
@@ -47,7 +49,7 @@ private val DarkColorScheme =
         scrim = md_theme_dark_scrim,
     )
 
-private val LightColorScheme =
+private val lightColorScheme =
     lightColorScheme(
         primary = md_theme_light_primary,
         onPrimary = md_theme_light_onPrimary,
@@ -80,27 +82,31 @@ private val LightColorScheme =
         scrim = md_theme_light_scrim,
     )
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InstaMoviesTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    supportsDynamicColor: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
     content: @Composable () -> Unit,
 ) {
     val colorScheme =
         when {
-            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            supportsDynamicColor && isDarkTheme -> {
+                dynamicDarkColorScheme(LocalContext.current)
             }
 
-            darkTheme -> DarkColorScheme
-            else -> LightColorScheme
+            supportsDynamicColor && !isDarkTheme -> {
+                dynamicLightColorScheme(LocalContext.current)
+            }
+
+            isDarkTheme -> darkColorScheme
+
+            else -> lightColorScheme
         }
 
-    MaterialTheme(
+    MaterialExpressiveTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         content = content,
     )
 }
