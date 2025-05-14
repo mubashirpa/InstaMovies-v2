@@ -49,7 +49,7 @@ import app.instamovies.core.util.InstaMoviesNavigationType
 import app.instamovies.domain.model.series.SeriesResultModel
 import app.instamovies.presentation.components.Axis
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.tvShows.components.TvShowGridItem
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -206,12 +206,7 @@ private fun TvShowsContent(
         }
 
         LoadState.Loading -> {
-            LoadingIndicator(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-            )
+            LoadingScreen(modifier = Modifier.padding(innerPadding))
         }
 
         is LoadState.NotLoading -> {
@@ -278,12 +273,12 @@ private fun TvShowsContent(
 
                         LoadState.Loading -> {
                             header {
-                                LoadingIndicator(
+                                LoadingScreen(
                                     modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxWidth()
-                                            .padding(top = 14.dp, bottom = 12.dp),
+                                        Modifier.padding(
+                                            top = 14.dp,
+                                            bottom = 12.dp,
+                                        ),
                                 )
                             }
                         }

@@ -30,7 +30,7 @@ import app.instamovies.core.ext.header
 import app.instamovies.domain.model.person.popular.PersonResultModel
 import app.instamovies.presentation.components.Axis
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.person.components.PersonGridItem
 import retrofit2.HttpException
 import java.io.IOException
@@ -79,7 +79,7 @@ fun PersonScreen(
             }
 
             LoadState.Loading -> {
-                LoadingIndicator(modifier = Modifier.fillMaxSize())
+                LoadingScreen()
             }
 
             is LoadState.NotLoading -> {
@@ -142,11 +142,9 @@ fun PersonScreen(
 
                             LoadState.Loading -> {
                                 header {
-                                    LoadingIndicator(
+                                    LoadingScreen(
                                         modifier =
                                             Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxWidth()
                                                 .padding(horizontal = 16.dp)
                                                 .padding(top = 14.dp, bottom = 12.dp),
                                     )

@@ -57,11 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.core.Constants
 import app.instamovies.core.ext.roundHighest
 import app.instamovies.core.ext.scrim
@@ -75,13 +70,18 @@ import app.instamovies.domain.model.series.details.SeriesGenre
 import app.instamovies.domain.model.series.details.SeriesSeason
 import app.instamovies.presentation.components.CastGridItem
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.components.MediaGridItem
 import app.instamovies.presentation.theme.InstaMoviesDynamicTheme
 import app.instamovies.presentation.tvShowDetails.components.CastAndCrewBottomSheet
 import app.instamovies.presentation.tvShowDetails.components.CreatorListItem
 import app.instamovies.presentation.tvShowDetails.components.SeasonListItem
 import app.instamovies.presentation.tvShowDetails.components.SeasonsBottomSheet
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.R.string as Strings
 
 @Composable
@@ -113,12 +113,7 @@ fun TvShowDetailsScreen(
             }
 
             is Resource.Loading -> {
-                LoadingIndicator(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                )
+                LoadingScreen(modifier = Modifier.padding(innerPadding))
             }
 
             is Resource.Success -> {

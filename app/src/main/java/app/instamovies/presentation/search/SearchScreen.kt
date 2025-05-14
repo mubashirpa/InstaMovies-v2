@@ -23,7 +23,7 @@ import app.instamovies.domain.model.MediaType
 import app.instamovies.domain.model.search.SearchResultModel
 import app.instamovies.presentation.components.BackButton
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.search.components.SearchListItem
 import retrofit2.HttpException
 import java.io.IOException
@@ -80,7 +80,7 @@ fun SearchScreen(
             }
 
             LoadState.Loading -> {
-                LoadingIndicator(modifier = Modifier.fillMaxSize())
+                LoadingScreen()
             }
 
             is LoadState.NotLoading -> {
@@ -151,10 +151,9 @@ fun SearchScreen(
 
                             LoadState.Loading -> {
                                 item {
-                                    LoadingIndicator(
+                                    LoadingScreen(
                                         modifier =
                                             Modifier
-                                                .fillMaxWidth()
                                                 .padding(
                                                     horizontal = 16.dp,
                                                     vertical = 12.dp,

@@ -33,7 +33,7 @@ import app.instamovies.domain.model.MediaType
 import app.instamovies.domain.model.trending.TrendingResultModel
 import app.instamovies.presentation.components.Axis
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.components.MediaGridItem
 import app.instamovies.presentation.home.components.ExploreListItem
 import app.instamovies.presentation.home.components.PersonListItem
@@ -66,12 +66,7 @@ fun HomeScreen(
     Scaffold(modifier = modifier) { innerPadding ->
         when {
             isLoading -> {
-                LoadingIndicator(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                )
+                LoadingScreen(modifier = Modifier.padding(innerPadding))
             }
 
             isError -> {
@@ -129,10 +124,9 @@ fun HomeScreen(
 
                     when {
                         loading -> {
-                            LoadingIndicator(
+                            LoadingScreen(
                                 modifier =
                                     Modifier
-                                        .fillMaxWidth()
                                         .padding(contentHorizontalPadding)
                                         .padding(vertical = 12.dp),
                             )

@@ -58,11 +58,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.core.Constants
 import app.instamovies.core.ext.roundHighest
 import app.instamovies.core.ext.scrim
@@ -74,10 +69,15 @@ import app.instamovies.domain.model.movie.details.MovieDetails
 import app.instamovies.domain.model.movie.details.MovieGenre
 import app.instamovies.presentation.components.CastGridItem
 import app.instamovies.presentation.components.ErrorScreen
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.components.MediaGridItem
 import app.instamovies.presentation.movieDetails.components.CastAndCrewBottomSheet
 import app.instamovies.presentation.theme.InstaMoviesDynamicTheme
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.R.string as Strings
 
 @Composable
@@ -111,12 +111,7 @@ fun MovieDetailsScreen(
             }
 
             is Resource.Loading -> {
-                LoadingIndicator(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                )
+                LoadingScreen(modifier = Modifier.padding(innerPadding))
             }
 
             is Resource.Success -> {

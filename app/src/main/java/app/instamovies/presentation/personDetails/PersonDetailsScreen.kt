@@ -38,11 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.core.Constants
 import app.instamovies.core.util.DateUtils
 import app.instamovies.core.util.InstaMoviesContentType
@@ -54,9 +49,14 @@ import app.instamovies.domain.model.person.images.PersonProfile
 import app.instamovies.presentation.components.BackButton
 import app.instamovies.presentation.components.ErrorScreen
 import app.instamovies.presentation.components.ExpandableText
-import app.instamovies.presentation.components.LoadingIndicator
+import app.instamovies.presentation.components.LoadingScreen
 import app.instamovies.presentation.components.MediaGridItem
 import app.instamovies.presentation.personDetails.components.ProfileListItem
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
 import app.instamovies.R.string as Strings
 
 @Composable
@@ -91,12 +91,7 @@ fun PersonDetailsScreen(
             }
 
             is Resource.Loading -> {
-                LoadingIndicator(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                )
+                LoadingScreen(modifier = Modifier.padding(innerPadding))
             }
 
             is Resource.Success -> {
