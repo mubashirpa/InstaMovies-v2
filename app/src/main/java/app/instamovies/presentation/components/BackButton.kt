@@ -5,8 +5,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
@@ -22,9 +20,8 @@ import app.instamovies.R.string as Strings
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackButton(
-    modifier: Modifier = Modifier,
-    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
@@ -38,7 +35,6 @@ fun BackButton(
         IconButton(
             onClick = onClick,
             modifier = modifier,
-            colors = colors,
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -52,6 +48,6 @@ fun BackButton(
 @Composable
 private fun BackButtonPreview() {
     InstaMoviesTheme {
-        BackButton {}
+        BackButton(onClick = {})
     }
 }
