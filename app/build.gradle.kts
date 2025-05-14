@@ -111,4 +111,5 @@ dependencies {
     implementation(libs.palette.ktx)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.bundles.google.play)
+    implementation(libs.androidx.ui.text.google.fonts)
 }
